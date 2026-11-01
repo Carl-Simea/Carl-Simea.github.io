@@ -1,4 +1,3 @@
-# Carl-Simea.github.io
 # Simea Tech Portfolio
 
 Welcome to the official repository for **Simea Tech**, the personal engineering and project portfolio of **Carl Wendy Simea**, a Computer Engineering Technology student at New York City College of Technology (City Tech, CUNY).
