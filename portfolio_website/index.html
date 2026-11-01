@@ -1,0 +1,3216 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" data-mode="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simea Tech — Carl Wendy Simea</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CLEAN DARK / LIGHT MODE TOKENS + MEDPEEK OCEANIC TEAL CONTAINER
+       ========================================================================== */
+    :root,
+    [data-mode="dark"] {
+      --bg-base: #121316;
+      --bg-surface: #1A1C20;
+      --bg-elevated: #22252A;
+      --bg-nav: rgba(13, 15, 18, 0.90);
+      --bg-pill: rgba(10, 14, 18, 0.72);
+      --accent-primary: #D97706;     /* Anodized Hardware Amber */
+      --accent-secondary: #9A3412;   /* Burnt Copper */
+      --accent-bright: #F59E0B;      /* Molten Gold Highlight */
+      --accent-rgb: 217, 119, 6;
+      --accent-sec-rgb: 154, 52, 18;
+      --text-main: #F3F4F6;
+      --text-secondary: #D1D5DB;
+      --text-muted: #9CA3AF;
+      --border-subtle: rgba(255, 255, 255, 0.10);
+      --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.65);
+    }
+
+    [data-mode="light"] {
+      --bg-base: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-elevated: #F1F5F9;
+      --bg-nav: rgba(255, 255, 255, 0.92);
+      --bg-pill: #F8FAFC;
+      --accent-primary: #D97706;
+      --accent-secondary: #B45309;
+      --accent-bright: #B45309;
+      --accent-rgb: 217, 119, 6;
+      --accent-sec-rgb: 180, 83, 9;
+      --text-main: #0F172A;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+      --border-subtle: rgba(15, 23, 42, 0.12);
+      --card-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.08) 0%, transparent 38%),
+        radial-gradient(circle at 85% 80%, rgba(var(--accent-sec-rgb), 0.12) 0%, transparent 42%);
+    }
+
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Adaptive Theme Text & Borders */
+    .theme-header {
+      background-color: var(--bg-nav);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .theme-dropdown {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    /*Light mode readability overrides for utility classes*/
+    [data-mode="light"] .text-white {
+      color: #0F172A !important;
+    }
+    [data-mode="light"] .text-gray-200,
+    [data-mode="light"] .text-gray-300 {
+      color: #334155 !important;
+    }
+    [data-mode="light"] .text-gray-400 {
+      color: #475569 !important;
+    }
+    [data-mode="light"] .bg-black\/40,
+    [data-mode="light"] .bg-black\/50,
+    [data-mode="light"] .bg-black\/60 {
+      background-color: #F1F5F9 !important;
+    }
+    [data-mode="light"] .border-white\/10,
+    [data-mode="light"] .border-white\/15,
+    [data-mode="light"] .border-white\/20 {
+      border-color: rgba(15, 23, 42, 0.12) !important;
+    }
+    [data-mode="light"] .bg-white\/5,
+    [data-mode="light"] .bg-white\/10 {
+      background-color: rgba(15, 23, 42, 0.06) !important;
+    }
+
+    /* Preserve white text inside dark Oceanic Teal MedPeek containers & dark code blocks even in Light Mode */
+    [data-mode="light"] .medpeek-scope .text-white,
+    [data-mode="light"] .dark-surface .text-white,
+    [data-mode="light"] .btn-glow {
+      color: #FFFFFF !important;
+    }
+    [data-mode="light"] .medpeek-scope .text-gray-200,
+    [data-mode="light"] .medpeek-scope .text-gray-300,
+    [data-mode="light"] .dark-surface .text-gray-200,
+    [data-mode="light"] .dark-surface .text-gray-300 {
+      color: #E2E8F0 !important;
+    }
+
+    /* ==========================================================================
+       TEMPLATE B: THE GLOW GRADIENT CARD ARCHITECTURE
+       ========================================================================== */
+    .glow-card {
+      position: relative;
+      background: linear-gradient(145deg, var(--bg-surface) 0%, rgba(var(--accent-sec-rgb), 0.14) 68%, rgba(var(--accent-rgb), 0.14) 100%);
+      border-radius: 1rem;
+      border: 1px solid rgba(var(--accent-rgb), 0.30);
+      box-shadow: var(--card-shadow), 0 0 26px -8px rgba(var(--accent-rgb), 0.16);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .glow-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 260px;
+      height: 100%;
+      background: radial-gradient(circle at 100% 25%, rgba(var(--accent-rgb), 0.20), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glow-card:hover {
+      border-color: rgba(var(--accent-rgb), 0.55);
+      box-shadow: var(--card-shadow), 0 0 34px -4px rgba(var(--accent-rgb), 0.26);
+    }
+
+    /* Dedicated MedPeek Oceanic Teal Container Scope (#005C53 & #00F2FE) */
+    .medpeek-scope {
+      --mp-bg: #07161B;
+      --mp-card: #0B2228;
+      --mp-teal: #005C53;
+      --mp-cyan: #00F2FE;
+      color: #ECFEFF;
+    }
+
+    .medpeek-card {
+      position: relative;
+      background: linear-gradient(145deg, #091D24 0%, rgba(0, 92, 83, 0.48) 62%, rgba(0, 242, 254, 0.20) 100%);
+      border-radius: 1rem;
+      border: 1px solid rgba(0, 242, 254, 0.38);
+      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.75), 0 0 30px -8px rgba(0, 242, 254, 0.25);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .medpeek-card:hover {
+      border-color: rgba(0, 242, 254, 0.72);
+      box-shadow: 0 14px 36px -10px rgba(0, 0, 0, 0.82), 0 0 38px -4px rgba(0, 242, 254, 0.38);
+    }
+
+    .medpeek-pill {
+      background: rgba(6, 18, 23, 0.78);
+      border: 1px solid rgba(0, 242, 254, 0.22);
+      border-radius: 0.75rem;
+      transition: all 0.22s ease;
+    }
+
+    .medpeek-pill:hover {
+      border-color: rgba(0, 242, 254, 0.55);
+      background: rgba(0, 92, 83, 0.35);
+    }
+
+    .sub-pill {
+      background: var(--bg-pill);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+      transition: all 0.22s ease;
+    }
+
+    .sub-pill:hover {
+      border-color: rgba(var(--accent-rgb), 0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px -4px rgba(var(--accent-rgb), 0.18);
+    }
+
+    .text-glow-gradient {
+      background: linear-gradient(90deg, var(--text-main) 0%, #F59E0B 55%, #D97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-medpeek-gradient {
+      background: linear-gradient(90deg, #FFFFFF 0%, #00F2FE 55%, #14B8A6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 4px 18px rgba(var(--accent-rgb), 0.30);
+      transition: all 0.25s ease;
+    }
+
+    .btn-glow:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 6px 24px rgba(var(--accent-rgb), 0.48);
+      transform: translateY(-1px);
+    }
+
+    .btn-medpeek {
+      background: linear-gradient(135deg, #005C53 0%, #0D9488 60%, #00F2FE 100%);
+      color: #041318 !important;
+      font-weight: 700;
+      border: 1px solid rgba(0, 242, 254, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.30);
+      transition: all 0.25s ease;
+    }
+
+    .btn-medpeek:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 6px 26px rgba(0, 242, 254, 0.50);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-glow {
+      background: rgba(var(--accent-rgb), 0.08);
+      color: var(--text-main);
+      border: 1px solid rgba(var(--accent-rgb), 0.40);
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline-glow:hover {
+      background: rgba(var(--accent-rgb), 0.18);
+      border-color: var(--accent-bright);
+    }
+
+    .badge-tech {
+      background: rgba(var(--accent-rgb), 0.14);
+      border: 1px solid rgba(var(--accent-rgb), 0.38);
+      color: var(--accent-bright);
+    }
+
+    /* Custom Scrollbars for Frame Preview Strip & Code Blocks */
+    .frame-strip::-webkit-scrollbar,
+    .code-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .frame-strip::-webkit-scrollbar-track,
+    .code-scroll::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 999px;
+    }
+    .frame-strip::-webkit-scrollbar-thumb,
+    .code-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+      border-radius: 999px;
+    }
+
+    .frame-thumb {
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .frame-thumb:hover,
+    .frame-thumb.active {
+      border-color: #F59E0B;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.55);
+      transform: scale(1.02);
+    }
+
+    /* View Switching Animation */
+    .spa-view {
+      display: none;
+      animation: fadeSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .spa-view.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Custom Range Scrubber */
+    input[type="range"].video-scrubber {
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.22);
+      height: 6px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    input[type="range"].video-scrubber::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #F59E0B;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.9);
+      border: 2px solid #fff;
+      transition: transform 0.15s ease;
+    }
+    input[type="range"].video-scrubber::-webkit-slider-thumb:hover {
+      transform: scale(1.25);
+    }
+
+    /* Bulletproof Projects Dropdown Menu State */
+    .projects-dropdown-panel {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+      z-index: 9999;
+    }
+
+    .projects-dropdown-panel.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      #projectsDropdownContainer:hover .projects-dropdown-panel {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500/30 selection:text-white">
+
+  <!-- ==========================================================================
+       TOP STICKY NAVIGATION BAR
+       (Strictly: Home, About Me, Projects Dropdown + Search + Light/Dark Toggle)
+       ========================================================================== -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl theme-header transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-3">
+
+        <!-- Brand / Logo: Simea Tech — Carl Wendy Simea -->
+        <div class="flex items-center gap-3">
+          <button onclick="navigateTo('home')" class="flex items-center gap-2.5 text-left group focus:outline-none">
+            <div class="w-9 h-9 rounded-xl btn-glow flex items-center justify-center font-mono-tech font-bold text-sm tracking-tighter">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <div>
+              <span class="font-bold tracking-tight text-sm sm:text-base block leading-none text-white">
+                SIMEA TECH
+              </span>
+              <span class="font-mono-tech text-[10px] text-gray-400 tracking-widest uppercase block mt-0.5">
+                Carl Wendy Simea // CET & AI
+              </span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Center Navigation Links: ONLY Home, About Me, and Projects Dropdown -->
+        <nav class="hidden md:flex items-center gap-1.5 bg-black/40 p-1.5 rounded-xl border border-white/10">
+          <button type="button" onclick="navigateTo('home')" data-nav="home" class="nav-btn px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-white bg-white/10">
+            Home
+          </button>
+          <button type="button" onclick="navigateTo('about')" data-nav="about" class="nav-btn px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5">
+            About Me
+          </button>
+
+          <!-- Bulletproof Projects Dropdown (Supports Click & Hover, Zero Arrows) -->
+          <div class="relative" id="projectsDropdownContainer">
+            <button
+              type="button"
+              id="projectsDropdownTrigger"
+              onclick="toggleProjectsMenu(event)"
+              aria-expanded="false"
+              data-nav="projects"
+              class="nav-btn px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5 flex items-center"
+            >
+              <span>Projects</span>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div id="projectsDropdownMenu" class="projects-dropdown-panel absolute left-0 top-full mt-2 w-80 rounded-xl theme-dropdown shadow-2xl py-2 backdrop-blur-2xl">
+              <div class="px-3.5 py-1.5 border-b border-white/10 text-[10px] font-mono-tech uppercase tracking-wider text-gray-400 flex items-center justify-between">
+                <span>Featured Engineering Builds</span>
+                <span>Select View</span>
+              </div>
+
+              <!-- Project 1: DIY Claw Machine -->
+              <button type="button" onclick="selectProjectFromMenu('claw', null, event)" class="w-full px-3.5 py-3 text-left hover:bg-white/10 flex items-start gap-3 transition-colors">
+                <div class="w-9 h-9 rounded-lg badge-tech flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-robot text-xs"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white">DIY Claw & Vending Machine</div>
+                  <div class="text-[11px] text-gray-400 mt-0.5">Arduino Mega 2560 • Dual Video Reels • 11-Part BOM & Code</div>
+                </div>
+              </button>
+
+              <!-- Project 2: MedPeek AI -->
+              <button type="button" onclick="selectProjectFromMenu('medpeek', null, event)" class="w-full px-3.5 py-3 text-left hover:bg-white/10 flex items-start gap-3 transition-colors border-t border-white/10">
+                <div class="w-9 h-9 rounded-lg bg-[#005C53]/50 border border-[#00F2FE]/50 text-[#00F2FE] flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-x-ray text-xs"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>MedPeek AI</span>
+                    <span class="text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-[#005C53] text-[#00F2FE]">Oceanic Teal</span>
+                  </div>
+                  <div class="text-[11px] text-gray-400 mt-0.5">Hacktoberfest Hack Day Brooklyn • Google Gemma 4 + FracAtlas Hand X-Ray</div>
+                </div>
+              </button>
+
+              <div class="border-t border-white/10 mt-1 pt-1">
+                <button type="button" onclick="selectProjectFromMenu('about', 'moreProjectsResumeSection', event)" class="w-full px-3.5 py-2 text-left text-[11px] font-mono-tech hover:bg-white/10 flex items-center justify-between" style="color: var(--accent-bright)">
+                  <span>Raspberry Pi Camera, Circuit Solver & Labs</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Right Controls: Search Bar + Clean Light/Dark Mode Toggle -->
+        <div class="flex items-center gap-2">
+          <!-- Interactive Search Input -->
+          <div class="relative hidden sm:block w-44 lg:w-56" id="searchContainer">
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-400"></i>
+              <input
+                id="globalSearchInput"
+                type="text"
+                placeholder="Search resume, BOM, code..."
+                onfocus="handleSearchInput(this.value)"
+                oninput="handleSearchInput(this.value)"
+                class="w-full bg-black/40 border border-white/15 focus:border-amber-500/60 rounded-xl pl-8 pr-7 py-1.5 text-xs text-white placeholder-gray-400 focus:outline-none transition-all"
+              />
+              <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono-tech text-gray-400 border border-white/10 rounded px-1">/</span>
+            </div>
+            <div id="searchResultsDropdown" class="hidden absolute right-0 mt-2 w-80 rounded-xl theme-dropdown shadow-2xl py-2 z-50 max-h-80 overflow-y-auto"></div>
+          </div>
+
+          <!-- Clean Light / Dark Mode Toggle Button -->
+          <button
+            onclick="toggleColorMode()"
+            id="colorModeToggleBtn"
+            class="px-3 py-1.5 rounded-xl bg-black/40 border border-white/15 hover:border-amber-500/50 text-xs font-mono-tech flex items-center gap-2 transition-all text-white"
+            title="Toggle Light / Dark Mode"
+          >
+            <i id="colorModeIcon" class="fa-solid fa-moon text-amber-400"></i>
+            <span id="colorModeLabel">Dark</span>
+          </button>
+
+          <!-- Mobile Hamburger Button -->
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-black/40 border border-white/15 text-gray-300 hover:text-white">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-white/10 space-y-2">
+        <div class="relative mb-2">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-400"></i>
+          <input
+            type="text"
+            placeholder="Search Claw Machine, MedPeek, Resume, BOM..."
+            oninput="handleMobileSearch(this.value)"
+            class="w-full bg-black/40 border border-white/15 rounded-xl pl-8 pr-3 py-2 text-xs text-white placeholder-gray-400 focus:outline-none"
+          />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="navigateTo('home'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-white">Home</button>
+          <button onclick="navigateTo('about'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-white">About Me & Full Resume</button>
+          <button onclick="navigateTo('claw'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-amber-400">Project: Claw Machine</button>
+          <button onclick="navigateTo('medpeek'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-cyan-400">Project: MedPeek AI</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER (MULTI-VIEW SPA)
+       ========================================================================== -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ========================================================================
+         VIEW 1: HOME PAGE ("WELCOME TO SIMEA TECH")
+         ======================================================================== -->
+    <section id="view-home" class="spa-view active space-y-7">
+
+      <!-- 1. INTRODUCTION / HERO GLOW CARD -->
+      <div class="glow-card p-6 sm:p-9">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-3 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full badge-tech text-xs font-mono-tech">
+              <i class="fa-solid fa-terminal"></i>
+              <span>Carl Wendy Simea // Computer Engineering Technology @ City Tech (CUNY)</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white">
+              WELCOME TO <span class="text-glow-gradient">SIMEA TECH</span>
+            </h1>
+            <p class="text-gray-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+              Computer Engineering Technology student who builds <strong class="text-white">Arduino, Raspberry Pi, and AI projects</strong>, from soldering circuits and fabricating 3-axis mechatronics to writing <strong class="text-white">C/C++, Python, and Java</strong> code. Explore my joystick-controlled <strong class="text-white">Claw-Style Vending Machine</strong>, my Hacktoberfest AI X-Ray Reader <strong class="text-white">MedPeek</strong>, and my full engineering resume below.
+            </p>
+          </div>
+
+          <!-- Quick Jump CTA Stack -->
+          <div class="flex flex-wrap sm:flex-nowrap lg:flex-col gap-3 shrink-0">
+            <button onclick="navigateTo('about')" class="btn-glow px-5 py-3 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2.5">
+              <i class="fa-solid fa-id-badge"></i>
+              <span>About Me, Bio & Oct 2026 Resume</span>
+            </button>
+            <a
+              href="./content/Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+              download="Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+              class="btn-outline-glow px-5 py-2.5 rounded-xl font-mono-tech text-xs flex items-center justify-center gap-2"
+            >
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Download Resume PDF</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. ABOUT ME QUICK CARD (Dual-Behavior: Click Header for Full About Me Page, or Click Direct Contact Pills) -->
+      <div class="glow-card p-6 sm:p-7">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-5 border-b border-white/10 relative z-10">
+          <div onclick="navigateTo('about')" class="cursor-pointer group flex items-center gap-3.5">
+            <!-- Mini Profile Photo Avatar syncing with ./content/profile.jpeg -->
+            <div class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-amber-500/50 bg-black/50 flex items-center justify-center shrink-0 relative">
+              <img
+                src="./content/profile.jpeg"
+                alt="Carl Wendy Simea"
+                class="profile-img-sync w-full h-full object-cover hidden"
+                onload="this.classList.remove('hidden'); this.nextElementSibling.classList.add('hidden');"
+                onerror="handleProfileImageError(this)"
+              />
+              <span class="profile-fallback-sync font-mono-tech font-extrabold text-sm text-amber-400">CS</span>
+            </div>
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <h2 class="text-xl font-bold text-white group-hover:underline">About Me — Carl Wendy Simea</h2>
+                <span class="text-[11px] font-mono-tech px-2.5 py-0.5 rounded bg-white/10 text-gray-200 group-hover:text-white">
+                  Click for Full Biography, Photo & Oct 2026 Resume
+                </span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1 line-clamp-2 max-w-3xl">
+                Junior at NYC College of Technology majoring in Computer Engineering Technology. Speaks English, Haitian Creole, French & Spanish. Seeking internships in embedded systems, robotics, and hardware engineering.
+              </p>
+            </div>
+          </div>
+
+          <button onclick="navigateTo('about')" class="btn-outline-glow px-3.5 py-2 rounded-xl text-xs font-mono-tech self-start sm:self-auto shrink-0">
+            Open Full About Page
+          </button>
+        </div>
+
+        <!-- 2x2 Direct Contact & Social Grid (Email, GitHub, LinkedIn, Instagram — NO WhatsApp) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 relative z-10">
+
+          <!-- 1. Direct Email -->
+          <div class="sub-pill p-4 flex items-center justify-between gap-3 group">
+            <a href="mailto:simeacarlwendy@gmail.com?subject=Simea%20Tech%20Engineering%20Inquiry" class="flex items-center gap-3.5 flex-grow min-w-0">
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-envelope text-base"></i>
+              </div>
+              <div class="truncate">
+                <div class="text-[11px] font-mono-tech uppercase tracking-wider text-gray-400">Primary Email • Brooklyn, NY</div>
+                <div class="text-sm font-semibold text-white truncate">simeacarlwendy@gmail.com</div>
+              </div>
+            </a>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="copyEmail(event)" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono-tech text-gray-300 hover:text-white transition-colors" title="Copy Email Address">
+                <i class="fa-regular fa-copy mr-1"></i>Copy
+              </button>
+              <a href="mailto:simeacarlwendy@gmail.com?subject=Simea%20Tech%20Engineering%20Inquiry" class="px-2.5 py-1.5 rounded-lg btn-glow text-xs font-mono-tech">
+                Send
+              </a>
+            </div>
+          </div>
+
+          <!-- 2. GitHub -->
+          <a href="https://github.com/Carl-Simea" target="_blank" rel="noopener noreferrer" class="sub-pill p-4 flex items-center justify-between gap-3 group">
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center shrink-0">
+                <i class="fa-brands fa-github text-lg"></i>
+              </div>
+              <div class="truncate">
+                <div class="text-[11px] font-mono-tech uppercase tracking-wider text-gray-400">GitHub Profile & Repositories</div>
+                <div class="text-sm font-semibold text-white truncate">github.com/Carl-Simea</div>
+              </div>
+            </div>
+            <span class="text-xs font-mono-tech text-gray-400 group-hover:text-white flex items-center gap-1 shrink-0">
+              Repos
+            </span>
+          </a>
+
+          <!-- 3. LinkedIn -->
+          <a href="https://www.linkedin.com/in/carl-wendy-simea" target="_blank" rel="noopener noreferrer" class="sub-pill p-4 flex items-center justify-between gap-3 group">
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center shrink-0">
+                <i class="fa-brands fa-linkedin-in text-lg"></i>
+              </div>
+              <div class="truncate">
+                <div class="text-[11px] font-mono-tech uppercase tracking-wider text-gray-400">LinkedIn Network</div>
+                <div class="text-sm font-semibold text-white truncate">linkedin.com/in/carl-wendy-simea</div>
+              </div>
+            </div>
+            <span class="text-xs font-mono-tech text-gray-400 group-hover:text-white flex items-center gap-1 shrink-0">
+              Connect
+            </span>
+          </a>
+
+          <!-- 4. Instagram -->
+          <a href="https://www.instagram.com/sire_simea/" target="_blank" rel="noopener noreferrer" class="sub-pill p-4 flex items-center justify-between gap-3 group">
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center shrink-0">
+                <i class="fa-brands fa-instagram text-lg"></i>
+              </div>
+              <div class="truncate">
+                <div class="text-[11px] font-mono-tech uppercase tracking-wider text-gray-400">Instagram</div>
+                <div class="text-sm font-semibold text-white truncate">@sire_simea</div>
+              </div>
+            </div>
+            <span class="text-xs font-mono-tech text-gray-400 group-hover:text-white flex items-center gap-1 shrink-0">
+              Follow
+            </span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- 3. FEATURED PROJECTS BENTO GRID (Home Overview) -->
+      <div id="projectsSection" class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight text-white">Featured Engineering Projects</h2>
+            <p class="text-xs text-gray-400">Click any project to open its full hardware breakdown, interactive video scrubber, BOM & source code</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono-tech text-gray-400">
+            <span>Use top <strong class="text-white">Projects</strong> menu or cards below</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- ================================================================
+               HOME CARD #1: CLAW-STYLE VENDING MACHINE
+               ================================================================ -->
+          <div class="glow-card p-5 sm:p-6 lg:col-span-7 flex flex-col justify-between">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4 relative z-10">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-md badge-tech text-[11px] font-mono-tech font-semibold">PROJECT #01</span>
+                    <span class="text-xs font-mono-tech text-gray-400">Lead Engineer • 09/2025–12/2025</span>
+                  </div>
+                  <h3 onclick="navigateTo('claw')" class="text-xl font-bold text-white mt-1 cursor-pointer hover:underline flex items-center gap-2">
+                    <span>3-Axis CNC Claw-Style Candy Vending Machine</span>
+                  </h3>
+                </div>
+                <button onclick="navigateTo('claw')" class="btn-glow px-3.5 py-1.5 rounded-lg text-xs font-mono-tech font-semibold">
+                  Open Videos, BOM & Code
+                </button>
+              </div>
+
+              <!-- Mini Interactive Preview Banner on Home Page -->
+              <div onclick="navigateTo('claw')" class="dark-surface cursor-pointer rounded-xl bg-[#090B0E] border border-white/15 p-4 hover:border-amber-400/50 transition-all group relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 mb-3 border-b border-white/10">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-lg badge-tech flex items-center justify-center">
+                      <i class="fa-solid fa-film"></i>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold text-white">Dual Video Player (`./content/Clawmachine1.mp4` & `clawMachine2.mp4`)</div>
+                      <div class="text-[11px] font-mono-tech text-gray-300">Reel 1: Full Gantry Run (03:37) • Reel 2: Snickers Extraction (01:08)</div>
+                    </div>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-[11px] font-mono-tech group-hover:bg-amber-500 group-hover:text-black transition-colors">
+                    <i class="fa-solid fa-play mr-1"></i>Watch Reels
+                  </span>
+                </div>
+
+                <!-- 4 Key Engineering Highlights -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-left">
+                  <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                    <div class="text-[10px] font-mono-tech text-gray-300">Microcontroller</div>
+                    <div class="text-xs font-bold text-white mt-0.5">Mega 2560 + CNC</div>
+                    <div class="text-[10px] text-gray-300">Pins 3/5, 3/6, 4/7, En 8</div>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                    <div class="text-[10px] font-mono-tech text-gray-300">Tap Payment</div>
+                    <div class="text-xs font-bold text-white mt-0.5">HC-SR04 &lt; 2cm</div>
+                    <div class="text-[10px] text-gray-300">Trig 36, Echo 37, Buz 38</div>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                    <div class="text-[10px] font-mono-tech text-gray-300">3-Axis Motion</div>
+                    <div class="text-xs font-bold text-white mt-0.5">Gimbal A7 / A8</div>
+                    <div class="text-[10px] text-gray-300">+ Pot A9 Z-Spool Servo</div>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-white/5 border border-white/10">
+                    <div class="text-[10px] font-mono-tech text-gray-300">Claw Actuation</div>
+                    <div class="text-xs font-bold text-white mt-0.5">Dual Pushbuttons</div>
+                    <div class="text-[10px] text-gray-300">Pins 30/31 → Servo 33</div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-300 mt-4 leading-relaxed relative z-10">
+                Designed, prototyped, and built an Arduino Mega 2560 joystick-controlled claw vending machine with a 3-axis lead-screw gantry, LCD1602 display, ultrasonic tap-payment sensor, and dual servos to grab and dispense candy.
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 relative z-10">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono-tech text-gray-300">11-Part Amazon BOM</span>
+                <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono-tech text-gray-300">Post-Mortem & Arduino Code</span>
+              </div>
+              <button onclick="navigateTo('claw')" class="text-xs font-mono-tech font-semibold flex items-center gap-1.5 hover:underline" style="color: var(--accent-bright)">
+                <span>Inspect BOM, Videos & Firmware</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ================================================================
+               HOME CARD #2: MEDPEEK: AI X-RAY READER (OCEANIC TEAL CONTAINER)
+               ================================================================ -->
+          <div class="medpeek-scope medpeek-card p-5 sm:p-6 lg:col-span-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4 relative z-10">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-md bg-[#005C53]/80 border border-[#00F2FE]/50 text-[#00F2FE] text-[11px] font-mono-tech font-semibold">
+                      PROJECT #02 // MEDPEEK
+                    </span>
+                    <span class="text-xs font-mono-tech text-teal-200">Hacktoberfest Brooklyn (10/2026)</span>
+                  </div>
+                  <h3 onclick="navigateTo('medpeek')" class="text-xl font-bold text-white mt-1 cursor-pointer hover:underline flex items-center gap-2">
+                    <span>MedPeek: AI X-Ray, MRI & CT Reader</span>
+                  </h3>
+                </div>
+                <button onclick="navigateTo('medpeek')" class="px-3 py-1.5 rounded-lg bg-[#00F2FE]/20 hover:bg-[#00F2FE]/30 border border-[#00F2FE]/60 text-[#00F2FE] text-xs font-mono-tech font-semibold shrink-0 transition-all">
+                  Open MedPeek
+                </button>
+              </div>
+
+              <!-- Oceanic Teal Dual-Version Preview Box -->
+              <div class="rounded-xl bg-[#051116]/90 border border-[#00F2FE]/30 p-4 space-y-3 relative z-10">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-[#005C53]/60 border border-[#00F2FE]/40 flex items-center justify-center text-[#00F2FE]">
+                      <i class="fa-solid fa-x-ray text-sm"></i>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold text-white">Google Gemma 4 + FracAtlas Hand X-Ray</div>
+                      <div class="text-[10px] font-mono-tech text-[#00F2FE]">github.com/Carl-Simea/MedPeek</div>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded bg-[#005C53] border border-[#00F2FE]/40 text-[#00F2FE] text-[10px] font-mono-tech">
+                    2 Builds
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                  <div class="p-3 rounded-lg bg-[#0B2228] border border-[#00F2FE]/25">
+                    <div class="text-[10px] font-mono-tech text-[#00F2FE] uppercase">Build 01 // Team Web App</div>
+                    <div class="font-bold text-white mt-0.5">Gemma 4 Imaging Explainer</div>
+                    <p class="text-[11px] text-gray-200 mt-1">Explains X-ray, MRI, and CT scans in plain, accessible language for patients.</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[#0B2228] border border-[#00F2FE]/25">
+                    <div class="text-[10px] font-mono-tech text-[#00F2FE] uppercase">Build 02 // Solo Offline App</div>
+                    <div class="font-bold text-white mt-0.5">Ollama + Flask + FracAtlas</div>
+                    <p class="text-[11px] text-gray-200 mt-1">Compares hand X-rays to FracAtlas to name the broken bone, break type & likely cause.</p>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm text-gray-200 mt-4 leading-relaxed relative z-10">
+                Styled in MedPeek's signature <strong class="text-[#00F2FE]">Oceanic Teal (`#005C53` / `#00F2FE`)</strong> clinical palette. Includes user accounts, SQLite chat history, and local Ollama inference.
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-white/15 flex flex-wrap items-center justify-between gap-2 relative z-10">
+              <a href="https://github.com/Carl-Simea/MedPeek" target="_blank" rel="noopener noreferrer" class="px-3 py-1 rounded-full bg-black/50 border border-[#00F2FE]/50 text-[#00F2FE] hover:bg-[#00F2FE]/20 text-[11px] font-mono-tech flex items-center gap-1.5 transition-colors">
+                <i class="fa-brands fa-github"></i>
+                <span>Carl-Simea/MedPeek</span>
+              </a>
+              <button onclick="navigateTo('medpeek')" class="text-xs font-mono-tech font-semibold text-[#00F2FE] flex items-center gap-1.5 hover:underline">
+                <span>Explore MedPeek Container</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 2: DEDICATED "ABOUT ME" PAGE
+         (Profile Photo `./content/profile.jpeg`, Verbatim Professional Biography,
+          and Complete Oct 2026 Resume Integration)
+         ======================================================================== -->
+    <section id="view-about" class="spa-view space-y-7">
+
+      <!-- Top Breadcrumb -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <button onclick="navigateTo('home')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+          <span>Back to Simea Tech Home</span>
+        </button>
+        <div class="text-xs font-mono-tech text-gray-400">
+          <span>SIMEA TECH //</span> <span class="text-white">BIOGRAPHY, PROFILE PHOTO & OCT 2026 RESUME</span>
+        </div>
+      </div>
+
+      <!-- 1. PROFILE PHOTO + VERBATIM PROFESSIONAL BIOGRAPHY CARD -->
+      <div class="glow-card p-6 sm:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start relative z-10">
+
+          <!-- Left Column: Clean Production Profile Picture Frame (./content/profile.jpeg) -->
+          <div class="lg:col-span-4 flex flex-col items-center text-center p-6 rounded-2xl bg-black/40 border border-white/10">
+            <div class="w-44 h-44 rounded-2xl overflow-hidden border-2 border-amber-500/60 shadow-2xl mb-4 bg-[#14171D] flex items-center justify-center relative">
+              <img
+                id="aboutProfileImg"
+                src="./content/profile.jpeg"
+                alt="Carl Wendy Simea"
+                class="profile-img-sync w-full h-full object-cover hidden"
+                onload="this.classList.remove('hidden'); document.getElementById('aboutProfileFallback').classList.add('hidden');"
+                onerror="handleProfileImageError(this)"
+              />
+              <div id="aboutProfileFallback" class="profile-fallback-sync flex flex-col items-center justify-center p-3 text-center">
+                <span class="text-3xl font-mono-tech font-extrabold text-amber-400">CS</span>
+                <span class="text-[10px] font-mono-tech text-gray-400 mt-1">Carl Wendy Simea</span>
+              </div>
+            </div>
+
+            <h1 class="text-2xl font-bold text-white">Carl Wendy Simea</h1>
+            <p class="text-xs font-mono-tech mt-1" style="color: var(--accent-bright)">
+              B.Tech in Computer Engineering Technology (Expected 12/2027)
+            </p>
+            <p class="text-xs text-gray-400 mt-1">
+              New York City College of Technology, CUNY • Brooklyn, NY 11217
+            </p>
+
+            <!-- Spoken Languages Badges -->
+            <div class="w-full mt-4 pt-4 border-t border-white/10">
+              <div class="text-[10px] font-mono-tech uppercase tracking-wider text-gray-400 mb-2">Spoken Languages</div>
+              <div class="flex flex-wrap justify-center gap-1.5">
+                <span class="px-2.5 py-1 rounded-md badge-tech text-[11px] font-mono-tech">English</span>
+                <span class="px-2.5 py-1 rounded-md badge-tech text-[11px] font-mono-tech">Haitian Creole</span>
+                <span class="px-2.5 py-1 rounded-md badge-tech text-[11px] font-mono-tech">French</span>
+                <span class="px-2.5 py-1 rounded-md badge-tech text-[11px] font-mono-tech">Spanish</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Verbatim Professional Biography -->
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full badge-tech text-xs font-mono-tech">
+              <i class="fa-solid fa-user-pen"></i>
+              <span>Official Professional Biography</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+              Engineering Embedded Systems, Robotics & Medical AI
+            </h2>
+
+            <!-- Verbatim Biography Paragraph -->
+            <div class="p-5 rounded-2xl bg-black/40 border border-white/10">
+              <p id="professionalBioText" class="text-sm sm:text-[15px] text-gray-200 leading-relaxed">
+                Carl Wendy Simea is a junior at New York City College of Technology majoring in Computer Engineering Technology. He has programmed in C++, C, and Java through his coursework and has used C++ and C to build embedded systems such as servo control and rotary-encoder interfaces. He also builds web applications with HTML, CSS, and JavaScript including Circuit Solver, a DC resistance calculator. As lead engineer on a team project for his Computer Systems: Software Interface course, he led the research and designed, prototyped, and built an Arduino-based working joystick-controlled vending machine that dispensed Hershey’s candy, seeing the project through to completion. Carl spent two years as a Mobile Expert at T-Mobile, where he primarily sold phones and wireless lines. His fluency in Haitian Creole and French allowed him to assist customers in their preferred languages and helped him consistently hit his monthly sales goals, which focused on either phones or lines depending on the month. He plans to pursue graduate studies in biomedical engineering, applying robotics and artificial intelligence to develop medical devices for people with neurological disorders. Long term, he aims to bring advanced technological knowledge to Haiti by establishing a technology company that will hire and train young technology professionals to build the country’s tech sector and, from there, expand to help position Haiti as a leader in Caribbean technology.
+              </p>
+            </div>
+
+            <!-- Resume Action Buttons -->
+            <div class="flex flex-wrap gap-3 pt-1">
+              <a
+                href="./content/Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+                download="Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+                class="btn-glow px-4 py-2.5 rounded-xl text-xs font-mono-tech font-semibold flex items-center gap-2"
+              >
+                <i class="fa-solid fa-file-arrow-down"></i>
+                <span>Download Resume PDF</span>
+              </a>
+              <button onclick="document.getElementById('fullResumeSection').scrollIntoView({behavior:'smooth'})" class="btn-outline-glow px-4 py-2.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+                <i class="fa-solid fa-scroll"></i>
+                <span>Scroll to Full Interactive Resume</span>
+              </button>
+              <button onclick="openResumeModal()" class="btn-outline-glow px-4 py-2.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+                <i class="fa-solid fa-print"></i>
+                <span>Printable View</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. DIRECT CONTACT CHANNELS (Email, GitHub, LinkedIn, Instagram — NO WhatsApp) -->
+      <div class="glow-card p-6 sm:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4 relative z-10">
+          <div>
+            <h3 class="text-lg font-bold text-white">Direct Contact & Social Accounts</h3>
+            <p class="text-xs text-gray-400">Brooklyn, NY 11217 • (646) 271-4055 • simeacarlwendy@gmail.com</p>
+          </div>
+          <span class="px-3 py-1 rounded-full badge-tech text-xs font-mono-tech">Open to Embedded, Robotics & Hardware Internships</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+          <!-- Email -->
+          <div class="sub-pill p-4 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center mb-3">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="text-[11px] font-mono-tech text-gray-400">EMAIL & PHONE</div>
+              <div class="text-xs sm:text-sm font-bold text-white break-all mt-0.5">simeacarlwendy@gmail.com</div>
+              <div class="text-xs font-mono-tech text-gray-300 mt-1">(646) 271-4055 • Brooklyn, NY 11217</div>
+            </div>
+            <div class="flex gap-2 mt-4">
+              <button onclick="copyEmail(event)" class="flex-1 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white">Copy</button>
+              <a href="mailto:simeacarlwendy@gmail.com" class="flex-1 py-2 rounded-lg btn-glow text-center text-xs font-mono-tech">Email Me</a>
+            </div>
+          </div>
+
+          <!-- GitHub -->
+          <div class="sub-pill p-4 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center mb-3">
+                <i class="fa-brands fa-github text-lg"></i>
+              </div>
+              <div class="text-[11px] font-mono-tech text-gray-400">GITHUB</div>
+              <div class="text-sm font-bold text-white mt-0.5">github.com/Carl-Simea</div>
+              <p class="text-xs text-gray-400 mt-2">Source code for MedPeek, Circuit Solver, and embedded C/C++ projects.</p>
+            </div>
+            <a href="https://github.com/Carl-Simea" target="_blank" rel="noopener noreferrer" class="mt-4 py-2 rounded-lg btn-outline-glow text-center text-xs font-mono-tech block">
+              Open GitHub Profile
+            </a>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="sub-pill p-4 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center mb-3">
+                <i class="fa-brands fa-linkedin-in text-lg"></i>
+              </div>
+              <div class="text-[11px] font-mono-tech text-gray-400">LINKEDIN</div>
+              <div class="text-sm font-bold text-white mt-0.5">carl-wendy-simea</div>
+              <p class="text-xs text-gray-400 mt-2">Connect for internships in embedded systems, robotics, and hardware engineering.</p>
+            </div>
+            <a href="https://www.linkedin.com/in/carl-wendy-simea" target="_blank" rel="noopener noreferrer" class="mt-4 py-2 rounded-lg btn-outline-glow text-center text-xs font-mono-tech block">
+              Connect on LinkedIn
+            </a>
+          </div>
+
+          <!-- Instagram -->
+          <div class="sub-pill p-4 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-xl badge-tech flex items-center justify-center mb-3">
+                <i class="fa-brands fa-instagram text-lg"></i>
+              </div>
+              <div class="text-[11px] font-mono-tech text-gray-400">INSTAGRAM</div>
+              <div class="text-sm font-bold text-white mt-0.5">@sire_simea</div>
+              <p class="text-xs text-gray-400 mt-2">Hardware builds, lab prototypes, and behind-the-scenes clips.</p>
+            </div>
+            <a href="https://www.instagram.com/sire_simea/" target="_blank" rel="noopener noreferrer" class="mt-4 py-2 rounded-lg btn-outline-glow text-center text-xs font-mono-tech block">
+              Visit @sire_simea
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. COMPLETE OCTOBER 2026 RESUME / CV SECTION -->
+      <div id="fullResumeSection" class="glow-card p-6 sm:p-8 space-y-7">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-white/10 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">Curriculum Vitae // October 2026</span>
+            <h3 class="text-2xl font-bold text-white mt-0.5">Carl Wendy Simea — Complete Engineering Resume</h3>
+            <p class="text-xs text-gray-400 mt-1">
+              Brooklyn, NY 11217 • (646) 271-4055 • simeacarlwendy@gmail.com • github.com/Carl-Simea
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 self-start sm:self-auto">
+            <a
+              href="./content/Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+              download="Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+              class="btn-glow px-4 py-2 rounded-xl text-xs font-mono-tech font-semibold flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-download"></i>
+              <span>Download PDF</span>
+            </a>
+            <button onclick="openResumeModal()" class="btn-outline-glow px-4 py-2 rounded-xl text-xs font-mono-tech">
+              <i class="fa-solid fa-print mr-1"></i>Print Resume
+            </button>
+          </div>
+        </div>
+
+        <!-- Resume Summary Banner -->
+        <div class="sub-pill p-4 relative z-10">
+          <div class="text-[11px] font-mono-tech uppercase text-amber-400 font-bold mb-1">Summary</div>
+          <p class="text-xs sm:text-sm text-gray-200 leading-relaxed">
+            Computer Engineering Technology student who builds Arduino, Raspberry Pi and AI projects, from soldering circuits to writing C/C++ and Python code. Nearly two years of tech support and sales at T-Mobile; speaks English, Haitian Creole, French and Spanish. Seeking internships in embedded systems, robotics and hardware engineering.
+          </p>
+        </div>
+
+        <!-- Education & Technical Skills Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+
+          <!-- Education Column -->
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider text-amber-400 font-bold">Education & Coursework</h4>
+
+            <div class="sub-pill p-5 space-y-3">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-base font-bold text-white">New York City College of Technology, CUNY</div>
+                  <div class="text-xs font-semibold text-amber-400 mt-0.5">Bachelor of Technology, Computer Engineering Technology</div>
+                </div>
+                <span class="text-[11px] font-mono-tech text-gray-300 shrink-0">Expected 12/2027</span>
+              </div>
+              <div class="text-xs text-gray-400 font-mono-tech">Brooklyn, NY</div>
+
+              <div class="pt-2 border-t border-white/10">
+                <div class="text-[11px] font-mono-tech text-gray-300 font-semibold mb-2">Relevant Coursework:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Logic and Problem Solving</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Fundamentals of Digital Systems</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Operating Systems Laboratory</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Electronics</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Software for Computer Control</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Computer Hardware Systems</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Electrical Circuits</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Data Communications</span>
+                  <span class="px-2 py-1 rounded bg-white/5 text-[11px] font-mono-tech text-gray-200">Electromechanical Manufacturing Lab</span>
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-white/10">
+                <div class="text-[11px] font-mono-tech text-amber-400 font-semibold mb-1">Online Coursework:</div>
+                <ul class="text-xs text-gray-200 space-y-1 list-disc list-inside">
+                  <li><strong>Harvard CS50x & CS50P</strong> (Completed)</li>
+                  <li><strong>MIT 6.036 Introduction to Machine Learning</strong> (In progress)</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Experience Card (T-Mobile USA, Inc.) -->
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider text-amber-400 font-bold pt-2">Professional Experience</h4>
+            <div class="sub-pill p-5 space-y-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-base font-bold text-white">T-Mobile USA, Inc.</div>
+                  <div class="text-xs font-semibold text-amber-400">Mobile Expert • New York, NY</div>
+                </div>
+                <span class="text-[11px] font-mono-tech text-gray-300 shrink-0">09/2024 – 07/2026</span>
+              </div>
+              <ul class="text-xs text-gray-200 space-y-1.5 list-disc list-inside leading-relaxed">
+                <li>Troubleshot Android and iOS devices for customers, resolving device and operating system issues.</li>
+                <li>Sold phones and new lines with Retail Mobility tools, matching customers to the devices and plans that fit their needs.</li>
+                <li>Performed data migrations between devices so customers kept all of their data when upgrading.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Technical Skills Matrix (9 Categories from Oct 2026 Resume) -->
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider text-amber-400 font-bold">Complete Technical Skills Matrix</h4>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Programming Languages</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">C, C++, Python, Java, JavaScript, SQL, HTML/CSS, x86 Assembly</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Embedded Systems</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">Arduino (Uno, Mega 2560), Raspberry Pi 5, Servo and Motor Control, Rotary Encoders, PCB Design</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Electronics & Bench Instruments</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">Circuit Assembly, Breadboarding, Soldering, Oscilloscope, Function Generator, Multimeter, DC Power Supply</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Hardware & IT</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">PC Assembly, Hardware Troubleshooting, OS Installation, iOS and Android Troubleshooting, Data Migration</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Fabrication & 3D Printing</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">3D Printing (Bambu Lab), Drill Press, Mechanical Measuring Tools</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Software & AI Tools</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">Flask, SQLite, Ollama, Arduino IDE, Visual Studio, VS Code, GitHub, NI Multisim, Eclipse, Cygwin</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Operating Systems</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">Windows, Linux (Ubuntu, Raspberry Pi OS), macOS, iOS, Android</p>
+              </div>
+              <div class="sub-pill p-3.5">
+                <div class="font-mono-tech text-amber-400 font-bold text-[11px] uppercase">Office & Spoken Languages</div>
+                <p class="text-gray-200 mt-1 leading-relaxed">Word, Excel, Outlook, Google Docs • English, Haitian Creole, French, Spanish</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Academic, Personal & Hackathon Projects from Resume -->
+        <div id="moreProjectsResumeSection" class="pt-4 border-t border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+
+          <!-- Academic Projects Column -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider text-amber-400 font-bold">Academic Projects (City Tech CET)</h4>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span>Claw-Style Vending Machine (Team Project)</span>
+                <span class="text-amber-400">09/2025 – 12/2025</span>
+              </div>
+              <p class="text-xs text-gray-200 mt-1.5 leading-relaxed">
+                Built a claw-style vending machine with a team, letting the user steer the claw with buttons/joystick to grab and dispense an item. Ran the machine on an Arduino Mega 2560 microcontroller that reads inputs, drives the motors, and updates the display.
+              </p>
+              <button onclick="navigateTo('claw')" class="mt-2 text-[11px] font-mono-tech text-amber-400 hover:underline">
+                Open Dedicated Claw Machine Video, BOM & Code Page
+              </button>
+            </div>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span>Computer Assembly and Integration</span>
+                <span>01/2025 – 05/2025</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside">
+                <li>Assembled and configured computer systems, installing CPUs, RAM, motherboards and storage drives.</li>
+                <li>Diagnosed and resolved hardware compatibility issues during assembly and integration.</li>
+              </ul>
+            </div>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span>Electromechanical Manufacturing Lab</span>
+                <span>01/2024 – 05/2024</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside">
+                <li>Designed and built a digital trainer for testing and configuring logic gates.</li>
+                <li>Shaped, fabricated and soldered the trainer's parts, then tested and troubleshot it until it worked properly.</li>
+              </ul>
+            </div>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span>Mechanisms Lab — Radio Shack Armatron</span>
+                <span>01/2024 – 05/2024</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside">
+                <li>Reverse engineered and repaired a Radio Shack Armatron robotic arm, fully disassembling and reassembling it.</li>
+                <li>Worked with teammates to troubleshoot mechanical issues and implement fixes.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Personal & Hackathon Projects Column -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider text-amber-400 font-bold">Personal & Hackathon Projects</h4>
+
+            <div class="sub-pill p-4 border-l-2 border-[#00F2FE]">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span class="text-white font-bold">MedPeek: AI X-Ray Reader (Hacktoberfest Brooklyn)</span>
+                <span class="text-[#00F2FE]">10/2026</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside leading-relaxed">
+                <li>Co-built a web app with two teammates where Google's Gemma 4 explains X-ray, MRI and CT images in plain language.</li>
+                <li>Built a solo offline version in Flask and SQLite that runs Gemma 4 through Ollama, with user accounts and chat history.</li>
+                <li>Designed it to compare uploads with normal FracAtlas hand X-rays, naming the broken bone, break type and likely cause.</li>
+              </ul>
+              <button onclick="navigateTo('medpeek')" class="mt-2 text-[11px] font-mono-tech text-[#00F2FE] hover:underline">
+                Open MedPeek Oceanic Teal Showcase
+              </button>
+            </div>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span class="text-white font-bold">Raspberry Pi Handheld Camera</span>
+                <span class="text-amber-400">In Progress</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside leading-relaxed">
+                <li>Building the controls around a single rotary encoder: press, double press, long press and scroll.</li>
+                <li>Designed a four-state control flow (off, idle, timer setup, recording), with video saved to a 5-minute buffer.</li>
+              </ul>
+            </div>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span class="text-white font-bold">Circuit Solver Web App (Harvard CS50x Final Project)</span>
+                <span class="text-emerald-400">Completed</span>
+              </div>
+              <p class="text-xs text-gray-200 mt-1.5 leading-relaxed">
+                Built a web app that calculates resistance in DC circuits, with a Python (Flask) back end and a JavaScript front end.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 3: DEDICATED PROJECT #1 PAGE — DIY CLAW & VENDING MACHINE
+         (Configured for `./content/Clawmachine1.mp4` & `./content/clawMachine2.mp4`)
+         ======================================================================== -->
+    <section id="view-claw" class="spa-view space-y-8">
+
+      <!-- Top Navigation Breadcrumb -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+            <span>Home</span>
+          </button>
+          <button onclick="navigateTo('medpeek')" class="px-3.5 py-1.5 rounded-xl bg-[#005C53]/40 hover:bg-[#005C53]/70 border border-[#00F2FE]/40 text-xs font-mono-tech text-[#00F2FE] transition-colors">
+            Switch to Project #2: MedPeek AI
+          </button>
+        </div>
+        <span class="text-xs font-mono-tech text-gray-400">PROJECT_01 // CLAW-STYLE VENDING MACHINE (09/2025–12/2025)</span>
+      </div>
+
+      <!-- 1. Project Header Card -->
+      <div class="glow-card p-6 sm:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-2 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full badge-tech text-xs font-mono-tech">
+              <i class="fa-solid fa-robot"></i>
+              <span>Lead Engineer • Arduino Mega 2560 • CNC Shield V3 • 3-Axis Lead Screw Gantry</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white">
+              3-Axis Claw-Style Candy Vending Machine
+            </h1>
+            <p class="text-sm text-gray-300 leading-relaxed">
+              Co-engineered by <strong class="text-white">Carl Wendy Simea & Rizwan</strong> for City Tech's <em>Computer Systems: Software Interface</em> course. Features an <strong class="text-white">HC-SR04 ultrasonic tap-payment gate (&lt; 2cm)</strong>, an <strong class="text-white">LCD1602 customer display</strong>, dual-stepper X/Y lead screw drive, Z-axis potentiometer winch spooling, and dual-button servo claw actuation.
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
+            <button onclick="document.getElementById('clawPostMortemSection').scrollIntoView({behavior:'smooth'})" class="btn-outline-glow px-4 py-2 rounded-xl text-xs font-mono-tech font-semibold flex items-center justify-center gap-2">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+              <span>Engineering Post-Mortem Log</span>
+            </button>
+            <button onclick="document.getElementById('clawBomSection').scrollIntoView({behavior:'smooth'})" class="btn-outline-glow px-4 py-2 rounded-xl text-xs font-mono-tech font-semibold flex items-center justify-center gap-2">
+              <i class="fa-solid fa-list-check"></i>
+              <span>11-Item Amazon BOM</span>
+            </button>
+            <button onclick="document.getElementById('clawCodeSection').scrollIntoView({behavior:'smooth'})" class="btn-glow px-4 py-2 rounded-xl text-xs font-mono-tech font-semibold flex items-center justify-center gap-2">
+              <i class="fa-solid fa-file-code"></i>
+              <span>Arduino Firmware Code</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. CUSTOM DUAL-REEL INTERACTIVE VIDEO PLAYER (`./content/Clawmachine1.mp4` & `./content/clawMachine2.mp4`) -->
+      <div class="glow-card p-5 sm:p-7 space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+          <div>
+            <span class="text-[11px] font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">
+              Dual-Reel Video Showcase + Keyframe Preview Scrubber
+            </span>
+            <h2 class="text-xl font-bold text-white mt-0.5">
+              Claw Machine Build Reels & Slide-Down Frame Preview
+            </h2>
+          </div>
+
+          <!-- Reel Selector Tabs -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onclick="switchClawReel(1)"
+              id="reelBtn1"
+              class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow flex items-center gap-2"
+            >
+              <i class="fa-solid fa-video"></i>
+              <span>Reel 1: Full Gantry Run (03:37)</span>
+            </button>
+            <button
+              type="button"
+              onclick="switchClawReel(2)"
+              id="reelBtn2"
+              class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow flex items-center gap-2"
+            >
+              <i class="fa-solid fa-candy-cane"></i>
+              <span>Reel 2: Snickers Extraction (01:07)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Video Viewport + Telemetry HUD + Floating Frame Preview Card -->
+        <div class="dark-surface relative rounded-2xl overflow-hidden bg-[#08090C] border border-white/15 shadow-2xl select-none z-10">
+          <div class="relative aspect-video w-full bg-[#07080B] overflow-hidden" onclick="toggleClawPlayback()">
+            <!-- Default High-Detail Hardware Telemetry Canvas -->
+            <canvas id="clawVideoCanvas" class="w-full h-full block cursor-pointer"></canvas>
+            <!-- Real HTML5 Video Element (Automatically loads `./content/Clawmachine1.mp4` or `./content/clawMachine2.mp4`) -->
+            <video id="userUploadedVideo" class="hidden w-full h-full object-contain bg-black" playsinline></video>
+
+            <!-- Top Telemetry HUD Bar -->
+            <div class="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+              <div class="flex items-center gap-2 px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/15 text-xs font-mono-tech">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                <span id="clawChapterBadge" class="text-white font-semibold">REEL 1 // 00:00 — BREADBOARD & 4-BIN SETUP</span>
+              </div>
+              <div class="px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/15 text-xs font-mono-tech text-amber-300">
+                <span id="clawTelemetryText">./content/Clawmachine1.mp4 | MEGA 2560</span>
+              </div>
+            </div>
+
+            <!-- Center Play/Pause Overlay -->
+            <div class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
+              <div class="w-16 h-16 rounded-full btn-glow flex items-center justify-center shadow-2xl">
+                <i id="clawCenterPlayIcon" class="fa-solid fa-pause text-xl"></i>
+              </div>
+            </div>
+
+            <!-- Floating Scrubber Thumbnail Preview Card -->
+            <div id="scrubberFloatingPreview" class="hidden absolute bottom-16 left-4 sm:left-8 w-64 rounded-xl bg-[#12151C]/95 border-2 border-amber-400/80 p-3 pointer-events-none shadow-2xl backdrop-blur-xl">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech text-amber-400 mb-1">
+                <span id="previewTooltipTag">KEYFRAME PREVIEW</span>
+                <span id="previewTooltipTime">00:24 / 03:37</span>
+              </div>
+              <div class="text-xs font-bold text-white" id="previewTooltipTitle">Analog Joystick Gimbal Navigation</div>
+              <p class="text-[11px] text-gray-300 mt-1 leading-snug" id="previewTooltipDesc">
+                Thumb joystick on A7/A8 drives NEMA 17 lead-screw axes over the Ferrero Rocher and Snickers bins.
+              </p>
+            </div>
+          </div>
+
+          <!-- Custom Scrubber & Control Bar -->
+          <div class="bg-[#101218] px-4 py-3 border-t border-white/10 flex flex-col gap-2">
+            <div class="flex items-center gap-3">
+              <button onclick="toggleClawPlayback()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-white transition-colors">
+                <i id="clawBottomPlayIcon" class="fa-solid fa-pause"></i>
+              </button>
+
+              <input
+                id="clawTimelineSlider"
+                type="range"
+                min="0"
+                max="100"
+                step="0.5"
+                value="10"
+                oninput="scrubClawVideo(this.value)"
+                onmousemove="hoverScrubPreview(event, this)"
+                class="video-scrubber flex-grow"
+              />
+
+              <span id="clawTimecode" class="font-mono-tech text-xs text-gray-200 shrink-0">00:21 / 03:37</span>
+
+              <button onclick="cycleClawSpeed()" id="clawSpeedBtn" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/15 border border-white/10 font-mono-tech text-xs text-gray-300">
+                1.0x
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE KEYFRAME PREVIEW STRIP -->
+        <div class="dark-surface bg-[#0C0E12] rounded-xl p-4 border border-white/10 relative z-10">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <div class="text-xs font-mono-tech flex items-center gap-2 text-amber-400">
+              <i class="fa-solid fa-sliders"></i>
+              <span id="frameStripHeaderLabel">REEL 1 KEYFRAME STRIP (03:37) — Slide, Hover or Click Any Frame to Jump & Preview</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="scrollFrameStrip(-220)" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white">
+                Slide Left
+              </button>
+              <button onclick="scrollFrameStrip(220)" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white">
+                Slide Right
+              </button>
+            </div>
+          </div>
+
+          <div id="clawFrameStrip" class="frame-strip flex items-stretch gap-3 overflow-x-auto pb-2"></div>
+        </div>
+      </div>
+
+      <!-- 3. HARDWARE & PINOUT ARCHITECTURE BREAKDOWN -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="glow-card p-6 lg:col-span-7 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <span class="text-[11px] font-mono-tech uppercase" style="color: var(--accent-bright)">Brain of the Vending Machine</span>
+              <h3 class="text-lg font-bold text-white">Arduino Mega 2560 + CNC Shield Pin Mapping</h3>
+            </div>
+            <span class="px-2.5 py-1 rounded badge-tech text-xs font-mono-tech">ATmega2560</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs relative z-10">
+            <div class="sub-pill p-3.5">
+              <div class="font-mono-tech text-amber-400 font-bold">X & Y Stepper Axes (Simultaneous)</div>
+              <div class="text-white font-semibold mt-1">X Step: Pin 3 | X Dir: Pin 5</div>
+              <div class="text-white font-semibold">Y Step: Pin 3 | Y Dir: Pin 6</div>
+              <p class="text-gray-400 mt-1">Driven together via CNC Shield (Enable Pin 8) when Joystick X (`A7`) moves Up (+1) or Down (-1).</p>
+            </div>
+
+            <div class="sub-pill p-3.5">
+              <div class="font-mono-tech text-amber-400 font-bold">Z Stepper Axis (Horizontal Traverse)</div>
+              <div class="text-white font-semibold mt-1">Z Step: Pin 4 | Z Dir: Pin 7</div>
+              <div class="text-white font-semibold">CNC Enable: Pin 8</div>
+              <p class="text-gray-400 mt-1">Controlled by Joystick Y (`A8`) for Left (CCW) and Right (CW) carriage positioning.</p>
+            </div>
+
+            <div class="sub-pill p-3.5">
+              <div class="font-mono-tech text-amber-400 font-bold">Ultrasonic Tap-Payment Gate</div>
+              <div class="text-white font-semibold mt-1">Trig: Pin 36 | Echo: Pin 37 | Buzzer: Pin 38</div>
+              <p class="text-gray-400 mt-1">Detects object closer than <strong class="text-white">&lt; 2cm</strong> to mimic contactless tap-to-pay after RFID pivot, sounding the register beep on Pin 38.</p>
+            </div>
+
+            <div class="sub-pill p-3.5">
+              <div class="font-mono-tech text-amber-400 font-bold">Servos, Potentiometer & Pushbuttons</div>
+              <div class="text-white font-semibold mt-1">Potentiometer: A9 → Winch Servo: Pin 32</div>
+              <div class="text-white font-semibold">Buttons: Pins 30 & 31 → Claw Servo: Pin 33</div>
+              <p class="text-gray-400 mt-1">Maps 0–1023 pot values to vertical Z-lowering, while Pushbuttons 1 & 2 open (`0°→180°`) and close (`180°→0°`) the claw.</p>
+            </div>
+          </div>
+
+          <div class="sub-pill p-3.5 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 relative z-10">
+            <div>
+              <span class="font-mono-tech text-amber-400 font-bold">LCD1602 Display Mapping:</span>
+              <span class="text-gray-200 ml-1">Data Pins `22, 23, 24, 25, 26, 27` + 10kΩ Contrast Potentiometer (Prompts `"Welcome to Rizwan & Carl's"` → `"Please Pay"` → `"Enjoy"`).</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Engineering Field Notes Card -->
+        <div class="glow-card p-6 lg:col-span-5 space-y-4">
+          <div class="border-b border-white/10 pb-3">
+            <span class="text-[11px] font-mono-tech uppercase" style="color: var(--accent-bright)">Lab Troubleshooting Insights</span>
+            <h3 class="text-lg font-bold text-white">Real Hardware Lessons Learned</h3>
+          </div>
+
+          <div class="space-y-3 text-xs relative z-10">
+            <div class="sub-pill p-3.5">
+              <div class="font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-wave-square" style="color: var(--accent-bright)"></i>
+                <span>1. Why Ultrasonic Replaced RFID</span>
+              </div>
+              <p class="text-gray-300 mt-1 leading-relaxed">
+                When the RFID module wouldn't communicate reliably with the pin stack, we engineered an ultrasonic proximity trigger (`&lt; 2cm`) paired with a piezo buzzer (Pin 38) to replicate real-world contactless tap-to-pay registers.
+              </p>
+            </div>
+
+            <div class="sub-pill p-3.5">
+              <div class="font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-bolt" style="color: var(--accent-bright)"></i>
+                <span>2. Floating Joystick Pin Runaway Prevention</span>
+              </div>
+              <p class="text-gray-300 mt-1 leading-relaxed">
+                During testing, we discovered that if a joystick jumper wire disconnects while powered, floating analog signals cause the motor driver to spin a stepper clockwise uncontrollably. Defining an explicit neutral deadband (`else don't move`) eliminates jitter and runaway motion.
+              </p>
+            </div>
+
+            <div class="sub-pill p-3.5">
+              <div class="font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-gears" style="color: var(--accent-bright)"></i>
+                <span>3. 3-Motor Simultaneous CNC Shield Control</span>
+              </div>
+              <p class="text-gray-300 mt-1 leading-relaxed">
+                Most tutorials only drive 1 or 2 steppers at once. We mapped discrete directional states (`+1`, `-1`, `Left`, `Right`) from the 2-potentiometer gimbal joystick to coordinate all 3 lead-screw steppers smoothly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.5 ENGINEERING POST-MORTEM & HARDWARE DEBUGGING LOG -->
+      <div id="clawPostMortemSection" class="glow-card p-6 sm:p-8 space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">
+              Failure Analysis, Root-Cause Diagnosis & Redo Iteration
+            </span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">
+              Engineering Post-Mortem & Hardware Debugging Log
+            </h2>
+            <p class="text-xs text-gray-400">
+              How I diagnosed a thermal polyfuse trip on the CNC shield, bypassed shorted GPIO pins, and solved continuous-rotation servo runaway loops
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              onclick="switchPostMortemTab('technical')"
+              id="pmTabTechnical"
+              class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow"
+            >
+              1. Technical Engineering Post-Mortem
+            </button>
+            <button
+              onclick="switchPostMortemTab('raw')"
+              id="pmTabRaw"
+              class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow"
+            >
+              2. Original Lab & Field Notes (Redo Log)
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 1: Structured Electrical & Firmware Root-Cause Analysis -->
+        <div id="pmViewTechnical" class="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
+          <div class="sub-pill p-5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">ISSUE 01 // POWER RAILS</span>
+              <i class="fa-solid fa-plug-circle-bolt text-amber-400"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Power Distribution & Short-Circuit Rail Isolation</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              Bridging power across breadboard rails—a wiring layout that worked in Tinkercad simulation—caused an accidental real-world short circuit that damaged several digital GPIO pins and heated the CNC shield's onboard thermal polyfuse under stepper driver current draw.
+            </p>
+            <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
+              Fix: Isolated the servo load onto a dedicated breadboard power supply module to prevent logic brownouts.
+            </div>
+          </div>
+
+          <div class="sub-pill p-5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">ISSUE 02 // GPIO RECOVERY</span>
+              <i class="fa-solid fa-gamepad text-amber-400"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Single-Joystick State Multiplexing</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              Because the breadboard short damaged several microcontroller pins mid-deadline, running two separate joysticks was no longer viable on the affected headers.
+            </p>
+            <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
+              Fix: Consolidated control onto a single working analog joystick and used the pushbutton to switch states between controlling the X/Y/Z stepper gantry and driving the servo motors.
+            </div>
+          </div>
+
+          <div class="sub-pill p-5 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">ISSUE 03 // SERVO WINCH PWM</span>
+              <i class="fa-solid fa-arrows-spin text-amber-400"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Counterweighted Winch & ±1 Incremental Control</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">
+              An initial SG90 micro servo lacked the mass to counterbalance the claw without being held by hand. Switching to a heavier continuous-rotation servo winch solved the physical balance, but standard positional commands (`90` or `180`) locked the winch in continuous rotation.
+            </p>
+            <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
+              Fix: Drove the servo winch like a stepper—incrementing or decrementing by ±1 degree per joystick read—to achieve smooth, non-blocking vertical spooling.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Verbatim Final Project Redo Email Log -->
+        <div id="pmViewRaw" class="hidden relative z-10">
+          <div class="dark-surface rounded-xl bg-[#080A0E] border border-white/15 p-5 space-y-3 text-xs text-gray-200 leading-relaxed font-mono-tech">
+            <div class="text-amber-400 font-bold border-b border-white/10 pb-2">
+              FINAL PROJECT (REDO) — ORIGINAL LAB & TROUBLESHOOTING SUBMISSION TO PROFESSOR
+            </div>
+            <p>
+              "As you can see it's very slow. I'm not sure why it could be the code but looking at the CNC shield I think some things fried. I included a picture and a video of the fuse heating up basically something short circuited while I was trying different codes... It worked at first but eventually it gave in. And the cnc shield was made for grbl this could also be part of the reason."
+            </p>
+            <p>
+              "Here's a second attempt where it grabs the Snickers bar instead of the Ferrero Rocher. I just wanted to make sure it could do it. When I went home I had told myself there could be 2 reasons why it stopped working: obviously, we have the code and the fact that I accidentally short circuited it when I tried to bring power on the other +/- of the breadboard today, I mean it worked on Tinkercad so I thought it would have been the same thing. Obviously Tinkercad is a software and not a real world application. Other than these 2, I told myself it could either be not enough power or the pin and today I find out that some of the pins don't work. That's why I went with one joystick and I used the pushbutton to switch between controlling the stepper motors or the servo motors... About the not enough power, I used a power supply module that was in my kit and used it to control the servo motors and as you can see it was a success."
+            </p>
+            <p>
+              "Last thing I want to talk about is the servo winch. I was using the SG90 servo motor at first but then I had an issue with balance and I'd have to hold it for it to work. That's not what I wanted for the project so I went back to troubleshoot the servo winch because as you can see in one of the videos attached it weighs about the same as the claw making it stand still while everything is in motion... The way I solved that was by using it like a stepper motor instead of asking it to go to 90 degrees which I think makes it go in a loop, I made it either increase or decrease by 1 degree based on input from Joystick. Sorry for the late email Professor but I had to deliver like I said I would."
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. COMPLETE 11-ITEM BILL OF MATERIALS (BOM) WITH DIRECT AMAZON LINKS -->
+      <div id="clawBomSection" class="glow-card p-6 sm:p-8 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">Complete Hardware Inventory</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Claw Machine Bill of Materials (BOM)</h2>
+            <p class="text-xs text-gray-400">Every physical component used in the build with direct Amazon part links</p>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl badge-tech text-xs font-mono-tech self-start sm:self-auto">
+            11 Verified Components
+          </span>
+        </div>
+
+        <div class="overflow-x-auto relative z-10">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-white/15 font-mono-tech text-[11px] uppercase text-gray-400">
+                <th class="py-3 px-3">#</th>
+                <th class="py-3 px-3">Component</th>
+                <th class="py-3 px-3">Engineering Role & Specifications</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3 text-right">Source / Link</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10 text-gray-200">
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">01</td>
+                <td class="py-3 px-3 font-bold text-white">Arduino Mega 2560 Microcontroller</td>
+                <td class="py-3 px-3 text-gray-300">Brain of the vending machine — coordinates CNC Shield, LCD1602 (Pins 22–27), Ultrasonic (36/37), Servos (32/33), and Analog Joystick (A7/A8/A9).</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right font-mono-tech text-gray-400">Lab / Arduino CC</td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">02</td>
+                <td class="py-3 px-3 font-bold text-white">DC Switching Power Supply</td>
+                <td class="py-3 px-3 text-gray-300">Regulated high-current power unit supplying the CNC stepper drivers and high-torque servos.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B0BZL1G6DS" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B0BZL1G6DS
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">03</td>
+                <td class="py-3 px-3 font-bold text-white">Bottom Build Plate Cover</td>
+                <td class="py-3 px-3 text-gray-300">Rigid base platform covering the bottom frame and supporting the snack containers.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B0CY3M6LCP" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B0CY3M6LCP
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">04</td>
+                <td class="py-3 px-3 font-bold text-white">Brightroom Soft Plastic Food Containers (x4)</td>
+                <td class="py-3 px-3 text-gray-300">Lidless & handle-free white soft plastic bins measuring 80mm across the top for holding Snickers, Hershey's, and Ferrero Rocher prizes.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right font-mono-tech text-gray-300">Brightroom 80mm</td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">05</td>
+                <td class="py-3 px-3 font-bold text-white">High-Torque & 360° Servo Motors</td>
+                <td class="py-3 px-3 text-gray-300">Drives the vertical Z-axis winch spool (Pin 32) and the mechanical claw open/close jaws (Pin 33).</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B0DBKZ2HWQ" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B0DBKZ2HWQ
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">06</td>
+                <td class="py-3 px-3 font-bold text-white">Mechanical Robotic Claw Gripper</td>
+                <td class="py-3 px-3 text-gray-300">Multi-gear articulated claw assembly capable of gripping Snickers bars and wrapped chocolates.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B08WPF7XRR" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B08WPF7XRR
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">07</td>
+                <td class="py-3 px-3 font-bold text-white">Stepper Motor Mounting Brackets</td>
+                <td class="py-3 px-3 text-gray-300">Heavy-duty NEMA 17 L-brackets securing the stepper motors to the 2020 extrusion gantry.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B07Z7CT1LB" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B07Z7CT1LB
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">08</td>
+                <td class="py-3 px-3 font-bold text-white">Aluminum Extrusion Corner Brackets</td>
+                <td class="py-3 px-3 text-gray-300">Structural T-slot corner gussets and fasteners reinforcing the cube frame.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B08D6T9CGN" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B08D6T9CGN
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">09</td>
+                <td class="py-3 px-3 font-bold text-white">Flexible Shaft Couplings</td>
+                <td class="py-3 px-3 text-gray-300">Aluminum helical couplers linking NEMA 17 motor shafts to the 8mm T8 lead screws.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B07JL1QYLS" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B07JL1QYLS
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">10</td>
+                <td class="py-3 px-3 font-bold text-white">Linear Rod & Lead Screw Mounts</td>
+                <td class="py-3 px-3 text-gray-300">Pillow block bearings and rod supports keeping the X, Y, and Z lead screws aligned under load.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B08NZV8GB6" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B08NZV8GB6
+                  </a>
+                </td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="py-3 px-3 font-mono-tech text-amber-400">11</td>
+                <td class="py-3 px-3 font-bold text-white">CNC Controller Shield & Stepper Motor Kit</td>
+                <td class="py-3 px-3 text-gray-300">CNC Shield V3 + Stepper Drivers + NEMA 17 Bipolar Stepper Motors for precision 3-axis travel.</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono-tech text-[10px]">Integrated</span></td>
+                <td class="py-3 px-3 text-right">
+                  <a href="https://www.amazon.com/dp/B072N4FMRN" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-2.5 py-1 rounded-lg font-mono-tech text-[11px] inline-flex items-center gap-1">
+                    Amazon B072N4FMRN
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 5. ARDUINO MEGA 2560 CODE VIEWER AT THE BOTTOM OF CLAW MACHINE PAGE -->
+      <div id="clawCodeSection" class="glow-card p-6 sm:p-8 space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">Embedded Firmware & Annotated Logic</span>
+            <h2 class="text-2xl font-bold text-white mt-0.5">Claw Machine Source Code</h2>
+            <p class="text-xs text-gray-400">Switch between Carl's original documented design logic and the compilable Arduino Mega `.ino` firmware</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="switchClawCodeTab('original')" id="codeTabOriginal" class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow">
+              1. Original Annotated Logic (PDF Verbatim)
+            </button>
+            <button onclick="switchClawCodeTab('compiled')" id="codeTabCompiled" class="px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow">
+              2. Compilable Arduino Mega (.ino)
+            </button>
+            <button onclick="copyActiveClawCode()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white">
+              <i class="fa-regular fa-copy mr-1"></i>Copy Code
+            </button>
+          </div>
+        </div>
+
+        <div class="dark-surface relative z-10 rounded-xl bg-[#080A0E] border border-white/15 p-4 overflow-x-auto code-scroll max-h-[520px]">
+          <pre id="clawCodeDisplay" class="font-mono-tech text-xs text-gray-200 leading-relaxed whitespace-pre"></pre>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         VIEW 4: DEDICATED PROJECT #2 PAGE — MEDPEEK: AI X-RAY READER
+         (Scoped Oceanic Teal `#005C53` & `#00F2FE` Project Container)
+         ======================================================================== -->
+    <section id="view-medpeek" class="spa-view medpeek-scope space-y-7">
+
+      <!-- Top Navigation Breadcrumb -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+            <span>Back to Simea Tech</span>
+          </button>
+          <button onclick="navigateTo('claw')" class="px-3.5 py-1.5 rounded-xl bg-[#005C53]/40 hover:bg-[#005C53]/70 border border-[#00F2FE]/40 text-xs font-mono-tech text-[#00F2FE]">
+            View Project #1: Claw Machine
+          </button>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-mono-tech">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#00F2FE] animate-pulse"></span>
+          <span class="text-[#00F2FE]">MEDPEEK OCEANIC TEAL CONTAINER (#005C53 // #00F2FE)</span>
+        </div>
+      </div>
+
+      <!-- 1. MedPeek Hero Banner (Hacktoberfest Hack Day Brooklyn 10/2026) -->
+      <div class="medpeek-card p-6 sm:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-3 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#005C53]/70 border border-[#00F2FE]/50 text-[#00F2FE] text-xs font-mono-tech">
+              <i class="fa-solid fa-x-ray"></i>
+              <span>Hacktoberfest Hack Day Brooklyn (10/2026) • Google Gemma 4 + FracAtlas</span>
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              MedPeek: <span class="text-medpeek-gradient">AI X-Ray, MRI & CT Reader</span>
+            </h1>
+            <p class="text-sm sm:text-base text-gray-200 leading-relaxed">
+              Built during <strong class="text-white">Hacktoberfest Hack Day Brooklyn (10/2026)</strong>, <strong class="text-white">MedPeek</strong> uses <strong class="text-[#00F2FE]">Google's Gemma 4</strong> to explain medical X-ray, MRI, and CT scans in plain language, and includes a solo offline <strong class="text-[#00F2FE]">Flask + SQLite + Ollama</strong> build that compares uploads against normal <strong class="text-white">FracAtlas hand X-rays</strong> to name the broken bone, break type, and likely cause.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-3 shrink-0">
+            <a
+              href="https://github.com/Carl-Simea/MedPeek"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-medpeek px-5 py-3 rounded-xl font-mono-tech text-xs sm:text-sm flex items-center justify-center gap-2.5"
+            >
+              <i class="fa-brands fa-github text-base"></i>
+              <span>Open GitHub: Carl-Simea/MedPeek</span>
+            </a>
+            <button
+              onclick="document.getElementById('medpeekCodeSection').scrollIntoView({behavior:'smooth'})"
+              class="px-5 py-2.5 rounded-xl bg-black/40 hover:bg-black/60 border border-[#00F2FE]/50 text-[#00F2FE] font-mono-tech text-xs flex items-center justify-center gap-2 transition-all"
+            >
+              <i class="fa-solid fa-code"></i>
+              <span>Inspect Gemma 4 & Ollama Code</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. TWO MEDPEEK ARCHITECTURES BREAKDOWN (From Oct 2026 Resume) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Architecture 1: Team Web App -->
+        <div class="medpeek-card p-6 space-y-3">
+          <div class="flex items-center justify-between border-b border-white/15 pb-3 relative z-10">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-[#005C53] border border-[#00F2FE]/50 text-[#00F2FE] flex items-center justify-center text-base font-bold font-mono-tech">
+                01
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-white">Team Web App: Multi-Modal Scan Explainer</h2>
+                <p class="text-xs font-mono-tech text-[#00F2FE]">Co-Built with Two Teammates • Google Gemma 4</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-[#005C53]/80 border border-[#00F2FE]/40 text-[#00F2FE] text-[10px] font-mono-tech">X-Ray / MRI / CT</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-200 leading-relaxed relative z-10">
+            Co-built a web application where <strong class="text-white">Google's Gemma 4</strong> analyzes uploaded <strong class="text-white">X-ray, MRI, and CT images</strong> and translates dense radiological findings into clear, plain-language explanations for patients and students.
+          </p>
+          <div class="grid grid-cols-3 gap-2 pt-2 text-center font-mono-tech text-xs relative z-10">
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Modalities</div>
+              <div class="font-bold text-white mt-0.5">X-Ray, MRI, CT</div>
+            </div>
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Vision-LLM</div>
+              <div class="font-bold text-white mt-0.5">Google Gemma 4</div>
+            </div>
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Output</div>
+              <div class="font-bold text-white mt-0.5">Plain Language</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Architecture 2: Solo Offline Flask + SQLite + Ollama + FracAtlas Build -->
+        <div class="medpeek-card p-6 space-y-3">
+          <div class="flex items-center justify-between border-b border-white/15 pb-3 relative z-10">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-[#005C53] border border-[#00F2FE]/50 text-[#00F2FE] flex items-center justify-center text-base font-bold font-mono-tech">
+                02
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-white">Solo Offline Build: FracAtlas Hand X-Ray Analyzer</h2>
+                <p class="text-xs font-mono-tech text-[#00F2FE]">Flask + SQLite + Ollama (Local Gemma 4)</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-[#005C53]/80 border border-[#00F2FE]/40 text-[#00F2FE] text-[10px] font-mono-tech">Offline + Auth</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-200 leading-relaxed relative z-10">
+            Built a solo offline version in <strong class="text-white">Python (Flask) and SQLite</strong> that runs <strong class="text-white">Gemma 4 locally through Ollama</strong>, complete with user authentication and persistent chat history. Compares uploaded radiographs against normal <strong class="text-white">FracAtlas hand X-rays</strong> to identify the <strong class="text-[#00F2FE]">broken bone, break type, and likely cause</strong>.
+          </p>
+          <div class="grid grid-cols-3 gap-2 pt-2 text-center font-mono-tech text-xs relative z-10">
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Reference Dataset</div>
+              <div class="font-bold text-white mt-0.5">FracAtlas Hand</div>
+            </div>
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Backend Stack</div>
+              <div class="font-bold text-white mt-0.5">Flask + SQLite</div>
+            </div>
+            <div class="medpeek-pill p-2.5">
+              <div class="text-[10px] text-[#00F2FE]">Local Runtime</div>
+              <div class="font-bold text-white mt-0.5">Ollama Gemma 4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. INTERACTIVE MEDPEEK X-RAY & FRACATLAS SIMULATOR -->
+      <div class="medpeek-card p-6 sm:p-8 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider text-[#00F2FE]">Interactive MedPeek Simulator</span>
+            <h2 class="text-xl font-bold text-white mt-0.5">Test Both MedPeek Gemma 4 Modes</h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setMedPeekModelMode(1)" id="mpModeBtn1" class="px-3.5 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek">
+              Mode 1: FracAtlas Hand X-Ray Comparison (Offline Ollama)
+            </button>
+            <button onclick="setMedPeekModelMode(2)" id="mpModeBtn2" class="px-3.5 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]">
+              Mode 2: X-Ray / MRI / CT Plain-Language Explainer
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+          <div class="lg:col-span-6 space-y-3">
+            <label id="mpInputLabel" class="text-xs font-mono-tech text-[#00F2FE] block">
+              UPLOADED HAND X-RAY CASE // FracAtlas Comparison Input
+            </label>
+            <textarea
+              id="medSandboxSymptoms"
+              rows="3"
+              class="w-full bg-[#041014] border border-[#00F2FE]/30 rounded-xl p-3 text-xs text-white focus:outline-none"
+            >Right hand PA/Oblique X-ray following fall onto outstretched hand (FOOSH). Cortical discontinuity at the neck of the 5th metacarpal with apex dorsal angulation.</textarea>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label class="text-[11px] font-mono-tech text-gray-300 block mb-1">Modality</label>
+                <input id="medSandboxModality" type="text" value="Hand X-Ray" class="w-full bg-[#041014] border border-[#00F2FE]/30 rounded-xl px-3 py-1.5 text-xs text-white" />
+              </div>
+              <div>
+                <label class="text-[11px] font-mono-tech text-gray-300 block mb-1">Baseline</label>
+                <input id="medSandboxBaseline" type="text" value="FracAtlas Normal" class="w-full bg-[#041014] border border-[#00F2FE]/30 rounded-xl px-3 py-1.5 text-xs text-white" />
+              </div>
+              <div>
+                <label class="text-[11px] font-mono-tech text-gray-300 block mb-1">Engine</label>
+                <input id="medSandboxEngine" type="text" value="Ollama Gemma 4" class="w-full bg-[#041014] border border-[#00F2FE]/30 rounded-xl px-3 py-1.5 text-xs text-white" />
+              </div>
+            </div>
+
+            <button onclick="runMedPeekAnalysis()" class="btn-medpeek w-full py-2.5 rounded-xl text-xs font-mono-tech">
+              <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Run Gemma 4 X-Ray Analysis
+            </button>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="h-full rounded-xl bg-[#041014]/95 border border-[#00F2FE]/35 p-4 font-mono-tech text-xs flex flex-col justify-between space-y-3">
+              <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <span class="font-bold text-white" id="mpOutputTitle">GEMMA 4 // FRACATLAS COMPARISON REPORT</span>
+                <span id="medSandboxBadge" class="px-2.5 py-0.5 rounded bg-[#005C53] border border-[#00F2FE]/50 text-[#00F2FE] text-[10px]">
+                  SQLITE HISTORY SAVED
+                </span>
+              </div>
+              <div id="medSandboxSummary" class="text-gray-200 leading-relaxed space-y-1.5">
+                <div><strong class="text-[#00F2FE]">Broken Bone:</strong> 5th Metacarpal Neck (Right Hand)</div>
+                <div><strong class="text-[#00F2FE]">Break Type:</strong> Transverse/Angulated Neck Fracture (Boxer's Fracture pattern)</div>
+                <div><strong class="text-[#00F2FE]">Likely Cause:</strong> Direct axial impact to a closed fist or fall onto outstretched hand (FOOSH).</div>
+                <div><strong class="text-[#00F2FE]">Plain-Language Explanation:</strong> Compared to a normal FracAtlas hand X-ray, the bone just below the pinky knuckle has a clean crack and slight forward bend.</div>
+              </div>
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-[#00F2FE]">
+                <span>Palette: Oceanic Teal (#005C53 / #00F2FE)</span>
+                <a href="https://github.com/Carl-Simea/MedPeek" target="_blank" rel="noopener noreferrer" class="underline hover:text-white">
+                  View Source on GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. MEDPEEK REPOSITORY CODE & README VIEWER -->
+      <div id="medpeekCodeSection" class="medpeek-card p-6 sm:p-8 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider text-[#00F2FE]">GitHub Repository Inspector</span>
+            <h2 class="text-xl font-bold text-white mt-0.5">Carl-Simea / MedPeek — Flask + SQLite + Ollama Gemma 4</h2>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="switchMedPeekCodeTab('readme')" id="mpTabReadme" class="px-3 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek">
+              README & Architecture
+            </button>
+            <button onclick="switchMedPeekCodeTab('pipeline')" id="mpTabPipeline" class="px-3 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]">
+              Flask + Ollama + SQLite Code
+            </button>
+            <a href="https://github.com/Carl-Simea/MedPeek" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white flex items-center gap-1.5">
+              <i class="fa-brands fa-github"></i> Full Repo
+            </a>
+          </div>
+        </div>
+
+        <div class="dark-surface relative z-10 rounded-xl bg-[#040B0E] border border-[#00F2FE]/30 p-4 overflow-x-auto code-scroll max-h-96">
+          <pre id="medpeekCodeDisplay" class="font-mono-tech text-xs text-teal-100 leading-relaxed whitespace-pre"></pre>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       PERSISTENT ENGINEERING FOOTER
+       ========================================================================== -->
+  <footer class="mt-12 border-t border-white/10 theme-header backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-white/10">
+
+        <!-- Brand & Summary -->
+        <div class="md:col-span-5 space-y-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg btn-glow flex items-center justify-center font-mono-tech font-bold text-xs">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <span class="font-bold tracking-tight text-base text-white">SIMEA TECH — CARL WENDY SIMEA</span>
+          </div>
+          <p class="text-xs text-gray-400 max-w-sm leading-relaxed">
+            Computer Engineering Technology student at NYC College of Technology (CUNY) building Arduino, Raspberry Pi, and AI systems.
+          </p>
+          <div class="text-xs font-mono-tech text-gray-400">
+            Brooklyn, NY 11217 • (646) 271-4055
+          </div>
+        </div>
+
+        <!-- Sitemap Links (Completely Arrow-Free) -->
+        <div class="md:col-span-3 space-y-2">
+          <div class="text-xs font-mono-tech uppercase tracking-wider text-gray-400">Navigation</div>
+          <ul class="space-y-1.5 text-xs text-gray-300">
+            <li><button onclick="navigateTo('home')" class="hover:text-white transition-colors">Welcome to Simea Tech</button></li>
+            <li><button onclick="navigateTo('about')" class="hover:text-white transition-colors">About Me, Bio & Oct 2026 Resume</button></li>
+            <li><button onclick="navigateTo('claw')" class="hover:text-white transition-colors">Project #1: Claw Vending Machine</button></li>
+            <li><button onclick="navigateTo('medpeek')" class="hover:text-white transition-colors">Project #2: MedPeek AI X-Ray Reader</button></li>
+          </ul>
+        </div>
+
+        <!-- Direct Contact & Social Links -->
+        <div class="md:col-span-4 space-y-3">
+          <div class="text-xs font-mono-tech uppercase tracking-wider text-gray-400">Connect With Carl</div>
+          <div class="flex items-center gap-2.5">
+            <a href="mailto:simeacarlwendy@gmail.com" class="w-9 h-9 rounded-xl sub-pill flex items-center justify-center text-gray-300 hover:text-white" title="Email simeacarlwendy@gmail.com">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="https://github.com/Carl-Simea" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl sub-pill flex items-center justify-center text-gray-300 hover:text-white" title="GitHub: Carl-Simea">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/carl-wendy-simea" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl sub-pill flex items-center justify-center text-gray-300 hover:text-white" title="LinkedIn: carl-wendy-simea">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.instagram.com/sire_simea/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl sub-pill flex items-center justify-center text-gray-300 hover:text-white" title="Instagram: @sire_simea">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+          <div class="text-xs font-mono-tech text-gray-400">
+            Email: <button onclick="copyEmail(event)" class="text-gray-200 hover:underline">simeacarlwendy@gmail.com (Copy)</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400 font-mono-tech">
+        <div>© 2026 Carl Wendy Simea — Simea Tech. All Rights Reserved.</div>
+        <div class="flex items-center gap-3">
+          <button onclick="toggleColorMode()" class="hover:text-white underline">Toggle Light / Dark Mode</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODAL: PRINTABLE OCT 2026 RESUME MODAL
+       ========================================================================== -->
+  <div id="resumeModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glow-card max-w-3xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/15 relative z-10">
+        <div>
+          <h3 class="text-xl font-bold text-white">CARL WENDY SIMEA — RESUME (OCT 2026)</h3>
+          <p class="text-xs font-mono-tech text-gray-400">Brooklyn, NY 11217 • (646) 271-4055 • simeacarlwendy@gmail.com • github.com/Carl-Simea</p>
+        </div>
+        <button onclick="closeResumeModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="space-y-4 text-xs text-gray-200 relative z-10">
+        <p class="text-gray-300 leading-relaxed">
+          Computer Engineering Technology student who builds Arduino, Raspberry Pi and AI projects, from soldering circuits to writing C/C++ and Python code. Nearly two years of tech support and sales at T-Mobile; speaks English, Haitian Creole, French and Spanish. Seeking internships in embedded systems, robotics and hardware engineering.
+        </p>
+        <div>
+          <div class="font-mono-tech uppercase text-amber-400 font-bold mb-1">Education</div>
+          <p class="text-white font-semibold">New York City College of Technology, CUNY — Brooklyn, NY (Expected 12/2027)</p>
+          <p class="text-gray-300">Bachelor of Technology, Computer Engineering Technology • Online: Harvard CS50x & CS50P (completed), MIT 6.036 Intro to ML (in progress).</p>
+        </div>
+        <div>
+          <div class="font-mono-tech uppercase text-amber-400 font-bold mb-1">Technical Skills</div>
+          <p class="text-gray-300"><strong>Languages:</strong> C, C++, Python, Java, JavaScript, SQL, HTML/CSS, x86 Assembly • <strong>Embedded:</strong> Arduino (Uno, Mega 2560), Raspberry Pi 5, Servo/Motor Control, Rotary Encoders, PCB Design • <strong>Tools:</strong> Flask, SQLite, Ollama, Bambu Lab 3D Printing, Oscilloscope, Multimeter, NI Multisim.</p>
+        </div>
+        <div>
+          <div class="font-mono-tech uppercase text-amber-400 font-bold mb-1">Projects & Experience</div>
+          <ul class="list-disc list-inside space-y-1 text-gray-300">
+            <li><strong class="text-white">MedPeek: AI X-Ray Reader (10/2026):</strong> Team Gemma 4 X-ray/MRI/CT explainer + solo offline Flask/SQLite/Ollama build with FracAtlas hand X-ray fracture analysis.</li>
+            <li><strong class="text-white">Claw-Style Vending Machine (09/2025–12/2025):</strong> Lead engineer on Arduino Mega 2560 3-axis claw candy vending machine.</li>
+            <li><strong class="text-white">Raspberry Pi Handheld Camera & Harvard CS50x Circuit Solver Web App</strong></li>
+            <li><strong class="text-white">T-Mobile USA, Inc. — Mobile Expert (09/2024–07/2026):</strong> iOS/Android troubleshooting, Retail Mobility sales, and device data migrations.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-white/15 flex flex-wrap justify-end gap-2 relative z-10">
+        <a
+          href="./content/Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+          download="Carl_Wendy_Simea_Resume_Oct_2026.pdf"
+          class="btn-glow px-4 py-2 rounded-xl text-xs font-mono-tech"
+        >
+          <i class="fa-solid fa-download mr-1"></i> Download Resume PDF
+        </a>
+        <button onclick="window.print()" class="btn-outline-glow px-4 py-2 rounded-xl text-xs font-mono-tech">
+          <i class="fa-solid fa-print mr-1"></i> Print Page
+        </button>
+        <button onclick="closeResumeModal()" class="btn-outline-glow px-4 py-2 rounded-xl text-xs font-mono-tech">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="px-4 py-3 rounded-xl bg-[#141820] border border-white/20 shadow-2xl flex items-center gap-3 text-xs font-mono-tech text-white">
+      <i class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toastMessage">Copied to clipboard!</span>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       APPLICATION JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    // --------------------------------------------------------------------------
+    // 3. MULTI-VIEW SPA ROUTER & PROFILE PHOTO FALLBACK CHAIN
+    // --------------------------------------------------------------------------
+    function handleProfileImageError(imgEl) {
+      if (!imgEl.dataset.fallbackStep) {
+        imgEl.dataset.fallbackStep = 'jpg';
+        imgEl.src = './content/profile.jpg';
+      } else if (imgEl.dataset.fallbackStep === 'jpg') {
+        imgEl.dataset.fallbackStep = 'png';
+        imgEl.src = './content/profile.png';
+      } else {
+        imgEl.classList.add('hidden');
+        const fallback = imgEl.nextElementSibling;
+        if (fallback) fallback.classList.remove('hidden');
+      }
+    }
+
+    function navigateTo(viewId, scrollToElementId = null) {
+      closeDropdowns();
+      document.querySelectorAll('.spa-view').forEach(sec => sec.classList.remove('active'));
+      const target = document.getElementById('view-' + viewId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const navAttr = btn.getAttribute('data-nav');
+        const isProjectView = (viewId === 'claw' || viewId === 'medpeek') && navAttr === 'projects';
+        if (navAttr === viewId || isProjectView) {
+          btn.classList.add('bg-white/10', 'text-white');
+          btn.classList.remove('text-gray-300');
+        } else {
+          btn.classList.remove('bg-white/10', 'text-white');
+          btn.classList.add('text-gray-300');
+        }
+      });
+
+      if (viewId === 'claw') {
+        setTimeout(resizeClawCanvas, 60);
+      }
+
+      if (scrollToElementId) {
+        setTimeout(() => {
+          const el = document.getElementById(scrollToElementId);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // --------------------------------------------------------------------------
+    // 4. BULLETPROOF NAVBAR DROPDOWNS & SEARCH ENGINE
+    // --------------------------------------------------------------------------
+    function toggleProjectsMenu(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      const menu = document.getElementById('projectsDropdownMenu');
+      const trigger = document.getElementById('projectsDropdownTrigger');
+      document.getElementById('searchResultsDropdown')?.classList.add('hidden');
+      if (!menu) return;
+      const isOpen = menu.classList.toggle('open');
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+    }
+
+    function toggleProjectsDropdown(e) {
+      toggleProjectsMenu(e);
+    }
+
+    function selectProjectFromMenu(viewId, scrollToElementId = null, e = null) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      closeDropdowns();
+      navigateTo(viewId, scrollToElementId);
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    function closeDropdowns() {
+      const menu = document.getElementById('projectsDropdownMenu');
+      const trigger = document.getElementById('projectsDropdownTrigger');
+      if (menu) menu.classList.remove('open');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      document.getElementById('searchResultsDropdown')?.classList.add('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#projectsDropdownContainer') &&
+          !e.target.closest('#searchContainer')) {
+        closeDropdowns();
+      }
+    });
+
+    const searchItems = [
+      { title: 'Welcome to Simea Tech (Home)', category: 'Page', keywords: 'home simea tech intro welcome', action: () => navigateTo('home') },
+      { title: 'About Me & Professional Biography', category: 'Bio', keywords: 'about bio haiti biomedical engineering city tech cuny', action: () => navigateTo('about') },
+      { title: 'Oct 2026 Full Resume & Skills', category: 'Resume', keywords: 'resume cv cs50x mit 6.036 t-mobile bambu lab raspberry pi', action: () => navigateTo('about', 'fullResumeSection') },
+      { title: 'Project #1: Claw-Style Vending Machine', category: 'Project', keywords: 'claw machine vending rizwan arduino mega stepper servo video', action: () => navigateTo('claw') },
+      { title: 'Claw Machine Engineering Post-Mortem Log', category: 'Debug', keywords: 'post-mortem debug short circuit fuse tinkercad winch sg90', action: () => navigateTo('claw', 'clawPostMortemSection') },
+      { title: 'Claw Reel 1: Full Gantry Run (03:37)', category: 'Video', keywords: 'clawmachine1 video reel 1 gantry', action: () => { navigateTo('claw'); switchClawReel(1); } },
+      { title: 'Claw Reel 2: Snickers Extraction (01:08)', category: 'Video', keywords: 'clawmachine2 snickers video reel 2', action: () => { navigateTo('claw'); switchClawReel(2); } },
+      { title: 'Claw Machine 11-Item Amazon BOM', category: 'BOM', keywords: 'bom bill of materials amazon power supply servo coupler cnc shield', action: () => navigateTo('claw', 'clawBomSection') },
+      { title: 'Claw Machine Arduino Mega Code', category: 'Code', keywords: 'code firmware arduino mega ino ultrasonic joystick', action: () => navigateTo('claw', 'clawCodeSection') },
+      { title: 'Project #2: MedPeek AI X-Ray Reader', category: 'Project', keywords: 'medpeek ai x-ray mri ct gemma 4 ollama fracatlas', action: () => navigateTo('medpeek') },
+      { title: 'Raspberry Pi Camera & Circuit Solver', category: 'Projects', keywords: 'raspberry pi camera rotary encoder circuit solver cs50x armatron', action: () => navigateTo('about', 'moreProjectsResumeSection') },
+      { title: 'Copy Email: simeacarlwendy@gmail.com', category: 'Contact', keywords: 'email mail contact simeacarlwendy 646-271-4055', action: (e) => copyEmail(e) }
+    ];
+
+    function handleSearchInput(query) {
+      const dropdown = document.getElementById('searchResultsDropdown');
+      const q = query.trim().toLowerCase();
+      const matches = q === ''
+        ? searchItems.slice(0, 7)
+        : searchItems.filter(item =>
+            item.title.toLowerCase().includes(q) ||
+            item.keywords.includes(q) ||
+            item.category.toLowerCase().includes(q)
+          );
+
+      dropdown.innerHTML = '';
+      if (matches.length === 0) {
+        dropdown.innerHTML = `<div class="px-3.5 py-3 text-xs text-gray-400 font-mono-tech">No matching items found.</div>`;
+      } else {
+        matches.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'w-full px-3.5 py-2 text-left hover:bg-white/10 flex items-center justify-between transition-colors';
+          btn.innerHTML = `
+            <span class="text-xs font-medium text-white">${item.title}</span>
+            <span class="text-[10px] font-mono-tech px-2 py-0.5 rounded bg-white/10 text-gray-300">${item.category}</span>
+          `;
+          btn.onclick = (ev) => {
+            item.action(ev);
+            closeDropdowns();
+            document.getElementById('globalSearchInput').value = '';
+          };
+          dropdown.appendChild(btn);
+        });
+      }
+      dropdown.classList.remove('hidden');
+    }
+
+    function handleMobileSearch(query) {
+      const q = query.trim().toLowerCase();
+      if (!q || q.length < 3) return;
+      const found = searchItems.find(item => item.title.toLowerCase().includes(q) || item.keywords.includes(q));
+      if (found) found.action();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('globalSearchInput')?.focus();
+      }
+    });
+
+    // --------------------------------------------------------------------------
+    // 5. DUAL-REEL CLAW MACHINE PLAYER (`./content/Clawmachine1.mp4` & `clawMachine2.mp4`)
+    // --------------------------------------------------------------------------
+    const clawReels = {
+      1: {
+        title: 'Reel 1: Full Gantry & Joystick Run',
+        filepath: './content/Clawmachine1.mp4',
+        durationSec: 217, // 03:37
+        durationFormatted: '03:37',
+        frames: [
+          {
+            pct: 0,
+            time: '00:00',
+            title: '01. Breadboard & 4-Bin Setup',
+            sub: 'Mega 2560 + CNC Shield + 4 White Bins',
+            desc: 'Overview of the breadboard power rail, Arduino Mega + red CNC shield, and 4 Brightroom 80mm snack bins.',
+            badge: 'REEL 1 // 00:00 — BREADBOARD & 4-BIN SETUP',
+            telemetry: './content/Clawmachine1.mp4 | LCD1602: "Please Pay"',
+            gx: 0.25, gy: 0.22, zDrop: 0.18, clawClosed: false, prizeType: 'none'
+          },
+          {
+            pct: 12,
+            time: '00:08',
+            title: '02. Dual-Stepper Lead Screw Drive',
+            sub: 'NEMA 17 + Helical Shaft Couplers',
+            desc: 'Close-up of the T8 lead screw, brass nut block, flexible aluminum shaft coupling, and blue 360° servo.',
+            badge: 'REEL 1 // 00:08 — LEAD SCREW & COUPLER DRIVE',
+            telemetry: 'X/Y STEP: PIN 3 | DIR: PINS 5 & 6 | EN: PIN 8',
+            gx: 0.44, gy: 0.22, zDrop: 0.20, clawClosed: false, prizeType: 'none'
+          },
+          {
+            pct: 28,
+            time: '00:24',
+            title: '03. Gimbal Joystick Navigation',
+            sub: 'Analog A7 & A8 Thumb Control',
+            desc: 'Operating the 2-potentiometer thumb joystick to traverse the X, Y, and Z lead screws over the snack bins.',
+            badge: 'REEL 1 // 00:24 — ANALOG JOYSTICK NAVIGATION',
+            telemetry: 'JOYSTICK A7/A8 ACTIVE | Z STEP: PIN 4 DIR: 7',
+            gx: 0.66, gy: 0.22, zDrop: 0.22, clawClosed: false, prizeType: 'none'
+          },
+          {
+            pct: 52,
+            time: '01:28',
+            title: '04. Z-Axis Winch Spooling Down',
+            sub: 'Potentiometer A9 → Servo Pin 32',
+            desc: 'Spooling the tether line downward so the mechanical claw descends directly over the Ferrero Rocher & white ball bin.',
+            badge: 'REEL 1 // 01:28 — Z-AXIS WINCH DESCENT',
+            telemetry: 'POT A9 (0->1023) | SERVO1 PIN 32 SPOOLING',
+            gx: 0.66, gy: 0.22, zDrop: 0.65, clawClosed: false, prizeType: 'ball'
+          },
+          {
+            pct: 74,
+            time: '02:04',
+            title: '05. Multi-Gear Claw Grasp',
+            sub: 'Pushbuttons 30/31 → Servo Pin 33',
+            desc: 'Triggering the pushbutton to close the multi-gear gripper jaws (180°->0°) firmly around the target prize.',
+            badge: 'REEL 1 // 02:04 — CLAW GRASP ENGAGED',
+            telemetry: 'PUSHBUTTON PIN 31 | SERVO2 PIN 33 CLAMPED',
+            gx: 0.66, gy: 0.22, zDrop: 0.50, clawClosed: true, prizeType: 'ball'
+          },
+          {
+            pct: 92,
+            time: '03:22',
+            title: '06. Return Traverse & Release',
+            sub: 'Delivery to Front Empty Chute Bin',
+            desc: 'Hoisting the captured prize, traversing to the front white delivery container, and opening the claw jaws.',
+            badge: 'REEL 1 // 03:22 — PRIZE DELIVERY & RELEASE',
+            telemetry: 'PUSHBUTTON PIN 30 (0->180) | PRIZE DELIVERED',
+            gx: 0.35, gy: 0.22, zDrop: 0.42, clawClosed: false, prizeType: 'ball_drop'
+          }
+        ]
+      },
+      2: {
+        title: 'Reel 2: Snickers Extraction Close-Up',
+        filepath: './content/clawMachine2.mp4',
+        durationSec: 67, // 01:07
+        durationFormatted: '01:07',
+        frames: [
+          {
+            pct: 0,
+            time: '00:00',
+            title: '01. Targeting Snickers Container',
+            sub: 'Positioned Over Front-Left Bin',
+            desc: 'Claw suspended directly above the 80mm Brightroom container packed with fun-size Snickers bars.',
+            badge: 'REEL 2 // 00:00 — SNICKERS BIN ALIGNMENT',
+            telemetry: './content/clawMachine2.mp4 | CLAW OPEN (180°)',
+            gx: 0.36, gy: 0.22, zDrop: 0.35, clawClosed: false, prizeType: 'snickers'
+          },
+          {
+            pct: 26,
+            time: '00:16',
+            title: '02. Lowering Into Snickers Stack',
+            sub: 'Tether Winch Extension',
+            desc: 'Lowering the open aluminum/acrylic claw jaws around the top Snickers bar inside the container.',
+            badge: 'REEL 2 // 00:16 — JAW ALIGNMENT ON SNICKERS',
+            telemetry: 'Z-WINCH LOWERING | SERVO1 PIN 32',
+            gx: 0.36, gy: 0.22, zDrop: 0.68, clawClosed: false, prizeType: 'snickers'
+          },
+          {
+            pct: 55,
+            time: '00:34',
+            title: '03. High-Torque Servo Clamp',
+            sub: 'Locking Grip on Snickers Bar',
+            desc: 'Closing the geared gripper teeth tightly around the Snickers wrapper using pushbutton servo control.',
+            badge: 'REEL 2 // 00:34 — SNICKERS BAR CLAMPED',
+            telemetry: 'SERVO2 PIN 33 TORQUE LOCK | GRIP CONFIRMED',
+            gx: 0.36, gy: 0.22, zDrop: 0.64, clawClosed: true, prizeType: 'snickers'
+          },
+          {
+            pct: 85,
+            time: '00:55',
+            title: '04. Vertical Hoist & Extraction',
+            sub: 'Lifting Snickers Clear of Bin',
+            desc: 'Reeling the tether cable upward on the continuous rotation servo, lifting the Snickers bar cleanly into the air.',
+            badge: 'REEL 2 // 00:55 — VERTICAL HOIST COMPLETE',
+            telemetry: 'Z-WINCH HOISTING UP | SNICKERS EXTRACTED!',
+            gx: 0.36, gy: 0.22, zDrop: 0.28, clawClosed: true, prizeType: 'snickers'
+          }
+        ]
+      }
+    };
+
+    let currentReelId = 1;
+    let clawPlaying = true;
+    let clawProgress = 0;
+    let clawPlaybackSpeed = 1.0;
+    let usingUploadedVideo = false;
+
+    const clawCanvas = document.getElementById('clawVideoCanvas');
+    const clawCtx = clawCanvas.getContext('2d');
+
+    function resizeClawCanvas() {
+      if (!clawCanvas || !clawCanvas.parentElement) return;
+      const rect = clawCanvas.parentElement.getBoundingClientRect();
+      clawCanvas.width = Math.max(520, rect.width || 640);
+      clawCanvas.height = Math.max(292, rect.height || 360);
+    }
+
+    function formatSeconds(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+    }
+
+    function renderFrameStrip() {
+      const reel = clawReels[currentReelId];
+      const strip = document.getElementById('clawFrameStrip');
+      document.getElementById('frameStripHeaderLabel').textContent =
+        `REEL ${currentReelId} (${reel.filepath}) — Slide, Hover or Click Any Frame to Jump & Preview`;
+
+      strip.innerHTML = '';
+      reel.frames.forEach((f, idx) => {
+        const card = document.createElement('div');
+        card.className = `frame-thumb ${idx === 0 ? 'active' : ''} shrink-0 w-48 rounded-xl bg-[#141820] p-2.5 select-none flex flex-col justify-between`;
+        card.onclick = () => selectClawFrame(idx);
+        card.onmouseenter = () => showFramePreviewTooltip(idx);
+        card.onmouseleave = () => hideFramePreviewTooltip();
+
+        card.innerHTML = `
+          <div>
+            <div class="h-16 rounded-lg bg-gradient-to-br from-amber-500/20 via-black to-sky-500/15 border border-white/10 p-2 flex flex-col justify-between relative overflow-hidden">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-1.5 py-0.5 rounded bg-black/70 text-amber-300">${f.time}</span>
+                <span class="text-gray-400">Reel ${currentReelId}</span>
+              </div>
+              <div class="text-[10px] font-mono-tech text-gray-200 truncate">${f.sub}</div>
+            </div>
+            <div class="text-xs font-bold text-white mt-2 truncate">${f.title}</div>
+            <p class="text-[10px] text-gray-400 mt-0.5 line-clamp-2 leading-snug">${f.desc}</p>
+          </div>
+        `;
+        strip.appendChild(card);
+      });
+    }
+
+    function switchClawReel(reelId) {
+      currentReelId = reelId;
+      clawProgress = 0;
+
+      const btn1 = document.getElementById('reelBtn1');
+      const btn2 = document.getElementById('reelBtn2');
+      if (reelId === 1) {
+        btn1.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow flex items-center gap-2';
+        btn2.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow flex items-center gap-2';
+      } else {
+        btn2.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow flex items-center gap-2';
+        btn1.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow flex items-center gap-2';
+      }
+
+      // Automatically check ./content/Clawmachine1.mp4 or ./content/clawMachine2.mp4
+      const vid = document.getElementById('userUploadedVideo');
+      if (!vid.getAttribute('data-blob-loaded')) {
+        vid.src = clawReels[reelId].filepath;
+        vid.onerror = () => {
+          usingUploadedVideo = false;
+          vid.classList.add('hidden');
+          clawCanvas.classList.remove('hidden');
+        };
+        vid.onloadedmetadata = () => {
+          usingUploadedVideo = true;
+          vid.classList.remove('hidden');
+          clawCanvas.classList.add('hidden');
+          if (clawPlaying) vid.play();
+        };
+        vid.ontimeupdate = () => {
+          if (vid.duration) {
+            clawProgress = (vid.currentTime / vid.duration) * 100;
+            updateClawUI(clawProgress);
+          }
+        };
+      }
+
+      renderFrameStrip();
+      updateClawUI(0);
+    }
+
+    function getActiveFrameObj(pct) {
+      const frames = clawReels[currentReelId].frames;
+      let chosen = frames[0];
+      let chosenIdx = 0;
+      for (let i = 0; i < frames.length; i++) {
+        if (pct >= frames[i].pct) {
+          chosen = frames[i];
+          chosenIdx = i;
+        }
+      }
+      return { frame: chosen, index: chosenIdx };
+    }
+
+    function updateClawUI(pct) {
+      const reel = clawReels[currentReelId];
+      const { frame, index } = getActiveFrameObj(pct);
+
+      document.getElementById('clawChapterBadge').textContent = frame.badge;
+      document.getElementById('clawTelemetryText').textContent = frame.telemetry;
+      document.getElementById('clawTimelineSlider').value = pct;
+
+      const curSec = (pct / 100) * reel.durationSec;
+      document.getElementById('clawTimecode').textContent = `${formatSeconds(curSec)} / ${reel.durationFormatted}`;
+
+      document.querySelectorAll('#clawFrameStrip .frame-thumb').forEach((el, i) => {
+        if (i === index) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+    }
+
+    function selectClawFrame(frameIdx) {
+      const reel = clawReels[currentReelId];
+      const targetFrame = reel.frames[frameIdx];
+      if (!targetFrame) return;
+      clawProgress = targetFrame.pct;
+      if (usingUploadedVideo) {
+        const vid = document.getElementById('userUploadedVideo');
+        if (vid.duration) vid.currentTime = (clawProgress / 100) * vid.duration;
+      }
+      updateClawUI(clawProgress);
+      showFramePreviewTooltip(frameIdx);
+    }
+
+    function showFramePreviewTooltip(frameIdx) {
+      const reel = clawReels[currentReelId];
+      const f = reel.frames[frameIdx];
+      if (!f) return;
+      const tip = document.getElementById('scrubberFloatingPreview');
+      document.getElementById('previewTooltipTag').textContent = `REEL ${currentReelId} KEYFRAME`;
+      document.getElementById('previewTooltipTime').textContent = `${f.time} / ${reel.durationFormatted}`;
+      document.getElementById('previewTooltipTitle').textContent = f.title;
+      document.getElementById('previewTooltipDesc').textContent = f.desc;
+      tip.classList.remove('hidden');
+    }
+
+    function hideFramePreviewTooltip() {
+      document.getElementById('scrubberFloatingPreview')?.classList.add('hidden');
+    }
+
+    function hoverScrubPreview(event, sliderEl) {
+      const rect = sliderEl.getBoundingClientRect();
+      const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+      const { index } = getActiveFrameObj(ratio * 100);
+      showFramePreviewTooltip(index);
+      clearTimeout(window._scrubTipTimeout);
+      window._scrubTipTimeout = setTimeout(hideFramePreviewTooltip, 1400);
+    }
+
+    function scrubClawVideo(val) {
+      clawProgress = parseFloat(val);
+      if (usingUploadedVideo) {
+        const vid = document.getElementById('userUploadedVideo');
+        if (vid.duration) vid.currentTime = (clawProgress / 100) * vid.duration;
+      }
+      updateClawUI(clawProgress);
+    }
+
+    function toggleClawPlayback() {
+      clawPlaying = !clawPlaying;
+      const iconClass = clawPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
+      document.getElementById('clawCenterPlayIcon').className = iconClass + ' text-xl';
+      document.getElementById('clawBottomPlayIcon').className = iconClass;
+
+      if (usingUploadedVideo) {
+        const vid = document.getElementById('userUploadedVideo');
+        if (clawPlaying) vid.play();
+        else vid.pause();
+      }
+    }
+
+    function cycleClawSpeed() {
+      const speeds = [1.0, 1.5, 2.0, 0.5];
+      const nextIdx = (speeds.indexOf(clawPlaybackSpeed) + 1) % speeds.length;
+      clawPlaybackSpeed = speeds[nextIdx];
+      document.getElementById('clawSpeedBtn').textContent = clawPlaybackSpeed.toFixed(1) + 'x';
+      if (usingUploadedVideo) {
+        document.getElementById('userUploadedVideo').playbackRate = clawPlaybackSpeed;
+      }
+    }
+
+    function scrollFrameStrip(delta) {
+      document.getElementById('clawFrameStrip').scrollBy({ left: delta, behavior: 'smooth' });
+    }
+
+    function loadUserClawVideo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const vid = document.getElementById('userUploadedVideo');
+      vid.setAttribute('data-blob-loaded', 'true');
+      vid.src = url;
+      vid.classList.remove('hidden');
+      clawCanvas.classList.add('hidden');
+      usingUploadedVideo = true;
+      clawPlaying = true;
+      vid.play();
+      vid.ontimeupdate = () => {
+        if (vid.duration) {
+          clawProgress = (vid.currentTime / vid.duration) * 100;
+          updateClawUI(clawProgress);
+        }
+      };
+      showToast(`Loaded "${file.name}" into the interactive player!`);
+    }
+
+    // High-Detail Canvas Simulation Fallback when ./content/ videos aren't uploaded yet
+    function renderClawVideoSimulation() {
+      if (!usingUploadedVideo && clawCanvas) {
+        const w = clawCanvas.width;
+        const h = clawCanvas.height;
+        clawCtx.clearRect(0, 0, w, h);
+
+        clawCtx.strokeStyle = 'rgba(255,255,255,0.035)';
+        clawCtx.lineWidth = 1;
+        for (let x = 0; x < w; x += 26) {
+          clawCtx.beginPath(); clawCtx.moveTo(x, 0); clawCtx.lineTo(x, h); clawCtx.stroke();
+        }
+        for (let y = 0; y < h; y += 26) {
+          clawCtx.beginPath(); clawCtx.moveTo(0, y); clawCtx.lineTo(w, y); clawCtx.stroke();
+        }
+
+        const { frame } = getActiveFrameObj(clawProgress);
+        const wave = Math.sin(clawProgress * 0.18) * 0.015;
+        const cx = w * (frame.gx + wave);
+        const dropY = h * frame.zDrop;
+
+        // 2020 Aluminum Extrusion Pillars
+        clawCtx.fillStyle = '#181B22';
+        clawCtx.fillRect(36, 36, 14, h - 50);
+        clawCtx.fillRect(w - 50, 36, 14, h - 50);
+        clawCtx.fillRect(36, h - 26, w - 72, 12);
+
+        // T8 Lead Screw Rod
+        clawCtx.fillStyle = '#9CA3AF';
+        clawCtx.fillRect(50, 56, w - 100, 7);
+        clawCtx.strokeStyle = '#374151';
+        for (let lx = 54; lx < w - 54; lx += 6) {
+          clawCtx.beginPath(); clawCtx.moveTo(lx, 56); clawCtx.lineTo(lx, 63); clawCtx.stroke();
+        }
+
+        // Helical Shaft Coupler + NEMA 17 Stepper
+        clawCtx.fillStyle = '#D1D5DB';
+        clawCtx.fillRect(w - 78, 52, 22, 15);
+        clawCtx.fillStyle = '#111827';
+        clawCtx.fillRect(w - 52, 42, 36, 36);
+        clawCtx.strokeStyle = '#F59E0B';
+        clawCtx.strokeRect(w - 52, 42, 36, 36);
+
+        // 4 Brightroom 80mm White Snack Bins
+        const bins = [
+          { x: w * 0.22, label: 'SNICKERS', color: '#78350F' },
+          { x: w * 0.40, label: 'CHUTE BIN', color: '#E5E7EB' },
+          { x: w * 0.58, label: 'HERSHEY/FERRERO', color: '#D97706' },
+          { x: w * 0.76, label: 'PRIZES', color: '#EF4444' }
+        ];
+
+        bins.forEach(b => {
+          clawCtx.fillStyle = b.color;
+          clawCtx.fillRect(b.x - 28, h - 82, 56, 18);
+          clawCtx.fillStyle = '#F3F4F6';
+          clawCtx.beginPath();
+          clawCtx.moveTo(b.x - 36, h - 72);
+          clawCtx.lineTo(b.x + 36, h - 72);
+          clawCtx.lineTo(b.x + 28, h - 26);
+          clawCtx.lineTo(b.x - 28, h - 26);
+          clawCtx.closePath();
+          clawCtx.fill();
+          clawCtx.fillStyle = '#374151';
+          clawCtx.font = 'bold 8px "JetBrains Mono", monospace';
+          clawCtx.fillText(b.label, b.x - 26, h - 44);
+        });
+
+        // Brass Nut Block + Blue 360 Winch Servo
+        clawCtx.fillStyle = '#F59E0B';
+        clawCtx.fillRect(cx - 22, 48, 44, 22);
+        clawCtx.fillStyle = '#2563EB';
+        clawCtx.fillRect(cx + 12, 38, 34, 20);
+
+        // Tether Line
+        clawCtx.strokeStyle = '#F9FAFB';
+        clawCtx.lineWidth = 2;
+        clawCtx.beginPath();
+        clawCtx.moveTo(cx, 70);
+        clawCtx.lineTo(cx, 70 + dropY);
+        clawCtx.stroke();
+
+        // Claw Jaws
+        const clawTop = 70 + dropY;
+        clawCtx.fillStyle = '#9CA3AF';
+        clawCtx.fillRect(cx - 18, clawTop, 36, 16);
+
+        const spread = frame.clawClosed ? 11 : 28;
+        clawCtx.strokeStyle = '#E5E7EB';
+        clawCtx.lineWidth = 3.5;
+        clawCtx.beginPath();
+        clawCtx.moveTo(cx - 10, clawTop + 16);
+        clawCtx.lineTo(cx - spread, clawTop + 34);
+        clawCtx.lineTo(cx - (frame.clawClosed ? 5 : 18), clawTop + 50);
+        clawCtx.stroke();
+        clawCtx.beginPath();
+        clawCtx.moveTo(cx + 10, clawTop + 16);
+        clawCtx.lineTo(cx + spread, clawTop + 34);
+        clawCtx.lineTo(cx + (frame.clawClosed ? 5 : 18), clawTop + 50);
+        clawCtx.stroke();
+
+        if (frame.prizeType === 'snickers') {
+          clawCtx.save();
+          clawCtx.translate(cx, clawTop + 38);
+          clawCtx.rotate(-0.25);
+          clawCtx.fillStyle = '#451A03';
+          clawCtx.fillRect(-22, -9, 44, 18);
+          clawCtx.strokeStyle = '#3B82F6';
+          clawCtx.lineWidth = 2;
+          clawCtx.strokeRect(-16, -6, 32, 12);
+          clawCtx.fillStyle = '#FFFFFF';
+          clawCtx.font = 'bold 8px "Inter", sans-serif';
+          clawCtx.fillText('SNICKERS', -19, 3);
+          clawCtx.restore();
+        } else if (frame.prizeType === 'ball' && frame.clawClosed) {
+          clawCtx.beginPath();
+          clawCtx.arc(cx, clawTop + 36, 13, 0, Math.PI * 2);
+          clawCtx.fillStyle = '#F9FAFB';
+          clawCtx.fill();
+          clawCtx.fillStyle = '#EF4444';
+          clawCtx.fillRect(cx - 4, clawTop + 32, 8, 8);
+        }
+      }
+
+      if (clawPlaying && !usingUploadedVideo) {
+        clawProgress += 0.12 * clawPlaybackSpeed;
+        if (clawProgress > 100) clawProgress = 0;
+        updateClawUI(clawProgress);
+      }
+
+      requestAnimationFrame(renderClawVideoSimulation);
+    }
+
+    // --------------------------------------------------------------------------
+    // 6. CLAW MACHINE CODE TABS (1: Verbatim PDF Design Code, 2: Compilable .ino)
+    // --------------------------------------------------------------------------
+    const clawCodeSnippets = {
+      original: `// ============================================================================
+// CARL WENDY SIMEA & RIZWAN — ORIGINAL DOCUMENTED CLAW MACHINE CODE & LOGIC
+// ============================================================================
+// We first start by including the proper library or else some of the components won't work
+#include display
+#include servo
+#include steppermotor
+
+/* We first start by declaring the pins of every single component ahead of time so the
+   microcontroller knows where to take input and where to send output signal */
+X step pin 3
+X direction pin 5
+Y step pin 3
+Y direction pin 6
+Z step pin 4
+Z direction pin 7
+Enable pin 8 // cnc shield pin mapping.
+
+/* The joystick uses 2 potentiometer and Gimbal mechanism so the thumb joystick moves
+   around and get input no matter where it goes. Except for neutral. Because its analog It used 2
+   analog pin, one for x-axis and one for y-axis each connected to potentiometer */
+Joystick x pin A7 // up and down moves stepper motors connected to X and Y simultaneously
+Joystick Y pin A8 // left and right move third stepper motor connected to Z on cnc shield
+
+/* The LCD1602 has 16 pin. 4 of those pins wont be used. One of the pin goes to a 10k
+   potentiometer for contrast. 4 pins are used for power, two 5v and two ground.
+   The remaining six will use pin 22-27. Those pins are mostly for data. */
+Display pin mapped out(22,23,24,25,26,27)
+
+/* Because we couldn't get the RFID to work properly, we went for an ultrasonic sensor that when
+   it detects an object closer than 2cm it will accept it as a "payment". The idea was to get
+   something closer to the RFID and mimic the new tap payment method used in real life.
+   When it detects a return, it will sound a buzzer as proof and mimic the register tap sound. */
+Pin 36 for trig ultrasonic
+Pin 37 for echo ultrasonic
+Buzzer pin 38
+
+/* For the midterm Project, we controlled a servo motor with a potentiometer and for the Z-axis,
+   we wanted to use the same. */
+A9 for potentiometer.
+
+/* To mimic arcade claw buttons we added two pushbuttons:
+   1 to open claw (0-180), 2 for closing claw (180-0) */
+Pin 30 pushbutton1
+Pin 31 pushbutton 2
+Pin 32 servo1
+Pin 33 servo2
+
+Void setup() {
+  Initialize screen
+  Say "Welcome to Rizwan & Carl's"
+  delay(1000) // milliseconds
+  Clear
+  Set pin (0,0)
+  "Pay First then Grab your snack"
+  delay(1000) // milliseconds
+
+  // Linking the potentiometer on pin A9 to servo motor on pin 32
+  Analog read potentiometer for potentiometer controlling servo motor
+  Servo.attach
+
+  // Initialize sequence for stepper motors
+  Pinmode Enable pin // for stepper motors
+  Pinmode direction
+  Pinmode step // each one. For x, y and z
+
+  // Push button setup for servo on pin 33
+  Push button 1 clockwise
+  Push button 2 counterclockwise
+  Servo attach
+}
+
+Void loop() {
+  // Payment gate: only let you use the joystick, potentiometer and pushbutton after payment
+  Lcd.clear
+  Set cursor (0,0)
+  Lcd.print "Please Pay"
+  Delay (1000)
+
+  Read ultrasonic input
+  If object detected (< 2cm) go to next:
+    Print "Enjoy" and unlock pins for output
+  Else wait
+
+  // Read joystick value (with neutral deadband to prevent floating-pin motor runaway)
+  If joystick value == 1 (up)       -> x and y stepper motors rotate clockwise
+  Else if Joystick value == -1 (down)-> x and y stepper motor rotate counter clockwise
+  Else if Joystick left             -> Z stepper motor counterclockwise
+  Else if Joystick right            -> Z stepper motor clockwise
+  Else don't move
+
+  // Read potentiometer (0->1023) to control vertical servo movement (0->180)
+  If value is increasing (0->1023)  -> (0->180) down movement
+  Else if value is decreasing       -> (180->0) up movement
+
+  // Read pushbuttons for claw actuation
+  If Push button 1 pressed          -> (0->180) open claw
+  Else if Push button 2 pressed     -> (180->0) close claw
+  Else don't do anything
+}`,
+      compiled: `// ============================================================================
+// PRODUCTION COMPILABLE ARDUINO MEGA 2560 FIRMWARE (.INO)
+// Implements Carl & Rizwan's Exact Pinout, Ultrasonic Tap-Pay & 3-Axis Control
+// ============================================================================
+#include <LiquidCrystal.h>
+#include <Servo.h>
+
+// 1. CNC Shield & Stepper Motor Pins
+const int XY_STEP_PIN = 3;   // Shared step pulse for X & Y gantry steppers
+const int X_DIR_PIN   = 5;
+const int Y_DIR_PIN   = 6;
+const int Z_STEP_PIN  = 4;
+const int Z_DIR_PIN   = 7;
+const int ENABLE_PIN  = 8;
+
+// 2. Analog Gimbal Joystick & Z-Axis Potentiometer
+const int JOY_X_PIN   = A7;  // Up/Down moves X & Y simultaneously
+const int JOY_Y_PIN   = A8;  // Left/Right moves Z stepper
+const int Z_POT_PIN   = A9;  // Controls Z-axis winch servo on Pin 32
+
+// 3. LCD1602 Display Pins (22-27)
+LiquidCrystal lcd(22, 23, 24, 25, 26, 27);
+
+// 4. Ultrasonic Tap-to-Pay Sensor & Register Buzzer
+const int TRIG_PIN    = 36;
+const int ECHO_PIN    = 37;
+const int BUZZER_PIN  = 38;
+
+// 5. Pushbuttons & Servos
+const int BTN_OPEN_PIN  = 30;
+const int BTN_CLOSE_PIN = 31;
+const int SERVO_Z_PIN   = 32;
+const int SERVO_CLAW_PIN= 33;
+
+Servo zWinchServo;
+Servo clawGripServo;
+bool sessionPaid = false;
+
+void setup() {
+  pinMode(XY_STEP_PIN, OUTPUT);
+  pinMode(X_DIR_PIN, OUTPUT);
+  pinMode(Y_DIR_PIN, OUTPUT);
+  pinMode(Z_STEP_PIN, OUTPUT);
+  pinMode(Z_DIR_PIN, OUTPUT);
+  pinMode(ENABLE_PIN, OUTPUT);
+  digitalWrite(ENABLE_PIN, LOW);
+
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+
+  pinMode(BTN_OPEN_PIN, INPUT_PULLUP);
+  pinMode(BTN_CLOSE_PIN, INPUT_PULLUP);
+
+  zWinchServo.attach(SERVO_Z_PIN);
+  clawGripServo.attach(SERVO_CLAW_PIN);
+
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Welcome to");
+  lcd.setCursor(0, 1);
+  lcd.print("Rizwan & Carl's");
+  delay(1000);
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Pay First then");
+  lcd.setCursor(0, 1);
+  lcd.print("Grab your snack");
+  delay(1000);
+}
+
+float readUltrasonicCm() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  long duration = pulseIn(ECHO_PIN, HIGH, 25000);
+  if (duration == 0) return 999.0;
+  return duration * 0.034 / 2.0;
+}
+
+void pulseStepper(int stepPin, int steps) {
+  for (int i = 0; i < steps; i++) {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(800);
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(800);
+  }
+}
+
+void loop() {
+  if (!sessionPaid) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Please Pay (<2cm)");
+    if (readUltrasonicCm() < 2.0) {
+      digitalWrite(BUZZER_PIN, HIGH);
+      delay(180);
+      digitalWrite(BUZZER_PIN, LOW);
+      sessionPaid = true;
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Enjoy!");
+    } else {
+      delay(250);
+      return;
+    }
+  }
+
+  int joyX = analogRead(JOY_X_PIN);
+  int joyY = analogRead(JOY_Y_PIN);
+
+  if (joyX > 650) {
+    digitalWrite(X_DIR_PIN, HIGH);
+    digitalWrite(Y_DIR_PIN, HIGH);
+    pulseStepper(XY_STEP_PIN, 25);
+  } else if (joyX < 370) {
+    digitalWrite(X_DIR_PIN, LOW);
+    digitalWrite(Y_DIR_PIN, LOW);
+    pulseStepper(XY_STEP_PIN, 25);
+  }
+
+  if (joyY > 650) {
+    digitalWrite(Z_DIR_PIN, HIGH);
+    pulseStepper(Z_STEP_PIN, 25);
+  } else if (joyY < 370) {
+    digitalWrite(Z_DIR_PIN, LOW);
+    pulseStepper(Z_STEP_PIN, 25);
+  }
+
+  int potVal = analogRead(Z_POT_PIN);
+  int zAngle = map(potVal, 0, 1023, 0, 180);
+  zWinchServo.write(zAngle);
+
+  if (digitalRead(BTN_OPEN_PIN) == LOW) {
+    clawGripServo.write(180);
+  } else if (digitalRead(BTN_CLOSE_PIN) == LOW) {
+    clawGripServo.write(0);
+  }
+}`
+    };
+
+    let activeClawCodeKey = 'original';
+
+    function switchClawCodeTab(tabKey) {
+      activeClawCodeKey = tabKey;
+      document.getElementById('clawCodeDisplay').textContent = clawCodeSnippets[tabKey];
+      const b1 = document.getElementById('codeTabOriginal');
+      const b2 = document.getElementById('codeTabCompiled');
+      if (tabKey === 'original') {
+        b1.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow';
+        b2.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow';
+      } else {
+        b2.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow';
+        b1.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow';
+      }
+    }
+
+    function copyActiveClawCode() {
+      copyTextToClipboard(clawCodeSnippets[activeClawCodeKey], 'Copied Claw Machine code to clipboard!');
+    }
+
+    function switchPostMortemView(viewMode) {
+      const techView = document.getElementById('pmViewTechnical');
+      const notesView = document.getElementById('pmViewFieldNotes');
+      const btnTech = document.getElementById('pmBtnTechnical');
+      const btnNotes = document.getElementById('pmBtnFieldNotes');
+
+      if (viewMode === 'technical') {
+        techView.classList.remove('hidden');
+        notesView.classList.add('hidden');
+        btnTech.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow';
+        btnNotes.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow';
+      } else {
+        notesView.classList.remove('hidden');
+        techView.classList.add('hidden');
+        btnNotes.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow';
+        btnTech.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-outline-glow';
+      }
+    }
+
+    // --------------------------------------------------------------------------
+    // 7. MEDPEEK GEMMA 4 & FRACATLAS SIMULATOR + CODE VIEWER
+    // --------------------------------------------------------------------------
+    let currentMedPeekMode = 1;
+
+    function setMedPeekModelMode(mode) {
+      currentMedPeekMode = mode;
+      const b1 = document.getElementById('mpModeBtn1');
+      const b2 = document.getElementById('mpModeBtn2');
+      const label = document.getElementById('mpInputLabel');
+      const textarea = document.getElementById('medSandboxSymptoms');
+      const outTitle = document.getElementById('mpOutputTitle');
+      const modInput = document.getElementById('medSandboxModality');
+
+      if (mode === 1) {
+        b1.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek';
+        b2.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]';
+        label.textContent = 'UPLOADED HAND X-RAY CASE // FracAtlas Comparison Input';
+        textarea.value = 'Right hand PA/Oblique X-ray following fall onto outstretched hand (FOOSH). Cortical discontinuity at the neck of the 5th metacarpal with apex dorsal angulation.';
+        modInput.value = 'Hand X-Ray';
+        outTitle.textContent = 'GEMMA 4 // FRACATLAS COMPARISON REPORT';
+      } else {
+        b2.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek';
+        b1.className = 'px-3.5 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]';
+        label.textContent = 'MULTI-MODAL SCAN INPUT // X-Ray, MRI or CT Finding';
+        textarea.value = 'Brain MRI T2/FLAIR sequence: No acute territorial infarction, mass effect, or midline shift. Mild periventricular white matter hyperintensities.';
+        modInput.value = 'Brain MRI / CT';
+        outTitle.textContent = 'GEMMA 4 // PLAIN-LANGUAGE SCAN EXPLANATION';
+      }
+      runMedPeekAnalysis();
+    }
+
+    function runMedPeekAnalysis() {
+      const text = document.getElementById('medSandboxSymptoms').value.trim();
+      const summary = document.getElementById('medSandboxSummary');
+
+      if (currentMedPeekMode === 1) {
+        summary.innerHTML = `
+          <div><strong class="text-[#00F2FE]">Broken Bone:</strong> Distal Radius / 5th Metacarpal Neck (FracAtlas comparison match)</div>
+          <div><strong class="text-[#00F2FE]">Break Type:</strong> Transverse / Angulated Cortical Fracture</div>
+          <div><strong class="text-[#00F2FE]">Likely Cause:</strong> Fall onto an outstretched hand (FOOSH) or direct axial impact.</div>
+          <div><strong class="text-[#00F2FE]">Plain-Language Summary:</strong> Compared against normal FracAtlas hand X-rays, Gemma 4 identified a fracture line in "${text.slice(0, 75)}..." and saved the report to your local SQLite chat history.</div>
+        `;
+      } else {
+        summary.innerHTML = `
+          <div><strong class="text-[#00F2FE]">Modality:</strong> ${document.getElementById('medSandboxModality').value}</div>
+          <div><strong class="text-[#00F2FE]">Gemma 4 Plain-Language Translation:</strong> Good news—there is no sign of a stroke, bleeding, or swelling pushing on the brain. The small bright spots noted on the scan are mild, common age-related changes.</div>
+          <div><strong class="text-[#00F2FE]">Raw Input Analyzed:</strong> "${text.slice(0, 80)}..."</div>
+        `;
+      }
+    }
+
+    const medpeekRepoSnippets = {
+      readme: `# MedPeek: AI X-Ray Reader (Hacktoberfest Hack Day Brooklyn — 10/2026)
+Repository: https://github.com/Carl-Simea/MedPeek
+Author: Carl Wendy Simea
+
+## Project Highlights
+- Co-built a web app with two teammates where Google's Gemma 4 explains X-ray,
+  MRI, and CT images in plain language.
+- Built a solo offline version in Python (Flask) and SQLite that runs Gemma 4
+  locally through Ollama, complete with user accounts and chat history.
+- Designed to compare uploaded radiographs against normal FracAtlas hand X-rays,
+  naming the broken bone, break type, and likely cause.
+
+## Tech Stack
+- AI / Vision-LLM: Google Gemma 4 (via Ollama local runtime & API)
+- Reference Dataset: FracAtlas Hand X-Ray Dataset
+- Backend & Auth: Python, Flask, SQLite (User Accounts & Chat History)
+- Theme: Oceanic Teal (#005C53 / #00F2FE)`,
+      pipeline: `# MedPeek Solo Offline Version — Flask + SQLite + Ollama (Gemma 4)
+import sqlite3
+import requests
+from flask import Flask, request, jsonify, session
+
+app = Flask(__name__)
+OLLAMA_URL = "http://localhost:11434/api/generate"
+
+def analyze_hand_xray_with_gemma4(image_b64: str, user_prompt: str) -> dict:
+    """Runs Google Gemma 4 locally via Ollama to compare against FracAtlas hand X-rays."""
+    system_instruction = (
+        "You are MedPeek, an AI X-ray reader. Compare the uploaded hand X-ray "
+        "against normal FracAtlas hand radiographs. Clearly state in plain language: "
+        "1) The broken bone, 2) The break type, and 3) The likely cause."
+    )
+    payload = {
+        "model": "gemma4",
+        "prompt": f"{system_instruction}\\n\\nUser notes: {user_prompt}",
+        "images": [image_b64],
+        "stream": False
+    }
+    response = requests.post(OLLAMA_URL, json=payload, timeout=60)
+    return response.json()`
+    };
+
+    function switchMedPeekCodeTab(key) {
+      document.getElementById('medpeekCodeDisplay').textContent = medpeekRepoSnippets[key];
+      const b1 = document.getElementById('mpTabReadme');
+      const b2 = document.getElementById('mpTabPipeline');
+      if (key === 'readme') {
+        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek';
+        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]';
+      } else {
+        b2.className = 'px-3 py-1.5 rounded-xl text-xs font-mono-tech btn-medpeek';
+        b1.className = 'px-3 py-1.5 rounded-xl text-xs font-mono-tech bg-black/40 border border-[#00F2FE]/40 text-[#00F2FE]';
+      }
+    }
+
+    // --------------------------------------------------------------------------
+    // 8. UTILITIES: COPY EMAIL, MODALS & SINGLE-FILE GITHUB PAGES DOWNLOAD
+    // --------------------------------------------------------------------------
+    // 8. UTILITIES: COPY EMAIL & RESUME MODAL
+    // --------------------------------------------------------------------------
+    function copyTextToClipboard(text, message) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      showToast(message);
+    }
+
+    function copyEmail(e) {
+      if (e) e.stopPropagation();
+      copyTextToClipboard('simeacarlwendy@gmail.com', 'Copied email: simeacarlwendy@gmail.com');
+    }
+
+    function openResumeModal() {
+      document.getElementById('resumeModal').classList.remove('hidden');
+    }
+
+    function closeResumeModal() {
+      document.getElementById('resumeModal').classList.add('hidden');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMessage').textContent = msg;
+      box.classList.remove('opacity-0', 'translate-y-3');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        box.classList.add('opacity-0', 'translate-y-3');
+      }, 2600);
+    }
+
+    // Initialize on load
+    window.onload = function () {
+      resizeClawCanvas();
+      window.addEventListener('resize', resizeClawCanvas);
+      switchClawReel(1);
+      switchClawCodeTab('original');
+      switchMedPeekCodeTab('readme');
+      renderClawVideoSimulation();
+    };
+  </script>
+</body>
+</html>
