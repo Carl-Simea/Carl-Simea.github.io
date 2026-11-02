@@ -1097,27 +1097,6 @@
             <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
               Fix: Isolated the servo load onto a dedicated breadboard power supply module to prevent logic brownouts.
             </div>
-            <div class="text-[10px] font-mono-tech uppercase tracking-wider text-gray-400 pt-1">Evidence &middot; click to enlarge</div>
-            <div class="flex flex-wrap gap-3">
-              <button type="button" onclick="openMediaLightbox('video', './content/test-short-circuit.mp4', 'Checking the board after the short')" class="text-left space-y-1" style="width: 88px;" aria-label="Open: Checking the board after the short">
-                <span class="relative block rounded-lg overflow-hidden bg-black border border-white/15" style="width: 88px; height: 117px;">
-                  <img src="./content/test-short-circuit-poster.jpg" alt="Video: checking the board after the short circuit" loading="lazy" class="w-full h-full" style="object-fit: cover;" />
-                  <span class="absolute inset-0 flex items-center justify-center">
-                    <span class="w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-play"></i></span>
-                  </span>
-                </span>
-                <span class="block text-[10px] font-mono-tech text-gray-400 leading-snug">Checking the board after the short</span>
-              </button>
-              <button type="button" onclick="openMediaLightbox('image', './content/build-power-module.jpg', 'The fix: a separate power module')" class="text-left space-y-1" style="width: 88px;" aria-label="Open: The fix: a separate power module">
-                <span class="relative block rounded-lg overflow-hidden bg-black border border-white/15" style="width: 88px; height: 117px;">
-                  <img src="./content/build-power-module.jpg" alt="Breadboard power supply module powering the servo rail" loading="lazy" class="w-full h-full" style="object-fit: cover;" />
-                  <span class="absolute inset-0 flex items-center justify-center">
-                    <span class="w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-expand"></i></span>
-                  </span>
-                </span>
-                <span class="block text-[10px] font-mono-tech text-gray-400 leading-snug">The fix: a separate power module</span>
-              </button>
-            </div>
           </div>
 
           <div class="sub-pill p-5 space-y-2.5">
@@ -1145,18 +1124,6 @@
             </p>
             <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
               Fix: Drove the servo winch like a stepper—incrementing or decrementing by ±1 degree per joystick read—to achieve smooth, non-blocking vertical spooling.
-            </div>
-            <div class="text-[10px] font-mono-tech uppercase tracking-wider text-gray-400 pt-1">Evidence &middot; click to enlarge</div>
-            <div class="flex flex-wrap gap-3">
-              <button type="button" onclick="openMediaLightbox('video', './content/test-claw-pushbutton.mp4', 'Claw held by hand before the winch fix')" class="text-left space-y-1" style="width: 88px;" aria-label="Open: Claw held by hand before the winch fix">
-                <span class="relative block rounded-lg overflow-hidden bg-black border border-white/15" style="width: 88px; height: 117px;">
-                  <img src="./content/test-claw-pushbutton-poster.jpg" alt="Video: pushbutton claw test, held by hand before the winch was balanced" loading="lazy" class="w-full h-full" style="object-fit: cover;" />
-                  <span class="absolute inset-0 flex items-center justify-center">
-                    <span class="w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center text-xs"><i class="fa-solid fa-play"></i></span>
-                  </span>
-                </span>
-                <span class="block text-[10px] font-mono-tech text-gray-400 leading-snug">Claw held by hand before the winch fix</span>
-              </button>
             </div>
           </div>
         </div>
@@ -1711,12 +1678,6 @@ python3 app.py</pre>
           </div>
         </div>
 
-        <!-- Real screenshot slot: save one as ./content/medpeek-screenshot.png and it shows up here automatically -->
-        <figure class="relative z-10 space-y-2">
-          <img src="./content/medpeek-screenshot.png" alt="MedPeek v2-local reading a hand X-ray" class="w-full rounded-xl border border-white/15" loading="lazy" onerror="this.parentElement.remove()" />
-          <figcaption class="text-[11px] font-mono-tech text-gray-400">MedPeek v2-local running on my laptop with Gemma 4 through Ollama.</figcaption>
-        </figure>
-
         <div class="relative z-10 flex items-start gap-3 p-4 rounded-xl border border-amber-400/30 bg-amber-500/10 text-xs text-gray-200 leading-relaxed">
           <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-0.5"></i>
           <p><strong class="text-white">MedPeek is a learning project, not a medical device.</strong> It can be wrong. It does not diagnose anything. Always have a doctor read your scans.</p>
@@ -1961,19 +1922,6 @@ python3 app.py</pre>
   <!-- ==========================================================================
        APPLICATION JAVASCRIPT
        ========================================================================== -->
-  <!-- MEDIA LIGHTBOX (post-mortem evidence) -->
-  <div id="mediaLightbox" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" onclick="closeMediaLightbox()">
-    <div class="glow-card max-w-md w-full p-5" onclick="event.stopPropagation()">
-      <div class="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-white/15 relative z-10">
-        <span id="mediaLightboxCaption" class="text-xs font-mono-tech" style="color: var(--accent-bright)"></span>
-        <button type="button" onclick="closeMediaLightbox()" class="w-8 h-8 shrink-0 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center" aria-label="Close">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div id="mediaLightboxBody" class="relative z-10"></div>
-    </div>
-  </div>
-
   <script src="app.js"></script>
 </body>
 </html>

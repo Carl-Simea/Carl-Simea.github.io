@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------
-// 2. COLOR MODE & DIRECT HASH ROUTER
+// 1. COLOR MODE & DIRECT HASH ROUTER
 // --------------------------------------------------------------------------
 function applyColorMode(mode) {
   const normalized = mode === 'light' ? 'light' : 'dark';
@@ -73,7 +73,6 @@ function navigateTo(viewId, scrollToElementId = null, updateHash = true) {
   if (normalizedId !== 'claw') {
     pauseClawVideo();
   }
-  closeMediaLightbox();
 
   if (scrollToElementId) {
     setTimeout(() => {
@@ -83,10 +82,6 @@ function navigateTo(viewId, scrollToElementId = null, updateHash = true) {
   } else {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-}
-
-function switchView(viewId, scrollToElementId = null) {
-  navigateTo(viewId, scrollToElementId, true);
 }
 
 function filterClawSchematic(mode) {
@@ -111,7 +106,7 @@ window.addEventListener('hashchange', () => {
 });
 
 // --------------------------------------------------------------------------
-// 3. NAVBAR DROPDOWN & GLOBAL SEARCH
+// 2. NAVBAR DROPDOWN & GLOBAL SEARCH
 // --------------------------------------------------------------------------
 function toggleProjectsMenu(e) {
   if (e) {
@@ -211,7 +206,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 // --------------------------------------------------------------------------
-// 4. DUAL-REEL CLAW MACHINE VIDEO PLAYER (STARTS PAUSED, PLAYS ON CLICK)
+// 3. CLAW MACHINE VIDEO PLAYER (TWO REELS, STARTS PAUSED)
 // --------------------------------------------------------------------------
 const clawReels = {
   1: {
@@ -228,8 +223,7 @@ const clawReels = {
         sub: 'Mega 2560 + CNC Shield + 4 Bins',
         desc: 'Overview of the breadboard power rail, Arduino Mega + CNC shield, and 4 Brightroom 80mm snack bins.',
         badge: '01 // BREADBOARD & 4-PIN SETUP',
-        telemetry: 'LCD1602: "Please Pay"',
-        gx: 0.25, gy: 0.22, zDrop: 0.18, clawClosed: false, prizeType: 'none'
+        telemetry: 'LCD1602: "Please Pay"'
       },
       {
         pct: 12,
@@ -238,8 +232,7 @@ const clawReels = {
         sub: 'NEMA 17 + Helical Shaft Couplers',
         desc: 'Close-up of the T8 lead screw, brass nut block, flexible aluminum shaft coupling, and 360° winch servo.',
         badge: '02 // CLAW OPEN 180° & GANTRY TEST',
-        telemetry: 'X/Y Step: Pin 3 | Dir: Pins 5 & 6',
-        gx: 0.44, gy: 0.22, zDrop: 0.20, clawClosed: false, prizeType: 'none'
+        telemetry: 'X/Y Step: Pin 3 | Dir: Pins 5 & 6'
       },
       {
         pct: 28,
@@ -247,9 +240,8 @@ const clawReels = {
         title: '03. Gimbal Joystick Navigation',
         sub: 'Analog A7 & A8 Thumb Control',
         desc: 'Operating the 2-potentiometer thumb joystick to traverse the X, Y, and Z lead screws over the snack bins.',
-        badge: '03 // Analog Joystick Navigation',
-        telemetry: 'Joystick A7/A8 Active | Z Step: Pin 4',
-        gx: 0.66, gy: 0.22, zDrop: 0.22, clawClosed: false, prizeType: 'none'
+        badge: '03 // ANALOG JOYSTICK NAVIGATION',
+        telemetry: 'Joystick A7/A8 Active | Z Step: Pin 4'
       },
       {
         pct: 52,
@@ -257,9 +249,8 @@ const clawReels = {
         title: '04. Z-Axis Winch Spooling Down',
         sub: 'Potentiometer A9 → Servo Pin 32',
         desc: 'Spooling the tether line downward so the mechanical claw descends directly over the target snack bin.',
-        badge: '04 // Z-Axis Winch Descent',
-        telemetry: 'Pot A9 (0→1023) | Winch Servo Pin 32',
-        gx: 0.66, gy: 0.22, zDrop: 0.65, clawClosed: false, prizeType: 'ball'
+        badge: '04 // Z-AXIS WINCH DESCENT',
+        telemetry: 'Pot A9 (0→1023) | Winch Servo Pin 32'
       },
       {
         pct: 74,
@@ -267,9 +258,8 @@ const clawReels = {
         title: '05. Multi-Gear Claw Grasp',
         sub: 'Pushbuttons 30/31 → Servo Pin 33',
         desc: 'Triggering the pushbutton to close the multi-gear gripper jaws (180°→0°) firmly around the target prize.',
-        badge: '05 // Claw Grasp Engaged',
-        telemetry: 'Pushbutton Pin 31 | Claw Closed (0°)',
-        gx: 0.66, gy: 0.22, zDrop: 0.50, clawClosed: true, prizeType: 'ball'
+        badge: '05 // CLAW GRASP ENGAGED',
+        telemetry: 'Pushbutton Pin 31 | Claw Closed (0°)'
       },
       {
         pct: 92,
@@ -277,9 +267,8 @@ const clawReels = {
         title: '06. Return Traverse & Release',
         sub: 'Delivery to Front Chute Bin',
         desc: 'Hoisting the captured prize, traversing to the front delivery container, and opening the claw jaws.',
-        badge: '06 // Prize Delivery & Release',
-        telemetry: 'Pushbutton Pin 30 | Claw Open (180°)',
-        gx: 0.35, gy: 0.22, zDrop: 0.42, clawClosed: false, prizeType: 'ball_drop'
+        badge: '06 // PRIZE DELIVERY & RELEASE',
+        telemetry: 'Pushbutton Pin 30 | Claw Open (180°)'
       }
     ]
   },
@@ -293,12 +282,11 @@ const clawReels = {
       {
         pct: 0,
         time: '00:00',
-        title: '01. Claw Open 180° & Gantry Test',
+        title: '01. Claw Open Over the Snickers Bin',
         sub: 'Positioned Over Front-Left Bin',
         desc: 'Claw suspended directly above the 80mm Brightroom container packed with Snickers bars.',
-        badge: '02 // CLAW OPEN 180° & GANTRY TEST',
-        telemetry: 'Claw Open (180°)',
-        gx: 0.36, gy: 0.22, zDrop: 0.35, clawClosed: false, prizeType: 'snickers'
+        badge: '01 // CLAW OPEN OVER SNICKERS BIN',
+        telemetry: 'Claw Open (180°)'
       },
       {
         pct: 26,
@@ -306,9 +294,8 @@ const clawReels = {
         title: '02. Lowering Into Snickers Stack',
         sub: 'Tether Winch Extension',
         desc: 'Lowering the open claw jaws around the top Snickers bar inside the container.',
-        badge: '02 // Jaw Alignment on Snickers',
-        telemetry: 'Z-Winch Lowering | Servo Pin 32',
-        gx: 0.36, gy: 0.22, zDrop: 0.68, clawClosed: false, prizeType: 'snickers'
+        badge: '02 // JAW ALIGNMENT ON SNICKERS',
+        telemetry: 'Z-Winch Lowering | Servo Pin 32'
       },
       {
         pct: 55,
@@ -316,9 +303,8 @@ const clawReels = {
         title: '03. High-Torque Servo Clamp',
         sub: 'Locking Grip on Snickers Bar',
         desc: 'Closing the geared gripper teeth tightly around the Snickers wrapper using pushbutton servo control.',
-        badge: '03 // Snickers Bar Clamped',
-        telemetry: 'Servo Pin 33 Torque Lock | Grip Confirmed',
-        gx: 0.36, gy: 0.22, zDrop: 0.64, clawClosed: true, prizeType: 'snickers'
+        badge: '03 // SNICKERS BAR CLAMPED',
+        telemetry: 'Servo Pin 33 Torque Lock | Grip Confirmed'
       },
       {
         pct: 85,
@@ -326,9 +312,8 @@ const clawReels = {
         title: '04. Vertical Hoist & Extraction',
         sub: 'Lifting Snickers Clear of Bin',
         desc: 'Reeling the tether cable upward on the continuous rotation servo, lifting the Snickers bar cleanly.',
-        badge: '04 // Vertical Hoist Complete',
-        telemetry: 'Z-Winch Hoisting | Snickers Extracted',
-        gx: 0.36, gy: 0.22, zDrop: 0.28, clawClosed: true, prizeType: 'snickers'
+        badge: '04 // VERTICAL HOIST COMPLETE',
+        telemetry: 'Z-Winch Hoisting | Snickers Extracted'
       }
     ]
   }
@@ -483,6 +468,8 @@ function showFramePreviewTooltip(frameIdx) {
   tip.classList.remove('hidden');
 }
 
+let scrubTipTimer = null;
+
 function hideFramePreviewTooltip() {
   document.getElementById('scrubberFloatingPreview')?.classList.add('hidden');
 }
@@ -492,8 +479,8 @@ function hoverScrubPreview(event, sliderEl) {
   const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
   const { index } = getActiveFrameObj(ratio * 100);
   showFramePreviewTooltip(index);
-  clearTimeout(window._scrubTipTimeout);
-  window._scrubTipTimeout = setTimeout(hideFramePreviewTooltip, 1400);
+  clearTimeout(scrubTipTimer);
+  scrubTipTimer = setTimeout(hideFramePreviewTooltip, 1400);
 }
 
 function scrubClawVideo(val) {
@@ -524,45 +511,6 @@ document.addEventListener('play', (e) => {
   });
 }, true);
 
-// Post-mortem evidence: small thumbnails open full size in a lightbox
-function openMediaLightbox(type, src, caption) {
-  const box = document.getElementById('mediaLightbox');
-  const body = document.getElementById('mediaLightboxBody');
-  if (!box || !body) return;
-  document.getElementById('mediaLightboxCaption').textContent = caption;
-  body.innerHTML = '';
-  let el;
-  if (type === 'video') {
-    el = document.createElement('video');
-    el.controls = true;
-    el.playsInline = true;
-    el.autoplay = true;
-  } else {
-    el = document.createElement('img');
-    el.alt = caption;
-  }
-  el.src = src;
-  el.className = 'w-full rounded-lg bg-black';
-  el.style.maxHeight = '75vh';
-  el.style.objectFit = 'contain';
-  body.appendChild(el);
-  box.classList.remove('hidden');
-}
-
-function closeMediaLightbox() {
-  const box = document.getElementById('mediaLightbox');
-  const body = document.getElementById('mediaLightboxBody');
-  if (!box || box.classList.contains('hidden')) return;
-  const v = body.querySelector('video');
-  if (v) v.pause();
-  body.innerHTML = '';
-  box.classList.add('hidden');
-}
-
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeMediaLightbox();
-});
-
 function cycleClawSpeed() {
   const speeds = [1.0, 1.5, 2.0, 0.5];
   const nextIdx = (speeds.indexOf(clawPlaybackSpeed) + 1) % speeds.length;
@@ -577,7 +525,7 @@ function scrollFrameStrip(delta) {
 }
 
 // --------------------------------------------------------------------------
-// 5. CLAW MACHINE CODE TABS & POST-MORTEM TABS
+// 4. CLAW MACHINE CODE TABS & POST-MORTEM TABS
 // --------------------------------------------------------------------------
 const clawCodeSnippets = {
   original: `// ============================================================================
@@ -865,7 +813,7 @@ function switchPostMortemTab(tabMode) {
 }
 
 // --------------------------------------------------------------------------
-// 6. MEDPEEK CODE VIEWER (REAL EXCERPTS FROM github.com/Carl-Simea/MedPeek)
+// 5. MEDPEEK CODE VIEWER (REAL EXCERPTS FROM github.com/Carl-Simea/MedPeek)
 // --------------------------------------------------------------------------
 const medpeekRepoSnippets = {
   readme: `Excerpt from README.md (full file: https://github.com/Carl-Simea/MedPeek)
@@ -954,26 +902,39 @@ function switchMedPeekCodeTab(key) {
 }
 
 // --------------------------------------------------------------------------
-// 7. DESKTOP & MOBILE EMAIL HANDLER + CLIPBOARD TOAST
+// 6. EMAIL, CLIPBOARD & TOAST
 // --------------------------------------------------------------------------
-function copyTextToClipboard(text, message, showGmailLink = false) {
-  const tempInput = document.createElement('textarea');
-  tempInput.value = text;
-  document.body.appendChild(tempInput);
-  tempInput.select();
+const CONTACT_EMAIL = 'simeacarlwendy@gmail.com';
+
+// Uses the Clipboard API on HTTPS, with a hidden-textarea fallback for older browsers
+function writeToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+  } else {
+    legacyCopy(text);
+  }
+}
+
+function legacyCopy(text) {
+  const temp = document.createElement('textarea');
+  temp.value = text;
+  temp.setAttribute('readonly', '');
+  temp.style.position = 'fixed';
+  temp.style.opacity = '0';
+  document.body.appendChild(temp);
+  temp.select();
   document.execCommand('copy');
-  document.body.removeChild(tempInput);
+  document.body.removeChild(temp);
+}
+
+function copyTextToClipboard(text, message, showGmailLink = false) {
+  writeToClipboard(text);
   showToast(message, showGmailLink);
 }
 
 function copyEmail(e, showNotice = true) {
   if (e) e.stopPropagation();
-  const tempInput = document.createElement('textarea');
-  tempInput.value = 'simeacarlwendy@gmail.com';
-  document.body.appendChild(tempInput);
-  tempInput.select();
-  document.execCommand('copy');
-  document.body.removeChild(tempInput);
+  writeToClipboard(CONTACT_EMAIL);
 
   const modalBtn = document.getElementById('modalCopyEmailBtn');
   if (modalBtn) {
@@ -982,7 +943,7 @@ function copyEmail(e, showNotice = true) {
   }
 
   if (showNotice) {
-    showToast('Copied simeacarlwendy@gmail.com to clipboard', true);
+    showToast(`Copied ${CONTACT_EMAIL} to clipboard`, true);
   }
 }
 
@@ -1008,6 +969,8 @@ function closeResumeModal() {
   document.getElementById('resumeModal').classList.add('hidden');
 }
 
+let toastTimer = null;
+
 function showToast(msg, showGmailButton = false) {
   const box = document.getElementById('toastBox');
   const actionLink = document.getElementById('toastActionLink');
@@ -1022,8 +985,8 @@ function showToast(msg, showGmailButton = false) {
   }
 
   box.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
-  clearTimeout(window._toastTimer);
-  window._toastTimer = setTimeout(() => {
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
     box.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
   }, 4200);
 }
