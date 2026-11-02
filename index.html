@@ -280,13 +280,13 @@
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Dark Mode Inner Vignette */
+    /* Dark Mode Inner Vignette (Tuned: Inner Vignette Blend 46%) */
     .portrait-viewport::after {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: 9999px;
-      box-shadow: inset 0 0 28px rgba(11, 13, 18, 0.48);
+      box-shadow: inset 0 0 28px rgba(11, 13, 18, 0.46);
       pointer-events: none;
       z-index: 2;
       transition: box-shadow 0.35s ease;
@@ -311,19 +311,22 @@
       box-shadow: inset 0 0 18px rgba(15, 23, 42, 0.14);
     }
 
-    /* Calibrated Crop for ./content/profile.jpeg inside Chronometer Circle */
+    /* Calibrated Crop for the New ./content/profile.jpeg (Street Portrait) inside Chronometer Circle
+       Tuned from Preset 1 "Tight Chronometer (Spire & Suit)":
+       Zoom 1.28x • Anchor 30% 54% (Hides Right Sidewalk) • Contrast 1.12 • Saturation 1.20 */
     .portrait-media {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 50% 56%;
-      transform: scale(1.26);
-      filter: contrast(1.04) saturate(0.94);
+      object-position: 30% 54%;
+      transform: scale(1.28);
+      filter: contrast(1.12) saturate(1.20);
       transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
     }
 
+    /* Hover: Slight Lift Above the Tuned Grade (Never Drops Below It) */
     .portrait-shell:hover .portrait-media {
-      filter: contrast(1.06) saturate(1.02);
+      filter: contrast(1.14) saturate(1.24);
     }
 
     /* Top-Left Maker's Mark Signature Hover Draw Animation */
@@ -772,8 +775,7 @@
                 <span>→</span>
               </div>
             </button>
-
-            <!-- Card B: Project 01 -->
+                        <!-- Card B: Project 01 -->
             <button
               type="button"
               onclick="navigateTo('claw')"
@@ -876,7 +878,7 @@
                   onerror="handleProfileImageError(this)"
                 />
 
-                <!-- Accurate Visual Fallback Replica of ./content/profile.jpeg for Cloud Sandbox Preview -->
+                <!-- Stand-In Drawing of the New Street Portrait for Cloud Sandbox Preview (Gothic Spire Over Right Shoulder, Street Facade Behind) — Only Visible When ./content/profile.jpeg Can't Load -->
                 <svg
                   id="aboutProfileFallbackSvg"
                   viewBox="0 0 400 500"
@@ -886,29 +888,76 @@
                   aria-label="Carl Wendy Simea Portrait Preview"
                 >
                   <defs>
-                    <!-- Crimson Herringbone Wood Door Pattern -->
-                    <pattern id="herringboneLeft" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(32)">
-                      <rect width="28" height="28" fill="#9E474C" />
-                      <line x1="0" y1="0" x2="0" y2="28" stroke="#7A3136" stroke-width="3" />
-                    </pattern>
-                    <pattern id="herringboneRight" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(-32)">
-                      <rect width="28" height="28" fill="#984247" />
-                      <line x1="0" y1="0" x2="0" y2="28" stroke="#742D32" stroke-width="3" />
-                    </pattern>
+                    <!-- Daylight Sky -->
+                    <linearGradient id="streetSkyGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#8EA6BE" />
+                      <stop offset="62%" stop-color="#C5D1DC" />
+                      <stop offset="100%" stop-color="#DCE3E9" />
+                    </linearGradient>
+                    <!-- Sunlit Limestone (Light From Camera Left) -->
+                    <linearGradient id="spireStoneGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#BDB3A4" />
+                      <stop offset="58%" stop-color="#A69B8B" />
+                      <stop offset="100%" stop-color="#7E7569" />
+                    </linearGradient>
+                    <!-- Street Facade Brownstone -->
+                    <linearGradient id="streetFacadeGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#9C8C7E" />
+                      <stop offset="100%" stop-color="#7F7166" />
+                    </linearGradient>
                     <linearGradient id="suitLapelGrad" x1="0" y1="0" x2="1" y2="1">
                       <stop offset="0%" stop-color="#1A1B1E" />
                       <stop offset="100%" stop-color="#0B0C0E" />
                     </linearGradient>
                   </defs>
 
-                  <!-- Left & Right Symmetrical Crimson Herringbone Doors -->
-                  <rect x="0" y="0" width="198" height="500" fill="url(#herringboneLeft)" />
-                  <rect x="198" y="0" width="202" height="500" fill="url(#herringboneRight)" />
-                  <!-- Central Door Seam -->
-                  <rect x="195" y="0" width="7" height="500" fill="#4E1C20" opacity="0.85" />
-                  <!-- Iron Door Hinges on Left & Right Edges -->
-                  <rect x="0" y="320" width="10" height="72" rx="2" fill="#232528" />
-                  <rect x="378" y="322" width="18" height="74" rx="2" fill="#232528" />
+                  <!-- Open Sky -->
+                  <rect x="0" y="0" width="400" height="500" fill="url(#streetSkyGrad)" />
+
+                  <!-- Distant Rooflines Behind Carl (Mostly Hidden by Head & Shoulders) -->
+                  <polygon points="127,300 150,284 250,284 286,300 286,500 127,500" fill="#A7AAAE" opacity="0.55" />
+
+                  <!-- Left: Church Nave Wall With Lancet Window -->
+                  <polygon points="0,316 30,290 63,290 63,500 0,500" fill="#91897E" />
+                  <path d="M24 370 V342 Q24 331 31 327 Q38 331 38 342 V370 Z" fill="#3D3B40" />
+
+                  <!-- Gothic Bell Tower (Over Carl's Right Shoulder) -->
+                  <rect x="63" y="232" width="64" height="268" fill="url(#spireStoneGrad)" />
+                  <!-- Belfry Lancet Openings -->
+                  <path d="M73 304 V266 Q73 254 80 249 Q87 254 87 266 V304 Z" fill="#36343A" />
+                  <path d="M103 304 V266 Q103 254 110 249 Q117 254 117 266 V304 Z" fill="#2B292F" />
+                  <!-- String Course -->
+                  <rect x="63" y="314" width="64" height="4" fill="#CCC3B5" opacity="0.65" />
+                  <!-- Parapet & Corner Pinnacles -->
+                  <rect x="59" y="226" width="72" height="7" fill="#9D9386" />
+                  <polygon points="59,227 66,227 62.5,188" fill="#B6AC9C" />
+                  <polygon points="124,227 131,227 127.5,188" fill="#867D71" />
+
+                  <!-- Octagonal Spire Rising Out of Frame -->
+                  <polygon points="95,48 68,226 122,226" fill="#AFA595" />
+                  <polygon points="95,48 95,226 122,226" fill="#837A6E" />
+                  <!-- Spire Lucarnes & Bands -->
+                  <polygon points="83,207 89.5,193 96,207" fill="#38363C" />
+                  <polygon points="100,207 106.5,193 113,207" fill="#2D2B31" />
+                  <line x1="77" y1="168" x2="113" y2="168" stroke="#CEC5B7" stroke-width="1.5" opacity="0.55" />
+                  <line x1="83" y1="128" x2="107" y2="128" stroke="#CEC5B7" stroke-width="1.5" opacity="0.55" />
+
+                  <!-- Right: Street Facade With Cornice & Windows (Right Sidewalk Trimmed by the 30% Crop) -->
+                  <rect x="286" y="168" width="114" height="332" fill="url(#streetFacadeGrad)" />
+                  <rect x="282" y="160" width="118" height="10" fill="#6F635A" />
+                  <rect x="300" y="190" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="334" y="190" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="368" y="190" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="300" y="244" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="334" y="244" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="368" y="244" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="300" y="298" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="334" y="298" width="18" height="30" rx="1" fill="#3A393F" />
+                  <rect x="368" y="298" width="18" height="30" rx="1" fill="#3A393F" />
+
+                  <!-- Sidewalk & Curb -->
+                  <rect x="0" y="372" width="400" height="128" fill="#6F7277" />
+                  <rect x="0" y="372" width="400" height="4" fill="#8E9196" />
 
                   <!-- Hair (Natural Textured Afro Silhouette) -->
                   <circle cx="200" cy="196" r="56" fill="#141212" />
@@ -1256,8 +1305,7 @@
 
         <!-- Academic, Personal & Hackathon Projects -->
         <div id="moreProjectsResumeSection" class="pt-4 border-t border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
-
-          <!-- Academic Projects Column -->
+                      <!-- Academic Projects Column -->
           <div class="space-y-3">
             <h4 class="text-xs font-mono-tech uppercase tracking-wider font-bold" style="color: var(--accent-bright)">Academic Projects (City Tech CET)</h4>
 
@@ -1761,8 +1809,7 @@
               <!-- Arrow -->
               <line x1="203" y1="224" x2="252" y2="224" stroke="#38BDF8" stroke-width="2.2" />
               <polygon points="252,220 260,224 252,228" fill="#38BDF8" />
-
-              <!-- Node 2: Arduino Mega 2560 -->
+                            <!-- Node 2: Arduino Mega 2560 -->
               <rect x="260" y="190" width="195" height="68" rx="8" fill="#111622" stroke="#38BDF8" stroke-width="1.8" />
               <text x="272" y="212" fill="#F8FAFC" font-family="'Inter', sans-serif" font-size="11" font-weight="700">Arduino Mega 2560</text>
               <text x="272" y="229" fill="#CBD5E1" font-family="'JetBrains Mono', monospace" font-size="9.5">Joystick ADC: A7, A8, A9</text>
@@ -2289,8 +2336,7 @@
 
         </div>
       </div>
-
-      <!-- 4. MEDPEEK REPOSITORY CODE & README VIEWER -->
+            <!-- 4. MEDPEEK REPOSITORY CODE & README VIEWER -->
       <div id="medpeekCodeSection" class="medpeek-card p-6 sm:p-8 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-4 relative z-10">
           <div>
@@ -2942,8 +2988,7 @@
     function switchClawReel(reelId) {
       currentReelId = reelId;
       clawProgress = 0;
-
-      const btn1 = document.getElementById('reelBtn1');
+            const btn1 = document.getElementById('reelBtn1');
       const btn2 = document.getElementById('reelBtn2');
       if (reelId === 1) {
         btn1.className = 'px-3.5 py-2 rounded-xl text-xs font-mono-tech font-semibold btn-glow flex items-center gap-2';
@@ -3734,8 +3779,7 @@ void loop() {
         ctx.arc(cx + dx, wristY + dy, 5.5, 0, Math.PI * 2);
         ctx.fill();
       });
-
-      const rays = [
+            const rays = [
         { angle: -0.62, lenM: 34, lenP1: 22, lenP2: 16, baseDx: -24, baseDy: -16 },
         { angle: -0.24, lenM: 48, lenP1: 28, lenP2: 18, lenP3: 13, baseDx: -14, baseDy: -22 },
         { angle: -0.03, lenM: 52, lenP1: 32, lenP2: 20, lenP3: 14, baseDx: -2,  baseDy: -24 },
@@ -4008,4 +4052,4 @@ def analyze_hand_xray_with_gemma4(image_b64: str, user_prompt: str) -> dict:
     };
   </script>
 </body>
-</html>
+</html>   
