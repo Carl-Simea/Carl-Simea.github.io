@@ -73,6 +73,7 @@ function navigateTo(viewId, scrollToElementId = null, updateHash = true) {
   if (normalizedId !== 'claw') {
     pauseClawVideo();
   }
+  closeMediaLightbox();
 
   if (scrollToElementId) {
     setTimeout(() => {
@@ -522,6 +523,45 @@ document.addEventListener('play', (e) => {
     if (v !== e.target && !v.paused) v.pause();
   });
 }, true);
+
+// Post-mortem evidence: small thumbnails open full size in a lightbox
+function openMediaLightbox(type, src, caption) {
+  const box = document.getElementById('mediaLightbox');
+  const body = document.getElementById('mediaLightboxBody');
+  if (!box || !body) return;
+  document.getElementById('mediaLightboxCaption').textContent = caption;
+  body.innerHTML = '';
+  let el;
+  if (type === 'video') {
+    el = document.createElement('video');
+    el.controls = true;
+    el.playsInline = true;
+    el.autoplay = true;
+  } else {
+    el = document.createElement('img');
+    el.alt = caption;
+  }
+  el.src = src;
+  el.className = 'w-full rounded-lg bg-black';
+  el.style.maxHeight = '75vh';
+  el.style.objectFit = 'contain';
+  body.appendChild(el);
+  box.classList.remove('hidden');
+}
+
+function closeMediaLightbox() {
+  const box = document.getElementById('mediaLightbox');
+  const body = document.getElementById('mediaLightboxBody');
+  if (!box || box.classList.contains('hidden')) return;
+  const v = body.querySelector('video');
+  if (v) v.pause();
+  body.innerHTML = '';
+  box.classList.add('hidden');
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMediaLightbox();
+});
 
 function cycleClawSpeed() {
   const speeds = [1.0, 1.5, 2.0, 0.5];
