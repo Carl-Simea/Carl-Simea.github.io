@@ -879,6 +879,87 @@
         </div>
       </div>
 
+      <!-- 2.5 BUILD & TEST LOG: REAL TEST CLIPS AND BUILD PHOTOS, IN ORDER -->
+      <div id="clawTestLogSection" class="glow-card p-5 sm:p-7 space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/10 pb-4 relative z-10">
+          <div>
+            <span class="text-[11px] font-mono-tech uppercase tracking-wider" style="color: var(--accent-bright)">Build &amp; Test Log</span>
+            <h2 class="font-serif-luxury text-2xl font-bold text-white mt-0.5">From the First Motor Spin to the Full Machine</h2>
+            <p class="text-xs text-gray-400">Real clips from our build, in order. The clips that show failures are in the post-mortem below, next to the problem they show.</p>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl badge-tech text-xs font-mono-tech self-start lg:self-auto">5 Test Clips • 1 Build Photo</span>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 relative z-10">
+          <figure class="sub-pill p-3 space-y-2.5">
+            <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-first-stepper-poster.jpg" src="./content/test-first-stepper.mp4"></video>
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">TEST 01</span>
+                <span class="text-gray-400">0:13</span>
+              </div>
+              <div class="text-sm font-bold text-white">First Stepper Motor Test</div>
+              <p class="text-xs text-gray-300 leading-relaxed">Spinning a NEMA 17 stepper on its T8 lead screw on the bench, before anything was mounted on the frame.</p>
+            </figcaption>
+          </figure>
+          <figure class="sub-pill p-3 space-y-2.5">
+            <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-xy-grid-poster.jpg" src="./content/test-xy-grid.mp4"></video>
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">TEST 02</span>
+                <span class="text-gray-400">0:40</span>
+              </div>
+              <div class="text-sm font-bold text-white">X/Y Grid Code Test</div>
+              <p class="text-xs text-gray-300 leading-relaxed">Running the X/Y movement code on the bench to check both lead screws travel the way the joystick tells them to.</p>
+            </figcaption>
+          </figure>
+          <figure class="sub-pill p-3 space-y-2.5">
+            <img class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: cover;" src="./content/build-gantry-frame.jpg" alt="Claw machine gantry frame with three stepper motors and lead screws" loading="lazy" />
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">BUILD 03</span>
+                <span class="text-gray-400">Photo</span>
+              </div>
+              <div class="text-sm font-bold text-white">Gantry Frame Assembled</div>
+              <p class="text-xs text-gray-300 leading-relaxed">NEMA 17 steppers, flexible couplers and T8 lead screws mounted on the 2020 aluminum frame.</p>
+            </figcaption>
+          </figure>
+          <figure class="sub-pill p-3 space-y-2.5">
+            <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-load-bearing-poster.jpg" src="./content/test-load-bearing.mp4"></video>
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">TEST 04</span>
+                <span class="text-gray-400">0:26</span>
+              </div>
+              <div class="text-sm font-bold text-white">Load-Bearing Test</div>
+              <p class="text-xs text-gray-300 leading-relaxed">Checking how the frame and motor mounts hold up under load once the gantry was on the frame.</p>
+            </figcaption>
+          </figure>
+          <figure class="sub-pill p-3 space-y-2.5">
+            <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-tap-to-pay-poster.jpg" src="./content/test-tap-to-pay.mp4"></video>
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">TEST 05</span>
+                <span class="text-gray-400">0:36</span>
+              </div>
+              <div class="text-sm font-bold text-white">Tap-to-Pay Sensor Test</div>
+              <p class="text-xs text-gray-300 leading-relaxed">The LCD runs through the welcome screen, the two prize options and &ldquo;waiting for payment&rdquo; until something comes within 2 cm of the HC-SR04.</p>
+            </figcaption>
+          </figure>
+          <figure class="sub-pill p-3 space-y-2.5">
+            <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-demo-run-poster.jpg" src="./content/test-demo-run.mp4"></video>
+            <figcaption class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-mono-tech">
+                <span class="px-2 py-0.5 rounded badge-tech font-bold">TEST 06</span>
+                <span class="text-gray-400">0:13</span>
+              </div>
+              <div class="text-sm font-bold text-white">First Full-Machine Run</div>
+              <p class="text-xs text-gray-300 leading-relaxed">An early run with the whole machine assembled, driven from the joystick with the Arduino connected to the laptop.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
       <!-- 3. HARDWARE & PINOUT ARCHITECTURE BREAKDOWN -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="glow-card p-6 lg:col-span-7 space-y-4">
@@ -1016,6 +1097,16 @@
             <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
               Fix: Isolated the servo load onto a dedicated breadboard power supply module to prevent logic brownouts.
             </div>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <figure class="space-y-1">
+                <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-short-circuit-poster.jpg" src="./content/test-short-circuit.mp4"></video>
+                <figcaption class="text-[10px] font-mono-tech text-gray-400 leading-snug">Checking the board after the short</figcaption>
+              </figure>
+              <figure class="space-y-1">
+                <img class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: cover;" src="./content/build-power-module.jpg" alt="Breadboard power supply module powering the servo rail" loading="lazy" />
+                <figcaption class="text-[10px] font-mono-tech text-gray-400 leading-snug">The fix: a separate breadboard power module</figcaption>
+              </figure>
+            </div>
           </div>
 
           <div class="sub-pill p-5 space-y-2.5">
@@ -1044,6 +1135,10 @@
             <div class="pt-2 border-t border-white/10 text-[11px] font-mono-tech text-emerald-400">
               Fix: Drove the servo winch like a stepper—incrementing or decrementing by ±1 degree per joystick read—to achieve smooth, non-blocking vertical spooling.
             </div>
+            <figure class="space-y-1 pt-1">
+              <video class="w-full rounded-lg bg-black" style="aspect-ratio: 3 / 4; object-fit: contain;" controls playsinline preload="none" poster="./content/test-claw-pushbutton-poster.jpg" src="./content/test-claw-pushbutton.mp4"></video>
+              <figcaption class="text-[10px] font-mono-tech text-gray-400 leading-snug">Pushbutton claw test, still held by hand before the winch was balanced</figcaption>
+            </figure>
           </div>
         </div>
 

@@ -160,6 +160,7 @@ const searchItems = [
   { title: 'About Me & Bio', category: 'Bio', keywords: 'about bio portrait haiti biomedical engineering city tech cuny', action: () => navigateTo('about') },
   { title: 'Oct 2026 Full Resume & Skills', category: 'Resume', keywords: 'resume cv cs50x mit 6.036 t-mobile bambu lab raspberry pi circuit solver', action: () => navigateTo('about', 'fullResumeSection') },
   { title: 'DIY Claw & Vending Machine', category: 'Project 01', keywords: 'claw machine vending rizwan arduino mega stepper servo video', action: () => navigateTo('claw') },
+  { title: 'Claw Machine Build & Test Videos', category: 'Tests', keywords: 'test video stepper load bearing tap to pay sensor demo build photo', action: () => navigateTo('claw', 'clawTestLogSection') },
   { title: 'Claw Machine Engineering Post-Mortem Log', category: 'Debug', keywords: 'post-mortem debug short circuit fuse tinkercad winch sg90', action: () => navigateTo('claw', 'clawPostMortemSection') },
   { title: 'Claw Machine 11-Item Amazon BOM', category: 'BOM', keywords: 'bom bill of materials amazon power supply servo coupler cnc shield', action: () => navigateTo('claw', 'clawBomSection') },
   { title: 'Claw Machine Arduino Mega Code', category: 'Code', keywords: 'code firmware arduino mega ino ultrasonic joystick', action: () => navigateTo('claw', 'clawCodeSection') },
@@ -509,8 +510,18 @@ function toggleClawPlayback() {
 }
 
 function pauseClawVideo() {
-  if (!clawVideo.paused) clawVideo.pause();
+  // Pauses the main reel and every test clip on the claw page
+  document.querySelectorAll('#view-claw video').forEach(v => {
+    if (!v.paused) v.pause();
+  });
 }
+
+// Only one video plays at a time on the claw page
+document.addEventListener('play', (e) => {
+  document.querySelectorAll('#view-claw video').forEach(v => {
+    if (v !== e.target && !v.paused) v.pause();
+  });
+}, true);
 
 function cycleClawSpeed() {
   const speeds = [1.0, 1.5, 2.0, 0.5];
