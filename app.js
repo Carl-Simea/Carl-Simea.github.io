@@ -21,6 +21,8 @@ function applyColorMode(mode) {
   try {
     localStorage.setItem('simea_theme_mode', normalized);
   } catch (err) {}
+
+  syncEnigmaFrame();   // the embedded Enigma visualizer follows the same mode
 }
 
 function toggleColorMode() {
@@ -33,6 +35,7 @@ function normalizeRouteId(rawId) {
   const cleaned = (rawId || '').replace(/^#/, '').trim().toLowerCase();
   if (cleaned === 'project-claw' || cleaned === 'claw') return 'claw';
   if (cleaned === 'project-medpeek' || cleaned === 'medpeek') return 'medpeek';
+  if (cleaned === 'project-enigma' || cleaned === 'enigma') return 'enigma';
   if (cleaned === 'about' || cleaned === 'resume' || cleaned === 'cv') return 'about';
   return 'home';
 }
@@ -59,7 +62,7 @@ function navigateTo(viewId, scrollToElementId = null, updateHash = true) {
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
     const navAttr = btn.getAttribute('data-nav');
-    const isProjectView = (normalizedId === 'claw' || normalizedId === 'medpeek') && navAttr === 'projects';
+    const isProjectView = ['claw', 'medpeek', 'enigma'].includes(normalizedId) && navAttr === 'projects';
     if (navAttr === normalizedId || isProjectView) {
       btn.classList.add('bg-white/10', 'text-white');
       btn.classList.remove('text-gray-300');
@@ -72,6 +75,11 @@ function navigateTo(viewId, scrollToElementId = null, updateHash = true) {
   // Stop the claw video when leaving its page so the audio doesn't keep playing
   if (normalizedId !== 'claw') {
     pauseClawVideo();
+  }
+
+  // The Enigma page loads its code only when someone opens it
+  if (normalizedId === 'enigma') {
+    openEnigmaPage();
   }
 
   if (scrollToElementId) {
@@ -161,6 +169,8 @@ const searchItems = [
   { title: 'Claw Machine 11-Item Amazon BOM', category: 'BOM', keywords: 'bom bill of materials amazon power supply servo coupler cnc shield', action: () => navigateTo('claw', 'clawBomSection') },
   { title: 'Claw Machine Arduino Mega Code', category: 'Code', keywords: 'code firmware arduino mega ino ultrasonic joystick', action: () => navigateTo('claw', 'clawCodeSection') },
   { title: 'MedPeek: AI X-Ray Reader', category: 'Project 02', keywords: 'medpeek ai x-ray mri ct gemma 4 ollama fracatlas', action: () => navigateTo('medpeek') },
+  { title: 'Enigma Machine', category: 'Project 03', keywords: 'enigma cipher cryptography rotor reflector plugboard c c++ python javascript', action: () => navigateTo('enigma') },
+  { title: 'Enigma Machine Live Demo', category: 'Demo', keywords: 'enigma demo visualizer try type encrypt decrypt build plan pdf', action: () => navigateTo('enigma', 'enigmaLiveSection') },
   { title: 'Copy Email: simeacarlwendy@gmail.com', category: 'Contact', keywords: 'email mail contact simeacarlwendy', action: (e) => handleEmailAction(e) }
 ];
 
@@ -902,7 +912,76 @@ function switchMedPeekCodeTab(key) {
 }
 
 // --------------------------------------------------------------------------
-// 6. EMAIL, CLIPBOARD & TOAST
+// 6. ENIGMA MACHINE: EMBEDDED VISUALIZER & CODE
+// --------------------------------------------------------------------------
+// The visualizer and its code both come from the Enigma-Machine repo's
+// GitHub Pages site, which shares this site's origin (carl-simea.github.io).
+const ENIGMA_VISUALIZER = 'https://carl-simea.github.io/Enigma-Machine/visualizer/';
+let enigmaPageOpened = false;
+
+function openEnigmaPage() {
+  if (enigmaPageOpened) return;
+  enigmaPageOpened = true;
+  loadEnigmaCode();
+
+  const frame = document.getElementById('enigmaFrame');
+  if (frame) {
+    frame.addEventListener('load', watchEnigmaFrame);
+    watchEnigmaFrame();   // in case it already loaded
+  }
+}
+
+// Shows the visualizer's script.js, so the page always matches the repo
+async function loadEnigmaCode() {
+  const display = document.getElementById('enigmaCodeDisplay');
+  if (!display) return;
+  display.textContent = 'Loading script.js...';
+  try {
+    const res = await fetch(ENIGMA_VISUALIZER + 'script.js');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    display.textContent = await res.text();
+  } catch (err) {
+    display.textContent = "Couldn't load script.js.\nRead it on GitHub: https://github.com/Carl-Simea/Enigma-Machine/blob/main/visualizer/script.js";
+  }
+}
+
+// Returns the visualizer's document, or null when the browser keeps it
+// separate (a local copy of this site, opened from a different origin).
+function enigmaFrameDocument() {
+  const frame = document.getElementById('enigmaFrame');
+  try {
+    return frame && frame.contentDocument && frame.contentDocument.body ? frame.contentDocument : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+// Matches the visualizer to this site's light/dark mode and fits the
+// frame to the machine, so the page scrolls instead of the frame.
+function syncEnigmaFrame() {
+  const doc = enigmaFrameDocument();
+  if (!doc) return;
+  const mode = document.documentElement.getAttribute('data-mode') || 'dark';
+  doc.documentElement.setAttribute('data-theme', mode);
+  const height = Math.ceil(doc.body.getBoundingClientRect().height);
+  if (height > 0) {
+    document.getElementById('enigmaFrame').style.height = height + 'px';
+  }
+}
+
+function watchEnigmaFrame() {
+  const doc = enigmaFrameDocument();
+  if (!doc) return;
+  syncEnigmaFrame();
+  const FrameResizeObserver = doc.defaultView && doc.defaultView.ResizeObserver;
+  if (FrameResizeObserver && !doc.body.dataset.simeaWatched) {
+    doc.body.dataset.simeaWatched = 'true';
+    new FrameResizeObserver(syncEnigmaFrame).observe(doc.body);
+  }
+}
+
+// --------------------------------------------------------------------------
+// 7. EMAIL, CLIPBOARD & TOAST
 // --------------------------------------------------------------------------
 const CONTACT_EMAIL = 'simeacarlwendy@gmail.com';
 

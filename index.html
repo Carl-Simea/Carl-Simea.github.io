@@ -7,7 +7,7 @@
   <!-- Custom Traced "C" Monogram SVG Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0D12' stroke='%2394A3B8' stroke-width='2'/%3E%3Cpath d='M44 18 C28 12, 14 26, 17 42 C20 52, 37 50, 48 40' fill='none' stroke='%23F8FAFC' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E" />
   <!-- OpenGraph & Twitter Card Social Meta Tags -->
-  <meta name="description" content="Engineering portfolio of Carl Wendy Simea — Embedded Microcontroller Systems, 3-Axis Electromechanical Prototyping, C/C++ & Python Development, and Local Clinical AI." />
+  <meta name="description" content="Engineering portfolio of Carl Wendy Simea — Embedded Microcontroller Systems, 3-Axis Electromechanical Prototyping, C/C++ & Python Development, Cryptography, and Local Clinical AI." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Simea Tech — Carl Wendy Simea | Engineering Portfolio" />
   <meta property="og:description" content="Embedded Systems, 3-Axis Electromechanical Gantry Prototyping, C/C++ & Python Software, and MedPeek Local Clinical AI." />
@@ -149,6 +149,16 @@
                   <div class="text-[11px] text-gray-400 mt-0.5">Gemma 4 • Hand X-Ray Reader</div>
                 </div>
               </button>
+
+              <button type="button" onclick="selectProjectFromMenu('enigma', null, event)" class="w-full px-4 py-3 text-left hover:bg-white/10 flex items-start gap-3 transition-colors border-t border-white/10">
+                <div class="w-8 h-8 rounded-lg badge-tech flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-key text-xs"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white">Enigma Machine</div>
+                  <div class="text-[11px] text-gray-400 mt-0.5">C • C++ • Python • Live Visualizer</div>
+                </div>
+              </button>
             </div>
           </div>
         </nav>
@@ -196,6 +206,7 @@
           <button type="button" onclick="navigateTo('about'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-white">About Me</button>
           <button type="button" onclick="navigateTo('claw'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-slate-200">DIY Claw &amp; Vending Machine</button>
           <button type="button" onclick="navigateTo('medpeek'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-slate-200">MedPeek: AI X-Ray Reader</button>
+          <button type="button" onclick="navigateTo('enigma'); toggleMobileMenu();" class="px-3 py-2 rounded-lg bg-white/5 text-left text-xs font-medium text-slate-200">Enigma Machine</button>
         </div>
       </div>
     </div>
@@ -253,8 +264,8 @@
             </a>
           </div>
 
-          <!-- 3 Equal-Height Destination Portal Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 items-stretch">
+          <!-- 4 Equal-Height Destination Portal Cards (2 x 2) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 items-stretch">
 
             <!-- Card A: About Me -->
             <button
@@ -334,6 +345,32 @@
               </div>
             </button>
 
+            <!-- Card D: Project 03 -->
+            <button
+              type="button"
+              onclick="navigateTo('enigma')"
+              class="sub-pill p-6 text-left flex flex-col justify-between h-full group focus:outline-none"
+            >
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md badge-tech text-[11px] font-mono-tech font-semibold">04 // PROJECT 03</span>
+                  <div class="w-9 h-9 rounded-xl badge-tech flex items-center justify-center">
+                    <i class="fa-solid fa-key text-sm"></i>
+                  </div>
+                </div>
+                <h2 class="font-serif-luxury text-2xl font-bold text-white group-hover:underline">
+                  Enigma Machine
+                </h2>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                  The WWII Enigma I cipher machine rebuilt in C, C++ and Python, plus a browser version you can type on. Real rotor wirings, verified against py-enigma.
+                </p>
+              </div>
+              <div class="pt-4 mt-5 border-t border-white/10 w-full flex items-center justify-between text-xs font-mono-tech" style="color: var(--accent-bright)">
+                <span>EXPLORE PROJECT 03</span>
+                <span>→</span>
+              </div>
+            </button>
+
           </div>
 
         </div>
@@ -357,6 +394,9 @@
           </button>
           <button type="button" onclick="navigateTo('medpeek')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
             Project 02: MedPeek AI X-Ray Reader
+          </button>
+          <button type="button" onclick="navigateTo('enigma')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            Project 03: Enigma Machine
           </button>
         </div>
       </div>
@@ -503,7 +543,7 @@
               </div>
               <div class="text-[11px] font-mono-tech text-gray-400">GITHUB</div>
               <div class="text-sm font-bold text-white mt-0.5">github.com/Carl-Simea</div>
-              <p class="text-xs text-gray-400 mt-2">Source code for MedPeek, Circuit Solver, and embedded C/C++ projects.</p>
+              <p class="text-xs text-gray-400 mt-2">Source code for MedPeek, the Enigma Machine, Circuit Solver, and embedded C/C++ projects.</p>
             </div>
             <a href="https://github.com/Carl-Simea" target="_blank" rel="noopener noreferrer" class="mt-4 py-2 rounded-lg btn-outline-glow text-center text-xs font-mono-tech block">
               Open GitHub Profile
@@ -704,6 +744,22 @@
             </div>
           </div>
 
+          <!-- Personal Projects Column -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-mono-tech uppercase tracking-wider font-bold" style="color: var(--accent-bright)">Personal Projects</h4>
+
+            <div class="sub-pill p-4">
+              <div class="flex items-center justify-between text-[11px] font-mono-tech text-gray-400">
+                <span class="text-white font-bold">Enigma Machine in C, C++, Python &amp; JavaScript</span>
+                <span class="text-emerald-400">Completed</span>
+              </div>
+              <ul class="text-xs text-gray-200 mt-1.5 space-y-1 list-disc list-inside leading-relaxed">
+                <li>Rebuilt the Enigma I cipher machine with the real rotor wirings, Reflector B, a 10-cable plugboard and the double step.</li>
+                <li>Wrote terminal versions in C, C++ and Python and a browser visualizer in JavaScript, all verified against py-enigma.</li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -723,6 +779,9 @@
           </button>
           <button type="button" onclick="navigateTo('medpeek')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
             Project 02: MedPeek AI X-Ray Reader →
+          </button>
+          <button type="button" onclick="navigateTo('enigma')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            Project 03: Enigma Machine →
           </button>
         </div>
         <span class="text-xs font-mono-tech text-gray-400">PROJECT 01 // CLAW-STYLE VENDING MACHINE (09/2025–12/2025)</span>
@@ -1488,6 +1547,9 @@
           <button type="button" onclick="navigateTo('claw')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
             Project 01: DIY Claw &amp; Vending Machine
           </button>
+          <button type="button" onclick="navigateTo('enigma')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            Project 03: Enigma Machine →
+          </button>
         </div>
         <div class="flex items-center gap-2 text-xs font-mono-tech text-slate-300">
           <span class="w-2 h-2 rounded-full bg-slate-300 animate-pulse"></span>
@@ -1711,6 +1773,422 @@ python3 app.py</pre>
 
     </section>
 
+    <!-- ========================================================================
+         VIEW 5: DEDICATED PROJECT #3 PAGE — ENIGMA MACHINE (#view-enigma)
+         (Live Visualizer From github.com/Carl-Simea/Enigma-Machine + Design Notes)
+         ======================================================================== -->
+    <section id="view-enigma" class="spa-view space-y-7">
+
+      <!-- Top Navigation Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="navigateTo('home')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            ← Home
+          </button>
+          <button type="button" onclick="navigateTo('claw')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            Project 01: DIY Claw &amp; Vending Machine
+          </button>
+          <button type="button" onclick="navigateTo('medpeek')" class="btn-outline-glow px-3.5 py-1.5 rounded-xl text-xs font-mono-tech">
+            Project 02: MedPeek AI X-Ray Reader
+          </button>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-mono-tech text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-slate-300 animate-pulse"></span>
+          <span>PROJECT 03 // ENIGMA MACHINE (09/2026–11/2026)</span>
+        </div>
+      </div>
+
+      <!-- 1. Enigma Hero Banner -->
+      <div class="glow-card p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-3 max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full badge-tech text-xs font-mono-tech">
+              <i class="fa-solid fa-key"></i>
+              <span>Personal Project • C, C++, Python &amp; JavaScript</span>
+            </div>
+            <h1 class="font-serif-luxury text-3xl sm:text-5xl font-bold text-white tracking-tight">
+              Enigma Machine: <span class="text-glow-gradient italic">Rebuilt in Four Languages</span>
+            </h1>
+            <p class="text-sm sm:text-base text-gray-300 leading-relaxed">
+              A working software copy of the German <strong class="text-white">Enigma I</strong> cipher machine. I wrote it in <strong class="text-white">C, C++ and Python</strong> for the terminal, then built a <strong class="text-white">browser version</strong> you can type on. It uses the real rotor wirings, Reflector B, a 10-cable plugboard and the double step, and it matches <strong class="text-white">py-enigma</strong> letter for letter.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-3 shrink-0">
+            <a
+              href="https://github.com/Carl-Simea/Enigma-Machine"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-glow px-5 py-3 rounded-xl font-mono-tech text-xs sm:text-sm flex items-center justify-center gap-2.5"
+            >
+              <i class="fa-brands fa-github text-base"></i>
+              <span>Open GitHub: Carl-Simea/Enigma-Machine</span>
+            </a>
+            <button
+              type="button"
+              onclick="document.getElementById('enigmaLiveSection').scrollIntoView({behavior:'smooth'})"
+              class="btn-outline-glow px-5 py-2.5 rounded-xl font-mono-tech text-xs flex items-center justify-center gap-2"
+            >
+              <i class="fa-solid fa-keyboard"></i>
+              <span>Try the Machine Below</span>
+            </button>
+            <a
+              href="./content/Enigma_Machine_Build_Plan.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-outline-glow px-5 py-2.5 rounded-xl font-mono-tech text-xs flex items-center justify-center gap-2"
+            >
+              <i class="fa-regular fa-file-pdf"></i>
+              <span>Read the Build Plan (PDF)</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-center font-mono-tech text-xs relative z-10">
+          <div class="sub-pill p-3">
+            <div class="text-[10px] text-slate-300">Versions</div>
+            <div class="font-bold text-white mt-0.5">C • C++ • Python • JS</div>
+          </div>
+          <div class="sub-pill p-3">
+            <div class="text-[10px] text-slate-300">Hardware Modeled</div>
+            <div class="font-bold text-white mt-0.5">Rotors I–V + Reflector B</div>
+          </div>
+          <div class="sub-pill p-3">
+            <div class="text-[10px] text-slate-300">Plugboard</div>
+            <div class="font-bold text-white mt-0.5">Up to 10 Cables</div>
+          </div>
+          <div class="sub-pill p-3">
+            <div class="text-[10px] text-slate-300">Verified Against</div>
+            <div class="font-bold text-white mt-0.5">py-enigma</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. LIVE VISUALIZER (THE REPO'S GITHUB PAGES BUILD, EMBEDDED) -->
+      <div id="enigmaLiveSection" class="glow-card p-5 sm:p-7 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-white/15 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">Live Demo</span>
+            <h2 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mt-0.5">Type on the Machine</h2>
+            <p class="text-xs text-gray-400 mt-1">
+              The live visualizer from the repo, running right here. Click the machine first, then type. Turn the rotors and plug in cables to change the settings.
+            </p>
+          </div>
+          <a href="https://carl-simea.github.io/Enigma-Machine/visualizer/" target="_blank" rel="noopener noreferrer" class="btn-outline-glow px-3.5 py-2 rounded-xl text-xs font-mono-tech flex items-center gap-2 self-start sm:self-auto shrink-0">
+            <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+            <span>Open Full Screen</span>
+          </a>
+        </div>
+
+        <div class="relative z-10 rounded-xl overflow-hidden border border-white/15">
+          <iframe
+            id="enigmaFrame"
+            src="https://carl-simea.github.io/Enigma-Machine/visualizer/"
+            title="Enigma machine visualizer"
+            loading="lazy"
+            class="w-full block"
+            style="height: 1020px; border: 0;"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- 3. HOW ONE KEYPRESS TRAVELS THROUGH THE MACHINE -->
+      <div class="glow-card p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/15 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">How It Works</span>
+            <h2 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mt-0.5">
+              What Happens When You Press a Key
+            </h2>
+            <p class="text-xs text-gray-400">
+              Every letter is a number from 0 to 25 inside the machine. Letters only appear at the keyboard and the lamps.
+            </p>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl badge-tech text-xs font-mono-tech self-start lg:self-auto">
+            step() → encrypt() → lamp
+          </span>
+        </div>
+
+        <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative z-10">
+          <li class="sub-pill p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">STEP 01</span>
+              <i class="fa-solid fa-rotate" style="color: var(--accent-bright)"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">The Rotors Turn</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">Before every letter, rotor 1 turns one place. At its notch it turns rotor 2, and rotor 2 at its own notch double-steps and takes rotor 3 with it.</p>
+          </li>
+          <li class="sub-pill p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">STEP 02</span>
+              <i class="fa-solid fa-plug" style="color: var(--accent-bright)"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Plugboard In</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">Up to 10 cables swap pairs of letters before the signal reaches the rotors.</p>
+          </li>
+          <li class="sub-pill p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">STEP 03</span>
+              <i class="fa-solid fa-gears" style="color: var(--accent-bright)"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Three Rotors</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">Each rotor is a scrambled array with the real Enigma I wiring. The arrays themselves rotate, so there is no position math on the way through.</p>
+          </li>
+          <li class="sub-pill p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">STEP 04</span>
+              <i class="fa-solid fa-right-left" style="color: var(--accent-bright)"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Reflector B</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">Swaps letters in pairs and sends the signal back. That's why the same settings decrypt, and why no letter can encrypt to itself.</p>
+          </li>
+          <li class="sub-pill p-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech font-bold">STEP 05</span>
+              <i class="fa-solid fa-lightbulb" style="color: var(--accent-bright)"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white">Back Out to the Lamp</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">The way back searches each rotor in reverse with <code>find()</code>, goes through the plugboard again, and the lamp lights up.</p>
+          </li>
+        </ol>
+
+        <div class="dark-surface relative z-10 rounded-xl bg-[#040B0E] border border-slate-500/30 p-4 font-mono-tech text-[11px] overflow-x-auto code-scroll">
+          <div class="text-slate-400 mb-2">// script.js: one keypress. The same function encrypts and decrypts.</div>
+          <pre class="whitespace-pre leading-relaxed text-slate-200">function encrypt(c) {
+    step();
+
+    let i = c.toUpperCase().charCodeAt(0) - 65;   // letter to 0-25
+
+    i = plug[i];            // plugboard, way in
+    i = r1[i];              // no + p here: the arrays already moved
+    i = r2[i];
+    i = r3[i];
+    i = REFLECTOR_B[i];
+    i = find(r3, i);        // way back: search the current arrays
+    i = find(r2, i);
+    i = find(r1, i);
+    i = plug[i];            // plugboard, way out
+
+    return String.fromCharCode(65 + i);           // 0-25 back to a letter
+}</pre>
+        </div>
+      </div>
+
+      <!-- 4. FOUR VERSIONS OF THE SAME MACHINE -->
+      <div class="glow-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-white/15 pb-4 relative z-10">
+          <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">One Design, Four Languages</span>
+          <h2 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mt-0.5">The Same Machine in C, C++, Python and JavaScript</h2>
+          <p class="text-xs text-gray-400">
+            Each terminal version is split the same way: <code>main</code> runs the typing loop, <code>machine</code> is the machine itself, and <code>settings</code> is the menu, like a phone and its settings screen.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+          <div class="sub-pill p-4 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white">C</h3>
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech">Terminal</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">Constant arrays in a header need <code>static</code>, so each file gets its own copy. Reads keys live with <code>termios</code> on macOS and Linux and <code>_getch()</code> on Windows.</p>
+            <a href="https://github.com/Carl-Simea/Enigma-Machine/tree/main/Cli/Enigma_Machine_C" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 text-[11px] font-mono-tech pt-1" style="color: var(--accent-bright)">
+              <i class="fa-brands fa-github"></i> View the code on GitHub →
+            </a>
+          </div>
+          <div class="sub-pill p-4 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white">C++</h3>
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech">Terminal</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">Headers with <code>#pragma once</code> and <code>extern</code> for the shared machine state. The plugboard's free letters live in a <code>std::string</code> with <code>find()</code> and <code>erase()</code>.</p>
+            <a href="https://github.com/Carl-Simea/Enigma-Machine/tree/main/Cli/Enigma_Machine_C%2B%2B" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 text-[11px] font-mono-tech pt-1" style="color: var(--accent-bright)">
+              <i class="fa-brands fa-github"></i> View the code on GitHub →
+            </a>
+          </div>
+          <div class="sub-pill p-4 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white">Python</h3>
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech">Terminal</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">No headers: <code>import</code> runs each module once and reuses it, so <code>machine.r1</code> is the same list everywhere.</p>
+            <a href="https://github.com/Carl-Simea/Enigma-Machine/tree/main/Cli/Enigma_Machine_Python" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 text-[11px] font-mono-tech pt-1" style="color: var(--accent-bright)">
+              <i class="fa-brands fa-github"></i> View the code on GitHub →
+            </a>
+          </div>
+          <div class="sub-pill p-4 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-white">JavaScript</h3>
+              <span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech">Browser</span>
+            </div>
+            <p class="text-xs text-gray-300 leading-relaxed">The visualizer above: the same machine functions as the C++ version, plus the code that draws the rotors, lamps, keys and plugboard cables.</p>
+            <a href="https://github.com/Carl-Simea/Enigma-Machine/tree/main/visualizer" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 text-[11px] font-mono-tech pt-1" style="color: var(--accent-bright)">
+              <i class="fa-brands fa-github"></i> View the code on GitHub →
+            </a>
+          </div>
+        </div>
+
+        <div class="dark-surface relative z-10 rounded-xl bg-[#040B0E] border border-slate-500/30 p-4 font-mono-tech text-[11px] overflow-x-auto code-scroll">
+          <div class="text-slate-400 mb-2"># Run a terminal version (each command starts from the repo folder)</div>
+          <pre class="whitespace-pre leading-relaxed text-slate-200"><span class="text-slate-400"># C</span>
+cd Cli/Enigma_Machine_C &amp;&amp; gcc main.c machine.c settings.c -o enigma &amp;&amp; ./enigma
+
+<span class="text-slate-400"># C++</span>
+cd Cli/Enigma_Machine_C++ &amp;&amp; g++ main.cpp machine.cpp settings.cpp -o enigma &amp;&amp; ./enigma
+
+<span class="text-slate-400"># Python</span>
+cd Cli/Enigma_Machine_Python &amp;&amp; python3 main.py</pre>
+        </div>
+      </div>
+
+      <!-- 5. DESIGN NOTES: MY IDEAS AND WHAT CHANGED -->
+      <div class="glow-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-white/15 pb-4 relative z-10">
+          <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">Design Notes</span>
+          <h2 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mt-0.5">From My First Idea to a Working Machine</h2>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mt-1">
+            I started from a video on how the machine works and came up with the structure myself: three rotors, a reflector, a menu for the settings, a plugboard, and output that appears as you type. I reviewed each idea with Claude (Anthropic's AI assistant), which explained where an idea wouldn't work and why. The full log is in the <a href="https://github.com/Carl-Simea/Enigma-Machine#readme" target="_blank" rel="noopener noreferrer" class="underline" style="color: var(--accent-bright)">README</a>, and the plan I built from is below.
+          </p>
+        </div>
+
+        <div class="relative z-10 overflow-x-auto code-scroll">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="border-b border-white/15 font-mono-tech text-[10px] uppercase tracking-wider text-gray-400">
+                <th class="py-2 pr-4 font-semibold">My Idea</th>
+                <th class="py-2 pr-4 font-semibold">Outcome</th>
+                <th class="py-2 font-semibold">What Happened</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Rotors as Caesar shifts (+2, +3), reflector as +9</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech whitespace-nowrap">Corrected</span></td>
+                <td class="py-2.5 leading-relaxed">Shifts cancel out on the way back, and +9 can't be reversed, so the machine collapses into one fixed cipher. Changed to scrambled arrays with the real wirings and a reflector that swaps letters in pairs.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Count key presses to decide how far a letter travels</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech whitespace-nowrap">Corrected</span></td>
+                <td class="py-2.5 leading-relaxed">Every keypress takes the full trip. What changes between presses is where the rotors sit.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Each rotor function calls the next one</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech whitespace-nowrap">Corrected</span></td>
+                <td class="py-2.5 leading-relaxed">The reflector would call rotor 3, which would call the reflector, forever. Changed to one <code>encrypt()</code> that calls each step in order.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Numbers 0 to 25 inside the machine, letters only at the edges</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-tech whitespace-nowrap">Kept</span></td>
+                <td class="py-2.5 leading-relaxed">Array indexes and <code>% 26</code> just work.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Turn a rotor by moving the array itself, by swapping neighbors</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-tech whitespace-nowrap">Kept</span></td>
+                <td class="py-2.5 leading-relaxed">Became <code>rotate()</code>, borrowed from bubble sort without the comparison. <code>minus_1()</code> was added because on a real rotor the exit contacts turn too.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Turn rotor 2 with a counter (<code>% 26</code>)</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded badge-tech text-[10px] font-mono-tech whitespace-nowrap">Refined</span></td>
+                <td class="py-2.5 leading-relaxed">Replaced by notch letters with the double step, to match how the real machine moves.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">Plugboard limited to 10 cables, showing the free letters</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-tech whitespace-nowrap">Kept</span></td>
+                <td class="py-2.5 leading-relaxed">Like the original machine. A letter that's already used is rejected, since reusing it would break decryption.</td>
+              </tr>
+              <tr class="border-b border-white/10 align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">No separate decrypt function</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-tech whitespace-nowrap">Kept</span></td>
+                <td class="py-2.5 leading-relaxed">The reflector makes the machine its own reverse.</td>
+              </tr>
+              <tr class="align-top">
+                <td class="py-2.5 pr-4 text-white font-medium">A visualizer that looks like the real machine, with clickable keys</td>
+                <td class="py-2.5 pr-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono-tech whitespace-nowrap">Built</span></td>
+                <td class="py-2.5 leading-relaxed">JavaScript in the browser was simpler than graphics in C++. Rotor windows show 0 to 25, and the output appears under what you typed.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 relative z-10">
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Why a Simple Cipher Breaks It</div>
+            <p class="text-xs text-gray-300 leading-relaxed">A shift looks the same from every position, so turning the rotor changes nothing and the way back undoes the way in. The whole machine shrinks to a single shift. The reflector has to swap letters in pairs, or decryption fails.</p>
+          </div>
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Turning a Rotor</div>
+            <p class="text-xs text-gray-300 leading-relaxed">Swapping neighbors needs a temporary variable, because <code>a = b; b = a;</code> only copies. The loop stops at <code>i &lt; 25</code> because it also touches <code>i + 1</code>. In C++, <code>%</code> can return a negative number, so wrapping back sometimes needs <code>+ 26</code>.</p>
+          </div>
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Reading Keys Live</div>
+            <p class="text-xs text-gray-300 leading-relaxed">The terminal holds keys until Enter. Showing each letter as it's typed takes <code>termios</code> with buffering and echo off, restored afterward. Backspace can't undo a letter, because the rotors have already turned.</p>
+          </div>
+        </div>
+
+        <a href="./content/Enigma_Machine_Build_Plan.pdf" target="_blank" rel="noopener noreferrer" class="sub-pill p-5 relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-xl badge-tech flex items-center justify-center shrink-0">
+              <i class="fa-regular fa-file-pdf text-lg"></i>
+            </div>
+            <div class="space-y-1">
+              <div class="text-sm font-bold text-white group-hover:underline">Enigma Machine: C++ Build Plan</div>
+              <p class="text-xs text-gray-300 leading-relaxed">The 6-page plan I wrote with Claude before writing any code: how the machine behaves, the rotor data, every function and what to watch for, the file structure, the plugboard rules, the test checklist and the build order.</p>
+            </div>
+          </div>
+          <span class="text-xs font-mono-tech shrink-0" style="color: var(--accent-bright)">OPEN PDF →</span>
+        </a>
+      </div>
+
+      <!-- 6. TESTING -->
+      <div class="glow-card p-6 sm:p-8 space-y-5">
+        <div class="border-b border-white/15 pb-4 relative z-10">
+          <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">Testing</span>
+          <h2 class="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mt-0.5">Every Version Passed the Same Checklist</h2>
+        </div>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 relative z-10 text-xs text-gray-300">
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span><code>AAAAA</code> at <code>AAA</code> with rotors I-II-III gives <code>BDZGO</code>, the known test vector</span></li>
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>Double step: rotors III-II-I at <code>ADU</code>, the next four presses show <code>ADV</code>, <code>AEW</code>, <code>BFX</code>, <code>BFY</code></span></li>
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>Carry: rotor III at <code>U</code> turns rotor 2 on the second press, as it steps past its notch <code>V</code></span></li>
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>Round trip: the output, typed back in with the same settings, gives the original message</span></li>
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>No letter ever encrypts to itself</span></li>
+          <li class="sub-pill p-3 flex items-start gap-2.5"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i><span>Matched <strong class="text-white">py-enigma</strong> on hundreds of random messages, rotors, start positions and plugboards</span></li>
+        </ul>
+      </div>
+
+      <!-- 7. THE VISUALIZER CODE (LOADED FROM THE LIVE REPO) -->
+      <div id="enigmaCodeSection" class="glow-card p-6 sm:p-8 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-white/15 pb-4 relative z-10">
+          <div>
+            <span class="text-xs font-mono-tech uppercase tracking-wider text-slate-300">GitHub Repository Inspector</span>
+            <h2 class="font-serif-luxury text-2xl font-bold text-white mt-0.5">The Visualizer Code: script.js</h2>
+            <p class="text-xs text-gray-400 mt-1">The JavaScript behind the machine above, loaded straight from the repo. The C, C++ and Python versions are on GitHub.</p>
+          </div>
+          <a href="https://github.com/Carl-Simea/Enigma-Machine" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono-tech text-white flex items-center gap-1.5 self-start sm:self-auto shrink-0">
+            <i class="fa-brands fa-github"></i> Full Repo
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 relative z-10">
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Part 1: Settings</div>
+            <p class="text-xs text-gray-300 leading-relaxed">The hardware as data: rotors I–V and Reflector B as arrays of 0 to 25, the notch letters, and what is set on the machine right now.</p>
+          </div>
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Part 2: Machine</div>
+            <p class="text-xs text-gray-300 leading-relaxed">The same functions as the C++ version: <code>rotate()</code>, <code>minus_1()</code>, <code>turn()</code>, <code>step()</code>, <code>find()</code>, <code>encrypt()</code> and <code>setup()</code>. Nothing here touches the page.</p>
+          </div>
+          <div class="sub-pill p-4 space-y-2">
+            <div class="text-[11px] font-mono-tech uppercase font-bold" style="color: var(--accent-bright)">Part 3: The Page</div>
+            <p class="text-xs text-gray-300 leading-relaxed">Draws the rotor windows, lamps, keys and plugboard cables, and handles clicks and key presses. It only calls the machine; it never does the cipher itself.</p>
+          </div>
+        </div>
+
+        <div class="dark-surface relative z-10 rounded-xl bg-[#040B0E] border border-slate-500/30 p-4 overflow-x-auto code-scroll max-h-96">
+          <pre id="enigmaCodeDisplay" class="font-mono-tech text-xs text-slate-100 leading-relaxed whitespace-pre"></pre>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
   <!-- ==========================================================================
@@ -1745,6 +2223,9 @@ python3 app.py</pre>
             </button>
             <button type="button" onclick="navigateTo('medpeek')" class="block w-full text-left py-0.5 hover:text-white transition-colors">
               Project 02: MedPeek AI X-Ray Reader
+            </button>
+            <button type="button" onclick="navigateTo('enigma')" class="block w-full text-left py-0.5 hover:text-white transition-colors">
+              Project 03: Enigma Machine
             </button>
           </div>
         </div>
