@@ -34,7 +34,7 @@ A static site hosted on GitHub Pages, with no framework and no build server.
 ├── README.md
 └── content/
     ├── profile.jpeg                         # Profile photo
-    ├── Carl_Wendy_Simea_Resume_Oct_2026.pdf # Resume
+    ├── Carl_Wendy_Simea_Resume_Nov_2026.pdf # Resume
     ├── Clawmachine1.mp4                     # Reel 1: full gantry run (480p)
     ├── clawMachine2.mp4                     # Reel 2: Snickers grab close-up (480p)
     ├── clawmachine1-poster.jpg              # Poster frame for reel 1
